@@ -10,6 +10,7 @@ from drivers.helper import get_driver
 from pages.lina.lina_direct_dental.page import LinaDirectDentalPage
 from pages.kb.kb_direct_dental.page import KBDirectDentalPage
 from pages.kyobo.kyobo_direct_dental.page import KyoboDirectDentalPage
+from pages.samsung_life.samsung_direct_dental.page import SamsungDirectDentalPage
 from user_settings import BROWSER
 from utils.timer import Timer
 
@@ -18,8 +19,8 @@ def main():
     # 사용하는 브라우저에 맞춰 드라이버 실행
     driver = get_driver(BROWSER)  
 
-    # 대상 연령대 (20세부터 65세까지)
-    age_list = list(range(20, 66, 5))
+    # 대상 연령대 (20세부터 80세까지)
+    age_list = list(range(20, 81, 5))
     
     # 연령, 생년, 성별로 이루어진 리스트 반환
     # yymmdd는 6자리, YYYYmmdd는 8자리 생년월일
@@ -45,7 +46,11 @@ def main():
     # KBDirectDentalPage(driver, year=20).scrape(input_pairs_YYYYmmdd)
 
     # 교보 라이프플래닛
-    KyoboDirectDentalPage(driver, 20).scrape(input_pairs_YYYYmmdd)
+    # KyoboDirectDentalPage(driver, 20).scrape(input_pairs_YYYYmmdd)
+
+    # 삼성생명
+    # SamsungDirectDentalPage(driver, 'economical').scrape(input_pairs_YYYYmmdd)
+    SamsungDirectDentalPage(driver, 'premium').scrape(input_pairs_YYYYmmdd)
 
     time.sleep(5)
     driver.quit()
