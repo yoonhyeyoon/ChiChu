@@ -9,6 +9,7 @@ import time
 from drivers.helper import get_driver
 from pages.lina.lina_direct_dental.page import LinaDirectDentalPage
 from pages.kb.kb_direct_dental.page import KBDirectDentalPage
+from pages.kyobo.kyobo_direct_dental.page import KyoboDirectDentalPage
 from user_settings import BROWSER
 from utils.timer import Timer
 
@@ -41,7 +42,10 @@ def main():
     # LinaDirectDentalPage(driver, 'premium').scrape(input_pairs_yymmdd)
 
     # KB
-    KBDirectDentalPage(driver, year=20).scrape(input_pairs_YYYYmmdd)
+    # KBDirectDentalPage(driver, year=20).scrape(input_pairs_YYYYmmdd)
+
+    # 교보 라이프플래닛
+    KyoboDirectDentalPage(driver, 20).scrape(input_pairs_YYYYmmdd)
 
     time.sleep(5)
     driver.quit()
