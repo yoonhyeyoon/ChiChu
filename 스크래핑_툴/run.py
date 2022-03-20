@@ -7,7 +7,8 @@ Selenium 패키지가 필요하므로,
 import time
 
 from drivers.helper import get_driver
-from pages.lina.lina_direct_dental import LinaDirectDentalPage
+from pages.lina.lina_direct_dental.page import LinaDirectDentalPage
+from pages.kb.kb_direct_dental.page import KBDirectDentalPage
 from user_settings import BROWSER
 from utils.timer import Timer
 
@@ -20,18 +21,27 @@ def main():
     age_list = list(range(20, 66, 5))
     
     # 연령, 생년, 성별로 이루어진 리스트 반환
-    # NOTE: 연도가 4자리가 필요한 경우,
-    # date_format에 소문자 %y대신 대문자 %Y로 넣기
-    input_pairs = Timer().get_birth_gender_pairs(
+    # yymmdd는 6자리, YYYYmmdd는 8자리 생년월일
+    input_pairs_yymmdd = Timer().get_birth_gender_pairs(
         age_list,
         date_format=r'%y%m%d'
+    )
+    input_pairs_YYYYmmdd = Timer().get_birth_gender_pairs(
+        age_list,
+        date_format=r'%Y%m%d'
     )
 
     # 원하는 보험 페이지에 맞춰 클래스 작성하기.
     # 스크래핑이 끝났으면 주석 처리로 실행 막기.
 
     # 라이나 다이렉트 치아보험 (기본형)
-    LinaDirectDentalPage(driver, 'standard').scrape(input_pairs)
+    # LinaDirectDentalPage(driver, 'standard').scrape(input_pairs_yymmdd)
+
+    # 라이나 다이렉트 치아보험 (집중보장형)
+    # LinaDirectDentalPage(driver, 'premium').scrape(input_pairs_yymmdd)
+
+    # KB
+    KBDirectDentalPage(driver, year=20).scrape(input_pairs_YYYYmmdd)
 
     time.sleep(5)
     driver.quit()

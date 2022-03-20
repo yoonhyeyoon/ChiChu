@@ -1,4 +1,5 @@
 import os
+import time
 from typing import Tuple
 
 from selenium import webdriver
@@ -29,6 +30,21 @@ class BasePage:
     
     def go_to_url(self, url: str):
         self.driver.get(url)
+    
+    def close_popup(self):
+        # 모든 창이 전부 뜰 때까지 대기
+        current_handles = self.driver.window_handles
+        if len(current_handles) == 1:
+            time.sleep(2)
+
+        for handle in current_handles:
+            # 첫 번째 창이 아닌 경우 
+            if handle != current_handles[0]: 
+                # 해당 창으로 옮겨간 후 창 닫기
+                self.driver.switch_to.window(handle)
+                self.driver.close()
+        
+        self.driver.switch_to.window(current_handles[0])
 
     def switch_window(self, target_title: str):
         # https://www.selenium.dev/documentation/webdriver/browser_manipulation/
@@ -59,7 +75,11 @@ class BasePage:
         self.wait.until(EC.presence_of_element_located(locator))
 
     def wait_to_click(self, locator):
-        self.wait.until(EC.element_to_be_clickable(locator))
+        for i in range(1, 4):
+            time.sleep(i)
+            element = self.find(locator)
+            if element:
+                break
 
     def make_directory(self, dir_path):
         # 폴더가 이미 있으면 오류, 없으면 새로 만들기
