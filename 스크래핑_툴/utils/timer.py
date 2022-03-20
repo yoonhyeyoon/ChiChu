@@ -11,7 +11,7 @@ class Timer:
     def get_birth_gender_pairs(self, age_list, date_format=r'%y%m%d'):
         """
         연령들을 생년월일로 바꾼 후,
-        성별(남: 1, 여: 2)과 결합해 반환하는 함수
+        성별(남, 여)과 결합해 반환하는 함수
         """
         genders = ('남', '여')
         birthdate_list = [

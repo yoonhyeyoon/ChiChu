@@ -1,7 +1,9 @@
 import os
+import time
 from typing import Tuple
 
 from selenium import webdriver
+from selenium.webdriver import ActionChains
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -12,6 +14,7 @@ class BasePage:
     def __init__(self, driver: webdriver.Chrome):
         self.driver = driver
         self.wait = WebDriverWait(self.driver, 10)
+        self.action = ActionChains(self.driver)
     
     def find(self, locator: Tuple[str, str]) -> WebElement:
         """
@@ -29,6 +32,21 @@ class BasePage:
     
     def go_to_url(self, url: str):
         self.driver.get(url)
+    
+    def close_popup(self):
+        # 모든 창이 전부 뜰 때까지 대기
+        current_handles = self.driver.window_handles
+        if len(current_handles) == 1:
+            time.sleep(2)
+
+        for handle in current_handles:
+            # 첫 번째 창이 아닌 경우 
+            if handle != current_handles[0]: 
+                # 해당 창으로 옮겨간 후 창 닫기
+                self.driver.switch_to.window(handle)
+                self.driver.close()
+        
+        self.driver.switch_to.window(current_handles[0])
 
     def switch_window(self, target_title: str):
         # https://www.selenium.dev/documentation/webdriver/browser_manipulation/
@@ -55,11 +73,50 @@ class BasePage:
 
         print('No such title:', target_title)
 
+    def wait_to_change(self, prev_value, locator):
+        """
+        이전 값과 달라질 때까지 기다립니다.
+        1. 먼저 이전 값을 변수에 담아둡니다.
+        2. 그 후 이 메서드에 이전 값과, 
+        값이 변경되는 위치의 locator를 넣어줍니다.
+        3. 값이 변경될 때까지 대기합니다.
+        """
+        for i in range(1, 4):
+            time.sleep(i)
+            # 새로운 값을 받아옴
+            new_value = self.find(locator)
+            # 새로운 값이 있고, 공백이 아니고, 이전 값과 다르면
+            if (
+                new_value and 
+                new_value.text and 
+                new_value.text != prev_value
+            ):
+                # 반환
+                return True
+
+    def scroll_to_element(self, locator):
+        """
+        해당 요소가 있는 곳까지 스크롤을 움직입니다.
+        """
+        element = self.find(locator)
+        # 요소가 있을 때만
+        if element:
+            try:
+                # 해당 요소까지 이동
+                self.action.move_to_element(element).perform()
+            except:
+                # 이미 화면 내에 있는 경우, 패스
+                return
+
     def wait_to_see(self, locator):
         self.wait.until(EC.presence_of_element_located(locator))
 
     def wait_to_click(self, locator):
-        self.wait.until(EC.element_to_be_clickable(locator))
+        for i in range(1, 4):
+            time.sleep(i)
+            element = self.find(locator)
+            if element:
+                break
 
     def make_directory(self, dir_path):
         # 폴더가 이미 있으면 오류, 없으면 새로 만들기
