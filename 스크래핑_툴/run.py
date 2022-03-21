@@ -10,7 +10,11 @@ from drivers.helper import get_driver
 from pages.lina.lina_direct_dental.page import LinaDirectDentalPage
 from pages.kb.kb_direct_dental.page import KBDirectDentalPage
 from pages.kyobo.kyobo_direct_dental.page import KyoboDirectDentalPage
+<<<<<<< Updated upstream
 from pages.samsung_life.samsung_direct_dental.page import SamsungDirectDentalPage
+=======
+from pages.samsung_fire.page import SamsungFireDirectDentalPage
+>>>>>>> Stashed changes
 from user_settings import BROWSER
 from utils.timer import Timer
 
@@ -48,9 +52,14 @@ def main():
     # 교보 라이프플래닛
     # KyoboDirectDentalPage(driver, 20).scrape(input_pairs_YYYYmmdd)
 
+<<<<<<< Updated upstream
     # 삼성생명
     # SamsungDirectDentalPage(driver, 'economical').scrape(input_pairs_YYYYmmdd)
     SamsungDirectDentalPage(driver, 'premium').scrape(input_pairs_YYYYmmdd)
+=======
+    # 삼성화재
+    SamsungFireDirectDentalPage(driver, 'standard').scrape(input_pairs_YYYYmmdd, 'standard')
+>>>>>>> Stashed changes
 
     time.sleep(5)
     driver.quit()

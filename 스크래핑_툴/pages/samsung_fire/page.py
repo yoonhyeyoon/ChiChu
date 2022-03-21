@@ -42,7 +42,7 @@ class SamsungFireDirectDentalPage(BasePage):
                 cost = self.__gather_data()
                 csv_writer.writerow([age, gender, cost])
             
-                # self.wait_to_click(locators.BACK)
+                self.wait_to_click(locators.BACK)
                 back = self.find(locators.BACK)
                 back.click()
             except NotEligibleAgeError as e:
@@ -58,19 +58,20 @@ class SamsungFireDirectDentalPage(BasePage):
         생년월일과 성별 정보 입력
         - 각 보험마다 따로 구현 필요
         """
-        time.sleep(3)
+        time.sleep(2)
         birthday_input = self.find(locators.BIRTHDAY_INPUT)
         birthday_input.clear()
         birthday_input.send_keys(birthdate)
-        time.sleep(10)
+        time.sleep(3)
         if gender == '남':
-            # self.wait_to_click(locators.MALE_BUTTON)
+            self.wait_to_click(locators.MALE_BUTTON)
+            time.sleep(1)
             select_button = self.find(locators.MALE_BUTTON)
         elif gender == '여':
-            # self.wait_to_click(locators.FEMALE_BUTTON)
+            self.wait_to_click(locators.FEMALE_BUTTON)
             select_button = self.find(locators.FEMALE_BUTTON)
         
-        time.sleep(10)
+        time.sleep(3)
         select_button.click()
         
         # 직업정보입력
@@ -126,21 +127,22 @@ class SamsungFireDirectDentalPage(BasePage):
         event_close.click()
 
         # 10년
-        # self.wait_to_click(locators.TWENTY)
-        # time.sleep(1)
-        # ten = self.find(locators.TWENTY)
-        # ten.click()
+        time.sleep(2)
+        self.wait_to_click(locators.TWENTY)
+        time.sleep(2)
+        ten = self.find(locators.TWENTY)
+        ten.click()
         time.sleep(3)
         # 실손, 고급 체크
         if option == 'simple':
-            # self.wait_to_click(locators.SIMPLE_SELECT)
-            time.sleep(5)
+            self.wait_to_click(locators.SIMPLE_SELECT)
+            time.sleep(4)
             simple_select = self.find(locators.SIMPLE_SELECT)
             simple_select.click()
 
         if option == 'premium':
-            # self.wait_to_click(locators.PREMIUM_SELECT)
-            time.sleep(3)
+            self.wait_to_click(locators.PREMIUM_SELECT)
+            time.sleep(4)
             premium_select = self.find(locators.PREMIUM_SELECT)
             premium_select.click()
         time.sleep(4)

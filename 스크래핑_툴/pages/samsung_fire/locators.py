@@ -34,4 +34,5 @@ BACK = (By.XPATH, '//*[@id="btn-prev-step"]')
 
 # 10년
 TEN = (By.XPATH, '//*[@id="insured-term"]/label[1]')
+FIFTEEN = (By.XPATH, '//*[@id="insured-term"]/label[2]')
 TWENTY = (By.XPATH, '//*[@id="insured-term"]/label[3]')
