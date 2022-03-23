@@ -1,7 +1,11 @@
-import React from 'react';
+import CardList from '../components/SearchResult/PlanCardList';
 
-const SearchResult = (): JSX.Element => {
-  return <div></div>;
-};
+function SearchResult(): JSX.Element {
+  return (
+    <>
+      <CardList />
+    </>
+  );
+}
 
 export default SearchResult;
