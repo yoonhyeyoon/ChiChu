@@ -1,23 +1,18 @@
-import styled from 'styled-components'
+import * as React from 'react';
+import { styled } from '@mui/material/styles';
+import LinearProgress, {
+  linearProgressClasses,
+} from '@mui/material/LinearProgress';
 
-export const Parentdiv  = styled.div`
-  height: ${height};
-  width: '80%';
-  backgroundColor: 'whitesmoke';
-  borderRadius: 40;
-  margin: 20;
-`;
-
-export const Childdiv = styled.div`
-  height: '100%';
-  width: ${progress}%;
-  backgroundColor: ${bgcolor};
-  borderRadius:40;
-  textAlign: 'right;
-`;
-
-export const Progresstext = styled.span`
-  padding: 10;
-  color: 'black';
-  fontWeight: 900;
-`;
+export const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
+  height: 10,
+  borderRadius: 5,
+  [`&.${linearProgressClasses.colorPrimary}`]: {
+    backgroundColor:
+      theme.palette.grey[theme.palette.mode === 'light' ? 200 : 800],
+  },
+  [`& .${linearProgressClasses.bar}`]: {
+    borderRadius: 5,
+    backgroundColor: theme.palette.mode === 'light' ? '#1a90ff' : '#308fe8',
+  },
+}));
