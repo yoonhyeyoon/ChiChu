@@ -8,7 +8,7 @@ function CardList(): JSX.Element {
 
   return (
     <Grid container spacing={2}>
-      {sampleList.map((content) => (
+      {sampleList.map(content => (
         <Grid item xs={4}>
           <Card
             logo_img={content.logo_img}
