@@ -3,8 +3,9 @@ import { Box } from '@mui/system';
 import { StyledModal, Backdrop, style } from './styles';
 import { IconButton } from '@mui/material';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import { QuestionModalType } from '../../../types/types';
 
-export default function QuestionModal() {
+export default function QuestionModal(props: QuestionModalType) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -22,8 +23,8 @@ export default function QuestionModal() {
         BackdropComponent={Backdrop}
       >
         <Box sx={style}>
-          {/* <h2 id="unstyled-modal-title">{title}</h2>
-          <p id="unstyled-modal-description">{text}</p> */}
+          <h2 id="unstyled-modal-title">{props.title}</h2>
+          <p id="unstyled-modal-description">{props.text}</p>
         </Box>
       </StyledModal>
     </div>
