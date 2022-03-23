@@ -1,11 +1,3 @@
-import SelectUnstyled, {
-  SelectUnstyledProps,
-  selectUnstyledClasses,
-} from '@mui/base/SelectUnstyled';
-import OptionUnstyled, {
-  optionUnstyledClasses,
-} from '@mui/base/OptionUnstyled';
-import PopperUnstyled from '@mui/base/PopperUnstyled';
 import { styled } from '@mui/system';
 
 const blue = {
@@ -53,22 +45,6 @@ export const StyledInput = styled('input')(
   &:focus {
     outline: none;
     border: 1px solid ${theme.palette.mode === 'dark' ? grey[800] : grey[300]};
-  }
-  // &.${selectUnstyledClasses.focusVisible} {
-  //   outline: 3px solid ${
-    theme.palette.mode === 'dark' ? blue[600] : blue[100]
-  };
-  // }
-
-  &.${selectUnstyledClasses.expanded} {
-    &::after {
-      content: '▴';
-    }
-  }
-
-  &::after {
-    content: '▾';
-    float: right;
   }
   `,
 );
