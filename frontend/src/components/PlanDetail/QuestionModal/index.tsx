@@ -13,7 +13,7 @@ export default function QuestionModal(props: QuestionModalType) {
   return (
     <div>
       <IconButton onClick={handleOpen}>
-        <HelpOutlineIcon />
+        <HelpOutlineIcon sx={{ cursor: 'pointer' }} />
       </IconButton>
       <StyledModal
         aria-labelledby="unstyled-modal-title"
