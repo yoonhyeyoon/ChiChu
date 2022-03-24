@@ -16,7 +16,7 @@ import pymysql
 
 from .models import DbOption, Company, ProductSubtype, Product, ProductOption, ProductRate, Contract, User
 from .serializers import (
-    DefaultSerializer, ProductSerializer
+    DefaultSerializer, ProductSerializer, CompareSerializer
     )
 
 # 1. 사용자 나이를 보험 나이로 바꾸기
@@ -66,7 +66,7 @@ def default(request, age, gender):
     # 예시
     age = 19960225
     gender = '여'
-    
+
     # 1. 나이 바꾸기
     age = change_age(age)
 

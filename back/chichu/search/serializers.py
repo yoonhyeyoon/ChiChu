@@ -17,19 +17,19 @@ from .models import DbOption, Company, ProductSubtype, Product, ProductOption, P
 # 1. 검색결과
 class DefaultSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ProductRate
+        model = Product, ProductRate, Company
         fields = ('__all__')
 
 
 # 2. 상품비교
 class CompareSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ProductRate
+        model = Product, ProductRate, Company
         fields = '__all__'
 
 
 # 3. 상품 상세 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ProductRate, Contract
+        model = Product, ProductRate, Company
         fields = '__all__'
