@@ -1,68 +1,175 @@
-import datetime
+from datetime import datetime
+from email.mime import application
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework import serializers
 from django.shortcuts import get_object_or_404
-from .models import DBOption, Company, ProductSubtype, Product, ProductOption, ProductRate, Contract, User, UserContract, ProductContract
+import pymysql
+
+import os
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "chichu.settings")
+
+import django
+django.setup()
+
+
+from .models import DbOption, Company, ProductSubtype, Product, ProductOption, ProductRate, Contract, User
 
 
 # 1차 검색
 @api_view(['GET'])
-def default(request, age, gender):
-    # 1. 보험 나이로 바꾸기
+def default(request):
+    #필요한 기본 DB 정보
+    host = "chichu" #접속할 db의 host명
+    user = "chichu" #접속할 db의 user명
+    pw = "ssafy" #접속할 db의 password
+    db = "chichu" #접속할 db의 table명 (실제 데이터가 추출되는 table)
+
+    #DB에 접속
+    conn = pymysql.connect( host= host, user = user, password = pw, db = db)
+    # Connection 으로부터 Cursor 생성 
+    curs = conn.cusor()
+
+
+    # 1. 사용자 나이를 보험 나이로 바꾸기
+    age = 19960225
+    user_gender = '여'
     today = datetime.today().strftime("%Y%m%d")
     today_month = int(today[4:])
     user_birthday = age[4:]
 
     user_age = int(today) - int(age)
-
     if today_month > user_birthday:
         user_age + 1
-
-
-    # 2. SQL 명령어로 성별, 연령에 맞춰 filter 1한 값 sql  27살, 여성이다.
-    # PRODUCT_RATE.AGE == 'age' and PRODUCT_RATE.GENDER == 'gender' 인 product
     
-    asap = []
-    popular = []
+    if user_age % 10 >=5:
+        user_age = (user_age // 10) * 10 + 5
+    else:
+        user_age = (user_age // 10) * 10
+
+    # 2. 리스트에 담기
+    # 2-1. (선택) :성별, 연령  
+    #       (필수) : 납입기간 10년/ 보험기간 10년/ 기본보장 -> 가장 인기있는(popular) / 가성비 있는(resonable)
+    popular = []               
     reasonable = []
-    
-    ''' SQL로 접근 
-    1) 지금 당장 보장
-    2) 해당 성별/연령에서 가장 인기 많은 순서
-    3) 가성비가 좋은 (PRODUCT_OPTION > PRODUCT_CODE > SUM COVERAGE 크면서, 납입보험료 가장 낮은 순서로 최대 몇개?
-    질문 1. 최대 몇개?
-    질문 2. 가성비가 좋은 = 보장금액 COVERAGE SUM  250만원 / 월 보험료 5만원 * 가입기간 10년    ㅇㅇ
-    질문 3. 보장금액 높은 순이 sum coverage일까요? 
-    
-    CSV 파일 넣어서 API 만들어보기 
-    '''
-    
-
-    # 3)  ORDERBY 보험 상품 LIST 만들기  
-
-    # 4) 성별, 연령, 기간 10년, 일반형 PRODUCT_RATE(PY == 10, PRODUCT(SUBTYPE_CODE == 1))
-    chichu = []
+    # 2-2. (선택) :성별, 연령  -> 치츄 높은순(high_ci) / 보험료 낮은순 (cheap) / 보장금액 높은순(high_coverage)
+    high_ci = []
     cheap = []
-    coverage_up = []
-    '''
-    치츄지수 높은 순 
-    보험료 낮은 순 
-    보장금액 높은 순
-    '''
-    # 5)  ORDERBY 보험 상품 LIST 만들기
+    high_coverage = []
+    
+    
 
-    # 6) 6가지 조건에 맞춰서 각 보험 상품에 대한 세부 정보들은 serializer에서 표시
-    # movies = Movie.objects.filter(title__icontains=word)
-    # serializer = MovieListSerializer(movies, many=True)
+    # 3. SQL문 작성
+
+    # (1) 인기 상품 : 성별 + 연령 + [가장 많이 나온 상품 순서대로]
+    popular_sql = """
+    """
+
+    # (2) 가성비 : 성별 + 연령 + [보장금액 COVERAGE SUM / 월 보험료  * 가입기간 ]
+    reasonable_sql = """
+    SELECT A.PRODUCT_CODE
+    FROM (
+    SELECT PRODUCT_CODE, SUM(COVERAGE) AS COVERAGE 
+    FROM PRODUCT_OPTION
+    GROUP BY PRODUCT_CODE )
+    A, PRODUCT_RATE B
+    WHERE A.PRODUCT_CODE = B.PRODUCT_CODE
+    AND AGE = 30 
+    AND GENDER = '여'
+    ORDER BY COVERAGE / (RATE * PY) DESC
+    LIMIT 6
+    """   
+
+    # (3) 치츄 지수 높은 순
+    high_ci_sql = """
+    SELECT A.PRODUCT_CODE
+    FROM (
+            SELECT PRODUCT_CODE, SUM(COVERAGE) AS COVERAGE 
+            FROM PRODUCT_OPTION
+            GROUP BY PRODUCT_CODE) A
+            , PRODUCT_RATE B
+            , PRODUCT C
+    WHERE A.PRODUCT_CODE = B.PRODUCT_CODE
+    AND B.PRODUCT_CODE = C.PRODUCT_CODE
+    AND B.PY = 10
+    AND C.SUBTYPE_CODE = 1
+    AND B.AGE = 30 
+    AND B.GENDER = '여'
+    ORDER BY RATE
+    LIMIT 6
+    """
+    
+    # (4) 보험료 낮은 순
+    cheap_sql = """
+    SELECT A.PRODUCT_CODE
+    FROM (
+            SELECT PRODUCT_CODE, SUM(COVERAGE) AS COVERAGE 
+            FROM PRODUCT_OPTION
+            GROUP BY PRODUCT_CODE) A
+            , PRODUCT_RATE B
+            , PRODUCT C
+    WHERE A.PRODUCT_CODE = B.PRODUCT_CODE
+    AND B.PRODUCT_CODE = C.PRODUCT_CODE
+    AND B.PY = 10
+    AND C.SUBTYPE_CODE = 1
+    AND B.AGE = 30 
+    AND B.GENDER = '여'
+    ORDER BY RATE
+    LIMIT 6
+    """
+
+
+    # (5) 보장금액 높은 순
+    high_coverage_sql = """
+    SELECT A.PRODUCT_CODE
+    FROM (
+            SELECT PRODUCT_CODE, SUM(COVERAGE) AS COVERAGE 
+            FROM PRODUCT_OPTION
+            GROUP BY PRODUCT_CODE) A
+            , PRODUCT_RATE B
+            , PRODUCT C
+    WHERE A.PRODUCT_CODE = B.PRODUCT_CODE
+    AND B.PRODUCT_CODE = C.PRODUCT_CODE
+    AND B.PY = 10
+    AND C.SUBTYPE_CODE = 1
+    AND B.AGE = 30 
+    AND B.GENDER = '여'
+    ORDER BY COVERAGE DESC
+    LIMIT 6
+    """
+
+    curs.execute(popular_sql)
+    curs.execute(reasonable_sql)
+    curs.execute(high_ci_sql)
+    curs.execute(cheap_sql)
+    curs.execute(high_coverage_sql)
+
+    # 5. 데이타 Fetch
+    popular_data = curs.fetchall()
+    reasonable_data = curs.fetchall()
+    high_ci_data = curs.fetchall()
+    cheap_data = curs.fetchall()
+    high_coverage_data = curs.fetchall()
+
+
+    # 5. db 접속 종료
+    curs.close()
+    conn.close()
+
+
+    # 6. 5가지 조건에 맞춰서 각 보험 상품에 대한 세부 정보들은 serializer에서 표시
+    # serializer = ProductSerializer( many=True)
     # return Response(serializer.data)
-
 
 
 # 2차 검색
 @api_view(['GET'])
 def detail(request):
-    pass 
+    
+    
+    
+    pass
 
 # 세부 보험 상품
 @api_view(['GET'])

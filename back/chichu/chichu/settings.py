@@ -32,10 +32,6 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'search',
-
-    'django_extensions',
-    'rest_framework',
-    'corsheaders',
     
     'django.contrib.admin',
     'django.contrib.auth',
@@ -43,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'rest_framework', 
 
 ]
 
@@ -88,9 +86,6 @@ DATABASES = {
         'PASSWORD': 'ssafy',
         'HOST': 'j6d206.p.ssafy.io',
         'PORT': '3306',
-        'OPTIONS': {
-            'init_command': 'SET sql_mode="STRICT_TRANS_TABLES"'
-        }
     }
 }
 
