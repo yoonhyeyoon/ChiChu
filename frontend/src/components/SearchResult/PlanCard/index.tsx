@@ -5,9 +5,11 @@ import {
   CardContent,
   CardHeader,
 } from '@mui/material';
-import { PlanCardType } from '../../../types/types';
 
-function PlanCard(props: PlanCardType) {
+import { PlanPreviewType } from '../../../types/types';
+import ProgressBarWithNumber from '../../Common/ProgressBarWithNumber';
+
+function PlanCard(props: PlanPreviewType) {
   return (
     <Card>
       <CardActionArea>
@@ -27,6 +29,7 @@ function PlanCard(props: PlanCardType) {
           <h3>{props.plan_type}</h3>
           <span>보험료</span>
           <h3>{props.plan_cost}</h3>
+          <ProgressBarWithNumber plan_score={props.plan_score} />
         </CardContent>
       </CardActionArea>
     </Card>
