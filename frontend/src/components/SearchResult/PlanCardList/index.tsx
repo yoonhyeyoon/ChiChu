@@ -1,14 +1,12 @@
 import { Grid } from '@mui/material';
-import Card from '../PlanCard';
+
 import { PlanPreviewType } from '../../../types/types';
-import sample from './sample.json';
+import Card from '../PlanCard';
 
-function CardList(): JSX.Element {
-  const sampleList: PlanPreviewType[] = sample.slice(0, 3);
-
+function CardList({ list }: { list: PlanPreviewType[] }) {
   return (
     <Grid container spacing={2}>
-      {sampleList.map(content => (
+      {list.map(content => (
         <Grid item xs={4}>
           <Card
             logo_img={content.logo_img}
