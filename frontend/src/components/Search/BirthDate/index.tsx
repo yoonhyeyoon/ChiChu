@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { UserAge } from '../../../recoil/UserAge';
+import { UserAge, UserBirthDate } from '../../../recoil/UserAge';
 // import useInput from '../../../hooks/useInput';
 import { InsuranceDate, StyledInput } from './styles';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
@@ -24,7 +24,7 @@ const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
 }));
 
 function BirthDate() {
-  const [birthDate, setBirthDate] = useState('');
+  const [birthDate, setBirthDate] = useRecoilState(UserBirthDate);
 
   const [birthDateMessage, setBirthDateMessage] = useState('');
   const [userAge, setUserAge] = useRecoilState(UserAge);

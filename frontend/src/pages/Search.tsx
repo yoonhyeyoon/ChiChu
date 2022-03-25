@@ -7,6 +7,7 @@ import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import DefaultInfo from '../components/Search/DefaultInfo';
 import Button from '../components/Search/Button';
+import PlanTags from '../components/SearchResult/PlanTags';
 
 function Search() {
   return (
@@ -29,6 +30,7 @@ function Search() {
         </Stack>
         <DefaultInfo />
         <Button />
+        <PlanTags />
       </Box>
     </Container>
   );

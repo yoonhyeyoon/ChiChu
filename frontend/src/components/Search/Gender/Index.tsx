@@ -25,6 +25,7 @@ function CustomSelect(props: SelectUnstyledProps<number>) {
 }
 
 function renderValue(option: SelectOption<number> | null) {
+  console.log(option);
   if (option == null) {
     return <span>선택해주세요.</span>;
   }

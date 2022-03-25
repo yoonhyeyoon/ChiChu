@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useNavigate } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
 import ButtonUnstyled, {
   buttonUnstyledClasses,
@@ -15,13 +16,21 @@ function CustomButton(props: ButtonUnstyledProps) {
 }
 
 function Button() {
+  const navigate = useNavigate();
   const userAge = useRecoilValue(UserAge);
   const userGender = useRecoilValue(UserGender);
   console.log(userAge, userGender);
+
+  const handleClick = () => {
+    navigate('result', { replace: false });
+  };
   return (
     <Stack spacing={2} direction="row">
       {/* <CustomButton>Button</CustomButton> */}
-      <CustomButton disabled={userAge && userGender != null ? false : true}>
+      <CustomButton
+        disabled={userAge && userGender != null ? false : true}
+        onClick={handleClick}
+      >
         보험 찾아보기
       </CustomButton>
     </Stack>

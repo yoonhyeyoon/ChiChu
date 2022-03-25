@@ -6,3 +6,8 @@ export type PlanPreviewType = {
   plan_cost: string;
   plan_score: number;
 };
+
+export interface PlanTagType {
+  id: number;
+  plan_tag: string;
+}
