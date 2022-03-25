@@ -7,13 +7,15 @@ from .models import DbOption, Company, ProductSubtype, Product, ProductOption, P
 
 # search를 사용하는 페이지 
 # 1) 보험상품코드 (PRODUCT_CODE) 
-# 2) 담보코드 (OPTION_CODE) PRODUCT TABLE
+# 2) 담보 코드 (OPTION_CODE) PRODUCT TABLE
 # 3) 담보 코드 이름 (OPTION_NAME) PRODUCT TABLE 
 # 4) 회사코드 (COMPANY_CODE) COMPANY TABLE
 # 5) 회사이름 (COMPANY_NAME) COMPANY TABLE
 # 6) 보험상품명 (PRODUCT_NAME) PRODUCT TABLE
 # 7) 설계유형 (SUBTYPE_CODE) PRODUCT TABLE 
 # 8) 납입보험료 (RATE) PRODUCT_RATE TABLE
+
+
 
 
 # 1. 검색결과
