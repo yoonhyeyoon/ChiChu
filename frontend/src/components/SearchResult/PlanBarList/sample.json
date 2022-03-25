@@ -1,0 +1,34 @@
+[
+  {
+    "logo_img": "lina_logo.jpg",
+    "brand_name": "교보 라이프플래닛",
+    "plan_name": "e암보험III",
+    "plan_type": "가입금액 3천만원",
+    "plan_cost": "46800",
+    "plan_score": 100
+  },
+  {
+    "logo_img": "lina_logo.jpg",
+    "brand_name": "미래에셋생명",
+    "plan_name": "온라인 무배당",
+    "plan_type": "가입금액 3천만원",
+    "plan_cost": "61700",
+    "plan_score": 30
+  },
+  {
+    "logo_img": "lina_logo.jpg",
+    "brand_name": "한화생명",
+    "plan_name": "100세 착한 보험",
+    "plan_type": "가입금액 3천만원",
+    "plan_cost": "54600",
+    "plan_score": 55
+  },
+  {
+    "logo_img": "lina_logo.jpg",
+    "brand_name": "농협생명",
+    "plan_name": "모두의보험",
+    "plan_type": "가입금액 3천만원",
+    "plan_cost": "85000",
+    "plan_score": 77
+  }
+]

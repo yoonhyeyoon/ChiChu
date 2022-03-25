@@ -1,10 +1,10 @@
 import { Grid } from '@mui/material';
 import Card from '../PlanCard';
-import { PlanCardType } from '../../../types/types';
+import { PlanPreviewType } from '../../../types/types';
 import sample from './sample.json';
 
 function CardList(): JSX.Element {
-  const sampleList: PlanCardType[] = sample.slice(0, 3);
+  const sampleList: PlanPreviewType[] = sample.slice(0, 3);
 
   return (
     <Grid container spacing={2}>
@@ -16,6 +16,7 @@ function CardList(): JSX.Element {
             plan_name={content.plan_name}
             plan_type={content.plan_type}
             plan_cost={content.plan_cost}
+            plan_score={content.plan_score}
           />
         </Grid>
       ))}
