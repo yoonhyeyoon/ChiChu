@@ -39,8 +39,8 @@ function Gender() {
   };
   return (
     <CustomSelect renderValue={renderValue} onChange={handleChange}>
-      <StyledOption value={0}>남성</StyledOption>
-      <StyledOption value={1}>여성</StyledOption>
+      <StyledOption value={1}>남성</StyledOption>
+      <StyledOption value={2}>여성</StyledOption>
     </CustomSelect>
   );
 }
