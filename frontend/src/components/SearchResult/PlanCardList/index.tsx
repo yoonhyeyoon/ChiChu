@@ -7,7 +7,7 @@ function CardList({ list }: { list: PlanPreviewType[] }) {
   return (
     <Grid container spacing={2}>
       {list.map(content => (
-        <Grid item xs={4}>
+        <Grid item xs={4} key={content.plan_name}>
           <Card
             logo_img={content.logo_img}
             brand_name={content.brand_name}

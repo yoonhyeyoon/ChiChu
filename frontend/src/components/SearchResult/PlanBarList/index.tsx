@@ -14,6 +14,7 @@ function PlanBarList({ list }: { list: PlanPreviewType[] }): JSX.Element {
           plan_type={content.plan_type}
           plan_cost={content.plan_cost}
           plan_score={content.plan_score}
+          key={content.plan_name}
         />
       ))}
     </Stack>
