@@ -26,7 +26,7 @@ export const Backdrop = styled('div')`
 
 export const style = {
   width: 400,
-  bgcolor: 'background.paper',
+  bgcolor: 'white',
   border: '2px solid #000',
   p: 2,
   px: 4,

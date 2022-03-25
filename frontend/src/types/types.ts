@@ -7,11 +7,7 @@ export type PlanPreviewType = {
   plan_score: number;
 };
 
-export type ProgressBarType = {
-  value: number;
-};
-
-export type QuestionModalType = {
-  title: string;
-  text: string;
+export type ProgressBarWithNumberType = {
+  plan_score: number;
+  plan_average: number;
 };

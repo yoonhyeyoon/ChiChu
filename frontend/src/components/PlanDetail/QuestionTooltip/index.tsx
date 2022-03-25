@@ -16,9 +16,14 @@ const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
   },
 }));
 
-export default function QuestionTooltip() {
+export type QuestionTooltipType = {
+  title: string;
+};
+
+export default function QuestionTooltip(props: QuestionTooltipType) {
   return (
     <div>
+      <span>{props.title}</span>
       <HtmlTooltip
         title={
           <React.Fragment>

@@ -1,11 +1,7 @@
 import { Stack, Typography } from '@mui/material';
 
 import { BorderLinearProgress } from './styles';
-
-type ProgressBarWithNumberType = {
-  plan_score: number;
-  plan_average: number;
-};
+import { ProgressBarWithNumberType } from '../../../types/types';
 
 function ProgressBarWithNumber(props: ProgressBarWithNumberType) {
   return (
