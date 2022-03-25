@@ -1,5 +1,6 @@
 import React from 'react';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
+import { RecoilRoot } from 'recoil';
 import logo from './logo.svg';
 import './App.css';
 
@@ -10,7 +11,7 @@ import PlanDetail from './pages/PlanDetail';
 
 function App() {
   return (
-    <div>
+    <RecoilRoot>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Landing />} />
@@ -19,7 +20,7 @@ function App() {
           <Route path="/search/detail" element={<PlanDetail />} />
         </Routes>
       </BrowserRouter>
-    </div>
+    </RecoilRoot>
   );
 }
 
