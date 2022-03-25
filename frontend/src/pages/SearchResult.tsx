@@ -3,10 +3,11 @@ import { useRecoilValue } from 'recoil';
 import PlanBarList from '../components/SearchResult/PlanBarList/index';
 import PlanCardList from '../components/SearchResult/PlanCardList/index';
 import SortButton from '../components/SearchResult/SortButton';
+import { PlanPreviewType } from '../types/types';
 import { planListState } from '../recoil/searchResultState';
 
 function SearchResult(): JSX.Element {
-  const planList = useRecoilValue(planListState);
+  const planList = useRecoilValue<PlanPreviewType[]>(planListState);
 
   return (
     <>
