@@ -8,28 +8,41 @@ from .models import DbOption, Company, ProductSubtype, Product, ProductOption, P
 # search를 사용하는 페이지 
 # 1) 보험상품코드 (PRODUCT_CODE) 
 # 2) 담보코드 (OPTION_CODE) PRODUCT TABLE
-# 3) 회사로고 (COMPANY_LOGO) COMPANY TABLE
-# 4) 보험상품명 (PRODUCT_NAME) PRODUCT TABLE
-# 5) 설계유형 (SUBTYPE_CODE) PRODUCT TABLE 
-# 6) 납입보험료 (RATE) PRODUCT_RATE TABLE
+# 3) 담보 코드 이름 (OPTION_NAME) PRODUCT TABLE 
+# 4) 회사코드 (COMPANY_CODE) COMPANY TABLE
+# 5) 회사이름 (COMPANY_NAME) COMPANY TABLE
+# 6) 보험상품명 (PRODUCT_NAME) PRODUCT TABLE
+# 7) 설계유형 (SUBTYPE_CODE) PRODUCT TABLE 
+# 8) 납입보험료 (RATE) PRODUCT_RATE TABLE
 
 
 # 1. 검색결과
-class DefaultSerializer(serializers.ModelSerializer):
+# (1) 유저지수 높은 순
+class PopularSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Product, ProductRate, Company
+        model = Product, ProductRate, Company, DbOption
         fields = ('__all__')
 
-
-# 2. 상품비교
-class CompareSerializer(serializers.ModelSerializer):
+# (2) 가성비 높은 순 
+class ReasonableSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Product, ProductRate, Company
-        fields = '__all__'
+        model = Product, ProductRate, Company, DbOption
+        fields = ('__all__')
 
-
-# 3. 상품 상세 
-class ProductSerializer(serializers.ModelSerializer):
+# (3) 치츄지수 높은 순
+class ChichuIndexSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Product, ProductRate, Company
-        fields = '__all__'
+        model = Product, ProductRate, Company, DbOption
+        fields = ('__all__')
+
+# (4) 보험료 낮은 순
+class CheapSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product, ProductRate, Company, DbOption
+        fields = ('__all__')
+
+# (5) 보장 높은 순
+class CoverageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product, ProductRate, Company, DbOption
+        fields = ('__all__')
