@@ -1,4 +1,6 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
+import { useSetRecoilState } from 'recoil';
+import { UserGender } from '../../../recoil/UserGender';
 import {
   StyledButton,
   StyledListbox,
@@ -30,11 +32,16 @@ function renderValue(option: SelectOption<number> | null) {
   return <span>{option.label}</span>;
 }
 
-export default function Gender() {
+function Gender() {
+  const setUserGender = useSetRecoilState(UserGender);
+  const handleChange = (e: number | null) => {
+    setUserGender(e);
+  };
   return (
-    <CustomSelect renderValue={renderValue}>
-      <StyledOption value={0}>남성</StyledOption>
-      <StyledOption value={1}>여성</StyledOption>
+    <CustomSelect renderValue={renderValue} onChange={handleChange}>
+      <StyledOption value={1}>남성</StyledOption>
+      <StyledOption value={2}>여성</StyledOption>
     </CustomSelect>
   );
 }
+export default Gender;

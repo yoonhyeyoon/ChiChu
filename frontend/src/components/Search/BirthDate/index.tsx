@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
-import useInput from '../../../hooks/useInput';
-import { StyledInput } from './styles';
+import { useRecoilState } from 'recoil';
+import { UserAge } from '../../../recoil/UserAge';
+// import useInput from '../../../hooks/useInput';
+import { InsuranceDate, StyledInput } from './styles';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import { styled } from '@mui/material/styles';
 import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 
 const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -21,13 +25,15 @@ const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
 
 function BirthDate() {
   const [birthDate, setBirthDate] = useState('');
+
   const [birthDateMessage, setBirthDateMessage] = useState('');
-  const [insuranceDate, setInsuranceDate] = useState('');
+  const [userAge, setUserAge] = useRecoilState(UserAge);
+  const [isBirthDate, setIsBirthDate] = useState(false);
 
   const [open, setOpen] = React.useState(false);
 
   // 보험나이계산
-  const calculateInsuranceDate = (birthDateCrt: string) => {
+  const calculateUserAge = (birthDateCrt: string) => {
     const year = Number(birthDateCrt.slice(0, 4));
     const month = Number(birthDateCrt.slice(4, 6));
     const day = Number(birthDateCrt.slice(6, 8));
@@ -40,8 +46,7 @@ function BirthDate() {
     if (m < 0 || (m === 0 && today.getDate() < date.getDate())) {
       age--;
     }
-    setInsuranceDate('(보험나이 만' + String(age) + '세)');
-    console.log(insuranceDate);
+    setUserAge(age);
   };
 
   const onChangeBirthDate = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,53 +57,53 @@ function BirthDate() {
 
     if (!birthDateRegex.test(birthDateCrt)) {
       setBirthDateMessage('19970405 형식으로 입력해주세요!');
-      setInsuranceDate('');
+      setIsBirthDate(false);
+      setUserAge(null);
     } else {
       setBirthDateMessage('');
-      calculateInsuranceDate(birthDateCrt);
+
+      calculateUserAge(birthDateCrt);
+      setIsBirthDate(true);
     }
-  };
-
-  const handleTooltipClose = () => {
-    setOpen(false);
-  };
-
-  const handleTooltipOpen = () => {
-    setOpen(true);
   };
 
   return (
     <>
-      <StyledInput
-        placeholder="출생연월(Ex. 19970405)"
-        value={birthDate}
-        onChange={onChangeBirthDate}
-      />
-      <ClickAwayListener onClickAway={handleTooltipClose}>
-        <HtmlTooltip
-          PopperProps={{
-            disablePortal: true,
-          }}
-          onClose={handleTooltipClose}
-          open={open}
-          title={
-            <React.Fragment>
-              <Typography color="inherit">보험나이란?</Typography>
-              <b>{'보험나이'}</b>
-              {'는 주민등록상 생일을 기준으로 '}
-              <b>{'6개월'}</b>
-              {' 되는 날 부터 한 살 더 올라갑니다.'}
-              {'보험나이에 따라 사망, 사고등의 위험률이 변경되어 '}
-              <b>{'보험료도 변경'}</b>
-              {'될 수 있습니다.'}
-            </React.Fragment>
-          }
-        >
-          <HelpOutlineIcon color="primary" onClick={handleTooltipOpen} />
-        </HtmlTooltip>
-      </ClickAwayListener>
-      {birthDateMessage}
-      {insuranceDate}
+      <Stack spacing={2}>
+        <Box>
+          <StyledInput
+            placeholder="생년월일 (Ex. 19970405)"
+            value={birthDate}
+            onChange={onChangeBirthDate}
+            maxLength={8}
+          />
+          {isBirthDate ? (
+            <span>
+              {'(보험나이 만 ' + userAge + '세)'}
+              <HtmlTooltip
+                title={
+                  <React.Fragment>
+                    <Typography color="inherit">
+                      <b>보험나이란?</b>
+                    </Typography>
+                    {'보험나이는 '}
+                    <b>{'주민등록상 생일'}</b>
+                    {'을 기준으로 '}
+                    <b>{'6개월'}</b>
+                    {' 되는 날 부터 한 살 더 올라갑니다.'}
+                    {'보험나이에 따라 사망, 사고등의 위험률이 변경되어 '}
+                    <b>{'보험료도 변경'}</b>
+                    {'될 수 있습니다.'}
+                  </React.Fragment>
+                }
+              >
+                <HelpOutlineIcon color="primary" sx={{ cursor: 'pointer' }} />
+              </HtmlTooltip>
+            </span>
+          ) : null}
+        </Box>
+        {birthDateMessage}
+      </Stack>
     </>
   );
 }

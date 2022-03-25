@@ -107,7 +107,7 @@ export const StyledOption = styled(OptionUnstyled)(
   }
 
   &.${optionUnstyledClasses.highlighted}.${optionUnstyledClasses.selected} {
-    background-color: ${theme.palette.mode === 'dark' ? blue[900] : blue[100]};
+    background-color: ${theme.palette.mode === 'dark' ? blue[900] : grey[100]};
     color: ${theme.palette.mode === 'dark' ? blue[100] : blue[900]};
   }
 
@@ -116,7 +116,7 @@ export const StyledOption = styled(OptionUnstyled)(
   }
 
   &:hover:not(.${optionUnstyledClasses.disabled}) {
-    background-color: ${theme.palette.mode === 'dark' ? grey[800] : grey[100]};
+    background-color: ${theme.palette.mode === 'dark' ? blue[900] : blue[100]};
     color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
   }
   `,

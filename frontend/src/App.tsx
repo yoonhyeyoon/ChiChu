@@ -10,16 +10,14 @@ import PlanDetail from './pages/PlanDetail';
 
 function App() {
   return (
-    <div>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route path="/search" element={<Search />} />
-          <Route path="/search/result" element={<SearchResult />} />
-          <Route path="/search/detail" element={<PlanDetail />} />
-        </Routes>
-      </BrowserRouter>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route path="/search" element={<Search />} />
+        <Route path="/search/result" element={<SearchResult />} />
+        <Route path="/search/detail" element={<PlanDetail />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

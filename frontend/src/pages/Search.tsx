@@ -2,11 +2,35 @@ import React from 'react';
 import BirthDate from '../components/Search/BirthDate';
 import Gender from '../components/Search/Gender/Index';
 
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import Stack from '@mui/material/Stack';
+import DefaultInfo from '../components/Search/DefaultInfo';
+import Button from '../components/Search/Button';
+
 function Search() {
   return (
-    <>
-      <Gender /> <BirthDate />
-    </>
+    <Container>
+      <Box
+        sx={{
+          marginTop: 8,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
+        <Stack spacing={5} direction="row">
+          <Box>
+            <Gender />
+          </Box>
+          <Box>
+            <BirthDate />
+          </Box>
+        </Stack>
+        <DefaultInfo />
+        <Button />
+      </Box>
+    </Container>
   );
 }
 
