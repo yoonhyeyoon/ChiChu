@@ -2,14 +2,11 @@ import { Stack } from '@mui/material';
 
 import { PlanPreviewType } from '../../../types/types';
 import PlanBar from '../PlanBar';
-import sample from './sample.json';
 
-function PlanBarList(): JSX.Element {
-  const sampleList: PlanPreviewType[] = sample;
-
+function PlanBarList({ list }: { list: PlanPreviewType[] }): JSX.Element {
   return (
     <Stack direction="column" spacing={2}>
-      {sampleList.map(content => (
+      {list.map(content => (
         <PlanBar
           logo_img={content.logo_img}
           brand_name={content.brand_name}
@@ -17,6 +14,7 @@ function PlanBarList(): JSX.Element {
           plan_type={content.plan_type}
           plan_cost={content.plan_cost}
           plan_score={content.plan_score}
+          key={content.plan_name}
         />
       ))}
     </Stack>
