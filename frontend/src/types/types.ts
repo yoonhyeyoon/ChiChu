@@ -5,6 +5,7 @@ export type PlanPreviewType = {
   plan_type: string;
   plan_cost: string;
   plan_score: number;
+  moving?: boolean;
 };
 
 export type ProgressBarWithNumberType = {
