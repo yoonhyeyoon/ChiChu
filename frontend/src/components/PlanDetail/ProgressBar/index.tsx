@@ -1,6 +1,10 @@
 import React from 'react';
 import { BorderLinearProgress } from './styles';
 
-export default function ProgressBar() {
-  return <BorderLinearProgress variant="determinate" value={50} />;
+export type ProgressBarType = {
+  value: number;
+};
+
+export default function ProgressBar(props: ProgressBarType) {
+  return <BorderLinearProgress variant="determinate" value={props.value} />;
 }

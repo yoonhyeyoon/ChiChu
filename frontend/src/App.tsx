@@ -1,5 +1,6 @@
 import React from 'react';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
+import { RecoilRoot } from 'recoil';
 import logo from './logo.svg';
 import './App.css';
 
@@ -10,14 +11,16 @@ import PlanDetail from './pages/PlanDetail';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="/search" element={<Search />} />
-        <Route path="/search/result" element={<SearchResult />} />
-        <Route path="/search/detail" element={<PlanDetail />} />
-      </Routes>
-    </BrowserRouter>
+    <RecoilRoot>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/search" element={<Search />} />
+          <Route path="/search/result" element={<SearchResult />} />
+          <Route path="/search/detail" element={<PlanDetail />} />
+        </Routes>
+      </BrowserRouter>
+    </RecoilRoot>
   );
 }
 
