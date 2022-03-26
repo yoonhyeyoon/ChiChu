@@ -27,9 +27,10 @@ export default function QuestionTooltip(props: QuestionTooltipType) {
       <HtmlTooltip
         title={
           <React.Fragment>
-            <Typography color="inherit">Tooltip with HTML</Typography>
-            <em>{"And here's"}</em> <b>{'some'}</b> <u>{'amazing content'}</u>.{' '}
-            {"It's very engaging. Right?"}
+            <Typography color="inherit">치츄지수란?</Typography>
+            {
+              '상품지수, 회사지수, 유저지수 합친 값이다. 회사지수 2, 상품지수 3, 유저지수 1로 가중치를 둬서 산정한 지수입니다.'
+            }
           </React.Fragment>
         }
       >

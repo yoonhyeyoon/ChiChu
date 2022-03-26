@@ -1,0 +1,126 @@
+{
+  "base": [
+    {
+      "PRODUCT_CODE": "E10001",
+      "PRODUCT_NAME": "무배당라이나다이렉트치아보험Ⅱ(갱신형) 집중보장",
+      "COMPANY_CODE": 3,
+      "COMPANY_NAME": "라이나생명",
+      "AGE": 20,
+      "GENDER": 1,
+      "PY": 10,
+      "RATE": 15035,
+      "COMPANY_INDEX": 73.97,
+      "PRODUCT_INDEX": 40.15,
+      "USER_INDEX": 0.0,
+      "TOTAL_INDEX": 69.38,
+      "C.COMPANY_INDEX/63.46": 1.1656161361487551,
+      "PRODUCT_INDEX/50.78": 0.7906656163844032,
+      "USER_INDEX/9.59": 0.0,
+      "TOTAL_INDEX/69.24": 1.0020219526285383
+    }
+  ],
+  "option": [
+    {
+      "OPTION_NAME": "레진",
+      "SUM(COVERAGE)": 19.0
+    },
+    {
+      "OPTION_NAME": "아말감",
+      "SUM(COVERAGE)": 29
+    },
+    {
+      "OPTION_NAME": "크라운",
+      "SUM(COVERAGE)": 20.0
+    },
+    {
+      "OPTION_NAME": "신경치료",
+      "SUM(COVERAGE)": 2.0
+    },
+    {
+      "OPTION_NAME": "영구치상실발생금",
+      "SUM(COVERAGE)": 2.0
+    },
+    {
+      "OPTION_NAME": "스케일링",
+      "SUM(COVERAGE)": 1.0
+    },
+    {
+      "OPTION_NAME": "치주질환",
+      "SUM(COVERAGE)": 2.0
+    }
+  ],
+  "option_detail": [
+    {
+      "PRODUCT_OPTION": "금, 도재(세라믹)",
+      "COVERAGE": 13
+    },
+    {
+      "PRODUCT_OPTION": "아말감",
+      "COVERAGE": 1
+    },
+    {
+      "PRODUCT_OPTION": "금, 도재(세라믹), 아말감 이외",
+      "COVERAGE": 5
+    },
+    {
+      "PRODUCT_OPTION": "크라운치료보험금",
+      "COVERAGE": 20
+    },
+    {
+      "PRODUCT_OPTION": "치수치료(신경치료) 보험금\t",
+      "COVERAGE": 2
+    },
+    {
+      "PRODUCT_OPTION": "영구치발거치료보험금",
+      "COVERAGE": 2
+    },
+    {
+      "PRODUCT_OPTION": "치석제거(스케일링) 치료보험금",
+      "COVERAGE": 1
+    },
+    {
+      "PRODUCT_OPTION": "주요치주질환(잇몸질환)치료보험금",
+      "COVERAGE": 2
+    }
+  ],
+  "group_option": [
+    {
+      "AA": "치과치료(보존치료)",
+      "DD": 39.0,
+      "DD/BB": 0.0179
+    },
+    {
+      "AA": "신경치료",
+      "DD": 2.0,
+      "DD/BB": 0.0182
+    },
+    {
+      "AA": "영구치상실발생금",
+      "DD": 2.0,
+      "DD/BB": 0.0027
+    },
+    {
+      "AA": "기타치과담보",
+      "DD": 3.0,
+      "DD/BB": 0.0006
+    }
+  ],
+  "age_rate": [
+    {
+      "AGE_CAT": 30,
+      "RATE": "13.89%"
+    },
+    {
+      "AGE_CAT": 40,
+      "RATE": "69.44%"
+    },
+    {
+      "AGE_CAT": 20,
+      "RATE": "13.89%"
+    },
+    {
+      "AGE_CAT": 10,
+      "RATE": "2.78%"
+    }
+  ]
+}
