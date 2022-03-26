@@ -38,20 +38,20 @@ def default(request, age, gender):
     #DB에 접속
     conn = pymysql.connect( host= host, user = user, password = pw, db = db, charset="utf8")
     # Connection 으로부터 Cursor 생성 > dictionary 형태로 만들기
-    curs = conn.cursor(pymysql.cursors.DictCursor) 
+    curs = conn.cursor(pymysql.cursors.DictCursor)
+    # http://127.0.0.1:8000/search/default/30/2/ 
 
      # 3. SQL문 작성
     # (1) 인기 상품 : 성별 + 연령 + 유저지수 가장 높은 상품 순서대로
     popular_sql =f"""
-    SELECT ANY_VALUE(A.PRODUCT_CODE) AS '상품코드', 
-    ANY_VALUE(B.USER_INDEX),
-    ANY_VALUE(C.PRODUCT_NAME),
-    ANY_VALUE(D.COMPANY_CODE),
-    ANY_VALUE(D.COMPANY_NAME),
-    ANY_VALUE(C.SUBTYPE_CODE),
-    ANY_VALUE(B.RATE),
-    GROUP_CONCAT(A.OPTION_CODE) AS OPTION_CODE, 
-    GROUP_CONCAT(A.PRODUCT_OPTION) AS OPTION_NAME
+    SELECT ANY_VALUE(A.PRODUCT_CODE) AS product_code, 
+    ANY_VALUE(C.PRODUCT_NAME) as product_name,
+    ANY_VALUE(D.COMPANY_CODE) as company_code,
+    ANY_VALUE(D.COMPANY_NAME) as company_name,
+    ANY_VALUE(C.SUBTYPE_CODE) as subtype_code,
+    ANY_VALUE(B.RATE) as 'rate',
+    GROUP_CONCAT(A.OPTION_CODE) AS option_code, 
+    GROUP_CONCAT(A.PRODUCT_OPTION) AS option_name
     FROM
     PRODUCT_OPTION A, 
     PRODUCT_RATE B,
@@ -70,16 +70,14 @@ def default(request, age, gender):
     # (2) 가성비 : 성별 + 연령 + [보장금액 COVERAGE SUM / 월 보험료  * 가입기간 ]
 
     reasonable_sql = f"""
-    SELECT ANY_VALUE(A.PRODUCT_CODE),
-    ANY_VALUE(A.COVERAGE / (B.RATE * B.PY)) ,
-    ANY_VALUE(C.PRODUCT_NAME) ,
-    ANY_VALUE(D.COMPANY_CODE) ,
-    ANY_VALUE(D.COMPANY_NAME) ,
-    ANY_VALUE(C.SUBTYPE_CODE) ,
-    ANY_VALUE(B.RATE) ,
-    GROUP_CONCAT(E.OPTION_CODE)  ,
-    GROUP_CONCAT(E.PRODUCT_OPTION) 
-
+    SELECT ANY_VALUE(A.PRODUCT_CODE) AS product_code, 
+    ANY_VALUE(C.PRODUCT_NAME) as product_name,
+    ANY_VALUE(D.COMPANY_CODE) as company_code,
+    ANY_VALUE(D.COMPANY_NAME) as company_name,
+    ANY_VALUE(C.SUBTYPE_CODE) as subtype_code,
+    ANY_VALUE(B.RATE) as 'rate',
+    GROUP_CONCAT(E.OPTION_CODE) AS option_code, 
+    GROUP_CONCAT(E.PRODUCT_OPTION) AS option_name
     FROM ( 
         SELECT PRODUCT_CODE, SUM(COVERAGE) AS COVERAGE 
         FROM PRODUCT_OPTION 
@@ -103,15 +101,14 @@ def default(request, age, gender):
 
     # (3) 치츄 지수 높은 순
     high_ci_sql = f"""
-    SELECT ANY_VALUE(A.PRODUCT_CODE), 
-    ANY_VALUE(B.TOTAL_INDEX),
-    ANY_VALUE(C.PRODUCT_NAME),
-    ANY_VALUE(D.COMPANY_CODE),
-    ANY_VALUE(D.COMPANY_NAME),
-    ANY_VALUE(C.SUBTYPE_CODE),
-    ANY_VALUE(B.RATE),
-    GROUP_CONCAT(A.OPTION_CODE) AS OPTION_CODE, 
-    GROUP_CONCAT(A.PRODUCT_OPTION) AS OPTION_NAME
+    SELECT ANY_VALUE(A.PRODUCT_CODE) AS product_code, 
+    ANY_VALUE(C.PRODUCT_NAME) as product_name,
+    ANY_VALUE(D.COMPANY_CODE) as company_code,
+    ANY_VALUE(D.COMPANY_NAME) as company_name,
+    ANY_VALUE(C.SUBTYPE_CODE) as subtype_code,
+    ANY_VALUE(B.RATE) as 'rate',
+    GROUP_CONCAT(A.OPTION_CODE) AS option_code, 
+    GROUP_CONCAT(A.PRODUCT_OPTION) AS option_name
     FROM
     PRODUCT_OPTION A, 
     PRODUCT_RATE B,
@@ -129,14 +126,14 @@ def default(request, age, gender):
     
     # (4) 보험료 낮은 순 [성별, 나이, py 10, 일반형]
     cheap_sql = f"""
-    SELECT ANY_VALUE(A.PRODUCT_CODE), 
-    ANY_VALUE(C.PRODUCT_NAME),
-    ANY_VALUE(D.COMPANY_CODE),
-    ANY_VALUE(D.COMPANY_NAME),
-    ANY_VALUE(C.SUBTYPE_CODE),
-    ANY_VALUE(B.RATE),
-    GROUP_CONCAT(A.OPTION_CODE) AS OPTION_CODE, 
-    GROUP_CONCAT(A.PRODUCT_OPTION) AS OPTION_NAME
+    SELECT ANY_VALUE(A.PRODUCT_CODE) AS product_code, 
+    ANY_VALUE(C.PRODUCT_NAME) as product_name,
+    ANY_VALUE(D.COMPANY_CODE) as company_code,
+    ANY_VALUE(D.COMPANY_NAME) as company_name,
+    ANY_VALUE(C.SUBTYPE_CODE) as subtype_code,
+    ANY_VALUE(B.RATE) as 'rate',
+    GROUP_CONCAT(A.OPTION_CODE) AS option_code, 
+    GROUP_CONCAT(A.PRODUCT_OPTION) AS option_name
     FROM
     PRODUCT_OPTION A, 
     PRODUCT_RATE B,
@@ -154,15 +151,14 @@ def default(request, age, gender):
 
     # (5) 보장금액 높은 순
     high_coverage_sql = f"""
-        SELECT ANY_VALUE(A.PRODUCT_CODE),
-    ANY_VALUE(A.COVERAGE) ,
-    ANY_VALUE(C.PRODUCT_NAME) ,
-    ANY_VALUE(D.COMPANY_CODE) ,
-    ANY_VALUE(D.COMPANY_NAME) ,
-    ANY_VALUE(C.SUBTYPE_CODE) ,
-    ANY_VALUE(B.RATE) ,
-    GROUP_CONCAT(E.OPTION_CODE)  ,
-    GROUP_CONCAT(E.PRODUCT_OPTION) 
+    SELECT ANY_VALUE(A.PRODUCT_CODE) AS product_code, 
+    ANY_VALUE(C.PRODUCT_NAME) as product_name,
+    ANY_VALUE(D.COMPANY_CODE) as company_code,
+    ANY_VALUE(D.COMPANY_NAME) as company_name,
+    ANY_VALUE(C.SUBTYPE_CODE) as subtype_code,
+    ANY_VALUE(B.RATE) as 'rate',
+    GROUP_CONCAT(E.OPTION_CODE) AS option_code, 
+    GROUP_CONCAT(E.PRODUCT_OPTION) AS option_name
 
     FROM ( 
         SELECT PRODUCT_CODE, SUM(COVERAGE) AS COVERAGE 
@@ -187,8 +183,9 @@ def default(request, age, gender):
     curs.execute(popular_sql)
 
     for row in curs:
+        print(f'row : {row}')
         popular_list.append(row)
-
+    print(f'popular_list : {popular_list}')
     curs.execute(reasonable_sql)
     for row in curs:
         reasonable_list.append(row)
@@ -237,18 +234,17 @@ def detail(request, gender, age, py):
     conn = pymysql.connect( host= host, user = user, password = pw, db = db, charset="utf8")
     # Connection 으로부터 Cursor 생성 > dictionary 형태로 만들기
     curs = conn.cursor(pymysql.cursors.DictCursor) 
-
+    # http://127.0.0.1:8000/search/detail/30/2/10/
     # (1) 치츄 지수 높은 순
     high_ci_sql = f"""
-    SELECT ANY_VALUE(A.PRODUCT_CODE), 
-    ANY_VALUE(B.TOTAL_INDEX),
-    ANY_VALUE(C.PRODUCT_NAME),
-    ANY_VALUE(D.COMPANY_CODE),
-    ANY_VALUE(D.COMPANY_NAME),
-    ANY_VALUE(C.SUBTYPE_CODE),
-    ANY_VALUE(B.RATE),
-    GROUP_CONCAT(A.OPTION_CODE) AS OPTION_CODE, 
-    GROUP_CONCAT(A.PRODUCT_OPTION) AS OPTION_NAME
+    SELECT ANY_VALUE(A.PRODUCT_CODE) AS product_code, 
+    ANY_VALUE(C.PRODUCT_NAME) as product_name,
+    ANY_VALUE(D.COMPANY_CODE) as company_code,
+    ANY_VALUE(D.COMPANY_NAME) as company_name,
+    ANY_VALUE(C.SUBTYPE_CODE) as subtype_code,
+    ANY_VALUE(B.RATE) as 'rate',
+    GROUP_CONCAT(A.OPTION_CODE) AS option_code, 
+    GROUP_CONCAT(A.PRODUCT_OPTION) AS option_name
     FROM
     PRODUCT_OPTION A, 
     PRODUCT_RATE B,
@@ -266,14 +262,14 @@ def detail(request, gender, age, py):
     
     # (2) 보험료 낮은 순 [성별, 나이, py 10, 일반형]
     cheap_sql = f"""
-    SELECT ANY_VALUE(A.PRODUCT_CODE), 
-    ANY_VALUE(C.PRODUCT_NAME),
-    ANY_VALUE(D.COMPANY_CODE),
-    ANY_VALUE(D.COMPANY_NAME),
-    ANY_VALUE(C.SUBTYPE_CODE),
-    ANY_VALUE(B.RATE),
-    GROUP_CONCAT(A.OPTION_CODE) AS OPTION_CODE, 
-    GROUP_CONCAT(A.PRODUCT_OPTION) AS OPTION_NAME
+    SELECT ANY_VALUE(A.PRODUCT_CODE) AS product_code, 
+    ANY_VALUE(C.PRODUCT_NAME) as product_name,
+    ANY_VALUE(D.COMPANY_CODE) as company_code,
+    ANY_VALUE(D.COMPANY_NAME) as company_name,
+    ANY_VALUE(C.SUBTYPE_CODE) as subtype_code,
+    ANY_VALUE(B.RATE) as 'rate',
+    GROUP_CONCAT(A.OPTION_CODE) AS option_code, 
+    GROUP_CONCAT(A.PRODUCT_OPTION) AS option_name
     FROM
     PRODUCT_OPTION A, 
     PRODUCT_RATE B,
@@ -291,16 +287,14 @@ def detail(request, gender, age, py):
 
     # (3) 보장금액 높은 순
     high_coverage_sql = f"""
-    SELECT ANY_VALUE(A.PRODUCT_CODE),
-    ANY_VALUE(A.COVERAGE) ,
-    ANY_VALUE(C.PRODUCT_NAME) ,
-    ANY_VALUE(D.COMPANY_CODE) ,
-    ANY_VALUE(D.COMPANY_NAME) ,
-    ANY_VALUE(C.SUBTYPE_CODE) ,
-    ANY_VALUE(B.RATE) ,
-    GROUP_CONCAT(E.OPTION_CODE)  ,
-    GROUP_CONCAT(E.PRODUCT_OPTION) 
-
+    SELECT ANY_VALUE(A.PRODUCT_CODE) AS product_code, 
+    ANY_VALUE(C.PRODUCT_NAME) as product_name,
+    ANY_VALUE(D.COMPANY_CODE) as company_code,
+    ANY_VALUE(D.COMPANY_NAME) as company_name,
+    ANY_VALUE(C.SUBTYPE_CODE) as subtype_code,
+    ANY_VALUE(B.RATE) as 'rate',
+    GROUP_CONCAT(E.OPTION_CODE) AS option_code, 
+    GROUP_CONCAT(E.PRODUCT_OPTION) AS option_name
     FROM ( 
         SELECT PRODUCT_CODE, SUM(COVERAGE) AS COVERAGE 
         FROM PRODUCT_OPTION 
