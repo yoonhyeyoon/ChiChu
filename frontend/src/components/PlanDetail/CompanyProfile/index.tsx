@@ -10,7 +10,6 @@ import {
 } from './styles';
 
 export type CompanyProfileType = {
-  logo_img: string;
   company_name: string;
   product_name: string;
 };
@@ -21,7 +20,7 @@ function CompanyProfile(props: CompanyProfileType) {
       <Profile>
         <AvatarDiv>
           <Avatar
-            src={props.logo_img}
+            src={`../${props.company_name}.jpg`}
             alt={props.company_name}
             variant="rounded"
             sx={{ width: 56, height: 56 }}
