@@ -7,7 +7,7 @@ urlpatterns = [
     # 1차 검색
     path('default/<int:age>/<str:gender>/', views.default),
     # 2차 검색
-    path('detail/<int:age>/<str:gender>/<int:period>/', views.detail),
+    path('detail/<int:age>/<str:gender>/<int:py>/', views.detail),
     # 세부보험 
     path('product/<str:product_code>/', views.product),
     # 보험 비교

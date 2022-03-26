@@ -16,8 +16,6 @@ from .models import DbOption, Company, ProductSubtype, Product, ProductOption, P
 # 8) 납입보험료 (RATE) PRODUCT_RATE TABLE
 
 
-
-
 # 1. 검색결과
 # (1) 유저지수 높은 순
 class PopularSerializer(serializers.ModelSerializer):
