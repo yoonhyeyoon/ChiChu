@@ -1,87 +1,120 @@
-import React from 'react';
+import * as React from 'react';
 import { DD_RIGHT, DD_LEFT } from './styles';
 
 type PropType = {
-  sample: {
-    product_code: string;
-    product_name: string;
-    brand_name: string;
-    company_index: number;
-    product_index: number;
-    user_index: number;
-    total_index: number;
-    company_index_mean: number;
-    plan_cost: string;
-    option: {
-      보철치료: {
-        임플란트?: number;
-        브릿지?: number;
-        틀니?: number;
-      };
-      보존치료: {
-        크라운?: number;
-        아말감?: number;
-        복합레진?: number;
-      };
-      신경치료: {
-        치수치료: number;
-      };
-      기타: {
-        잇몸질환?: number;
-        치조골_이식수술?: number;
-        스케일링?: number;
-        치아골절_진단비?: number;
-        X_RAY_촬영?: number;
-      };
-    };
-  };
+  option: {
+    OPTION_NAME: string;
+    'SUM(COVERAGE)': number;
+  }[];
 };
 
-export function OptionBoard({ sample }: PropType) {
+export function OptionBoard(props: PropType) {
+  console.log(props.option);
+  console.log(typeof props.option);
+  let implant = 0;
+  let teulni = 0;
+  let bridge = 0;
+
+  let legin = 0;
+  let crown = 0;
+  let amalgam = 0;
+
+  let singyeong = 0;
+
+  let itmom = 0;
+  let chizogol = 0;
+  let scaling = 0;
+  let goljeol = 0;
+  let x_ray = 0;
+
+  for (const item of props.option) {
+    if (item['OPTION_NAME'] == '레진') {
+      legin = item['SUM(COVERAGE)'];
+    } else if (item['OPTION_NAME'] == '크라운') {
+      crown = item['SUM(COVERAGE)'];
+    } else if (item['OPTION_NAME'] == '아말감') {
+      amalgam = item['SUM(COVERAGE)'];
+    } else if (item['OPTION_NAME'] == '임플란트') {
+      implant = item['SUM(COVERAGE)'];
+    } else if (item['OPTION_NAME'] == '틀니') {
+      teulni = item['SUM(COVERAGE)'];
+    } else if (item['OPTION_NAME'] == '브릿지') {
+      bridge = item['SUM(COVERAGE)'];
+    } else if (item['OPTION_NAME'] == '신경치료') {
+      singyeong = item['SUM(COVERAGE)'];
+    } else if (item['OPTION_NAME'] == '잇몸질환') {
+      itmom = item['SUM(COVERAGE)'];
+    } else if (item['OPTION_NAME'] == '치조골 이식수술') {
+      chizogol = item['SUM(COVERAGE)'];
+    } else if (item['OPTION_NAME'] == '스케일링') {
+      scaling = item['SUM(COVERAGE)'];
+    } else if (item['OPTION_NAME'] == '치아골절 진단비') {
+      goljeol = item['SUM(COVERAGE)'];
+    } else if (item['OPTION_NAME'] == 'X-RAY 촬영') {
+      x_ray = item['SUM(COVERAGE)'];
+    }
+  }
+
   return (
     <div>
       <dl>
         <dt>치아보철치료</dt>
         <dd>
           <DD_LEFT>임플란트</DD_LEFT>
-          <DD_RIGHT>{sample.option.보철치료.임플란트}</DD_RIGHT>
+          <DD_RIGHT>{implant ? implant : '0원'}</DD_RIGHT>
         </dd>
         <dd>
           <DD_LEFT>틀니</DD_LEFT>
-          <DD_RIGHT>{sample.option.보철치료.틀니}</DD_RIGHT>
+          <DD_RIGHT>{teulni ? teulni : '0원'}</DD_RIGHT>
         </dd>
         <dd>
           <DD_LEFT>브릿지</DD_LEFT>
-          <DD_RIGHT>{sample.option.보철치료.브릿지}</DD_RIGHT>
+          <DD_RIGHT>{bridge ? bridge : '0원'}</DD_RIGHT>
         </dd>
       </dl>
       <dl>
         <dt>치아보존치료</dt>
         <dd>
           <DD_LEFT>크라운</DD_LEFT>
-          <DD_RIGHT>{sample.option.보존치료.크라운}</DD_RIGHT>
+          <DD_RIGHT>{crown ? crown : '0원'}</DD_RIGHT>
         </dd>
         <dd>
           <DD_LEFT>아말감</DD_LEFT>
-          <DD_RIGHT>{sample.option.보존치료.아말감}</DD_RIGHT>
+          <DD_RIGHT>{amalgam ? amalgam : '0원'}</DD_RIGHT>
         </dd>
         <dd>
           <DD_LEFT>복합레진</DD_LEFT>
-          <DD_RIGHT>{sample.option.보존치료.복합레진}</DD_RIGHT>
+          <DD_RIGHT>{legin ? legin : '0원'}</DD_RIGHT>
         </dd>
       </dl>
       <dl>
-        <dt>치수치료</dt>
+        <dt>신경치료</dt>
         <dd>
-          <DD_LEFT>치수치료</DD_LEFT>
-          <DD_RIGHT>{sample.option.신경치료.치수치료}</DD_RIGHT>
+          <DD_LEFT>신경치료</DD_LEFT>
+          <DD_RIGHT>{singyeong ? singyeong : '0원'}</DD_RIGHT>
         </dd>
       </dl>
       <dl>
         <dt>기타</dt>
         <dd>
           <DD_LEFT>잇몸질환</DD_LEFT>
-          <DD_RIGHT>{sample.option.기타.잇몸질환}</DD_RIGHT>
+          <DD_RIGHT>{itmom ? itmom : '0원'}</DD_RIGHT>
+        </dd>
+        <dd>
+          <DD_LEFT>치조골 이식수술</DD_LEFT>
+          <DD_RIGHT>{chizogol ? chizogol : '0원'}</DD_RIGHT>
+        </dd>
+        <dd>
+          <DD_LEFT>스케일링</DD_LEFT>
+          <DD_RIGHT>{scaling ? scaling : '0원'}</DD_RIGHT>
+        </dd>
+        <dd>
+          <DD_LEFT>치아골절 진단비</DD_LEFT>
+          <DD_RIGHT>{goljeol ? goljeol : '0원'}</DD_RIGHT>
+        </dd>
+        <dd>
+          <DD_LEFT>X-RAY 촬영</DD_LEFT>
+          <DD_RIGHT>{x_ray ? x_ray : '0원'}</DD_RIGHT>
         </dd>
       </dl>
     </div>
