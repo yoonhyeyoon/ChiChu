@@ -6,7 +6,7 @@ import ButtonUnstyled, {
   ButtonUnstyledProps,
 } from '@mui/base/ButtonUnstyled';
 import { styled } from '@mui/system';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { UserGender } from '../../../recoil/UserGender';
 import { UserAge } from '../../../recoil/UserAge';
 import { CustomButtonRoot } from './styles';

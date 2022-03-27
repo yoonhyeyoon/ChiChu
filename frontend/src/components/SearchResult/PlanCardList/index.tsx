@@ -1,9 +1,13 @@
 import { Grid } from '@mui/material';
+import { useRecoilValue } from 'recoil';
+import { PlanListSelector } from '../../../recoil/PlanListSelector';
 
 import { PlanPreviewType } from '../../../types/types';
 import Card from '../PlanCard';
 
 function CardList({ list }: { list: PlanPreviewType[] }) {
+  const data = useRecoilValue(PlanListSelector);
+  console.log(data);
   return (
     <Grid container spacing={2}>
       {list.map(content => (

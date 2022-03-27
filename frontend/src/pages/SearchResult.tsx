@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { Box, Button } from '@mui/material';
 
@@ -15,26 +15,28 @@ function SearchResult(): JSX.Element {
 
   return (
     <>
-      <SortButton />
+      <Suspense fallback={<div>Loading...</div>}>
+        <SortButton />
 
-      <PlanCardList list={planList.slice(0, 3)} />
+        <PlanCardList list={planList.slice(0, 3)} />
 
-      <Box textAlign="center">
-        <Button onClick={() => setShowMore(cur => !cur)}>
-          {showMore ? '접기' : '더 보기'}
-        </Button>
-      </Box>
+        <Box textAlign="center">
+          <Button onClick={() => setShowMore(cur => !cur)}>
+            {showMore ? '접기' : '더 보기'}
+          </Button>
+        </Box>
 
-      {showMore && (
-        <>
-          <PlanBarList list={planList.slice(4)} />
-          <h2>아직 잘 모르시겠다면 추천해드릴게요!</h2>
-          <h3>이런 보험을 많이 찾아요!</h3>
-          <RelatedPlanList list={planList} />
-          <h3>가성비가 좋아요!</h3>
-          <RelatedPlanList list={planList} />
-        </>
-      )}
+        {showMore && (
+          <>
+            <PlanBarList list={planList.slice(4)} />
+            <h2>아직 잘 모르시겠다면 추천해드릴게요!</h2>
+            <h3>이런 보험을 많이 찾아요!</h3>
+            <RelatedPlanList list={planList} />
+            <h3>가성비가 좋아요!</h3>
+            <RelatedPlanList list={planList} />
+          </>
+        )}
+      </Suspense>
     </>
   );
 }
