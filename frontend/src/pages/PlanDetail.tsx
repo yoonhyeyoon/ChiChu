@@ -4,7 +4,7 @@ import ProgressBarWithNumber from '../components/Common/ProgressBarWithNumber';
 import CompanyIndexModal from '../components/PlanDetail/Modal/CompanyIndexModal/index';
 import ProductIndexModal from '../components/PlanDetail/Modal/ProductIndexModal/index';
 import UserIndexModal from '../components/PlanDetail/Modal/UserIndexModal/index';
-import { OptionDetailBoard } from '../components/PlanDetail/OptionDetailBoard/index';
+import { OptionBoard } from '../components/PlanDetail/OptionBoard/index';
 import CompanyProfile from '../components/PlanDetail/CompanyProfile';
 import QuestionTooltip from '../components/PlanDetail/QuestionTooltip';
 import DetailSample from '../components/PlanDetail/DetailSample.json';
@@ -46,7 +46,7 @@ function PlanDetail() {
           />
         </Box>
         <br />
-        <OptionDetailBoard option={sample['option']} />
+        <OptionBoard option={sample['option']} />
       </Container>
     </div>
   );
