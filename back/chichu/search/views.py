@@ -1,6 +1,6 @@
 from datetime import datetime
 from email.mime import application
-from h11 import PRODUCT_ID
+# from h11 import PRODUCT_ID
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -19,6 +19,29 @@ from .models import DbOption, Company, ProductSubtype, Product, ProductOption, P
 from .serializers import (
     PopularSerializer, ReasonableSerializer, ChichuIndexSerializer, CheapSerializer, CoverageSerializer )
 
+# 나이바꾸기 함수
+def change_age(age):
+    if age <= 20:
+        return 20
+    elif 20 < age <= 25:
+        return 25
+    elif 25 < age <= 30:
+        return 30
+    elif 30 < age <= 35:
+        return 35
+    elif 35 < age <= 40:
+        return 40
+    elif 40 < age <= 45:
+        return 45
+    elif 50 < age <= 55:
+        return 55
+    elif 55 < age <= 60:
+        return 60
+    elif 60 < age <= 65:
+        return 65
+    elif 65 < age <= 70:
+        return 70
+
 # 1 - 1차 검색
 @api_view(['GET'])
 def default(request, age, gender):
@@ -27,7 +50,11 @@ def default(request, age, gender):
     high_ci_list = []
     cheap_list = []
     high_coverage_list = []
+    test = []
+    test2 = []
 
+    # 사용자 나이 바꾸기
+    age = change_age(age)    
 
     # 필요한 기본 DB 정보
     host = "j6d206.p.ssafy.io" #접속할 db의 host명
@@ -41,6 +68,45 @@ def default(request, age, gender):
     curs = conn.cursor(pymysql.cursors.DictCursor)
     # http://127.0.0.1:8000/search/default/30/2/ 
 
+    test_sql = f"""
+    SELECT OPTION_NAME, SUM(COVERAGE) 
+    FROM (SELECT A.PRODUCT_OPTION, A.COVERAGE, B.OPTION_NAME, B.OPTION_GROUP_CODE, B.OPTION_GROUP_NAME 
+    FROM (SELECT * FROM PRODUCT_OPTION WHERE PRODUCT_CODE='E10001') AS A 
+    JOIN DB_OPTION AS B ON A.OPTION_CODE = B.OPTION_CODE) AS C 
+    GROUP BY OPTION_NAME LIMIT 0, 1000
+    """
+
+    test2_sql = f"""
+        SELECT ANY_VALUE(A.PRODUCT_CODE),
+    ANY_VALUE(A.COVERAGE) ,
+    ANY_VALUE(C.PRODUCT_NAME) ,
+    ANY_VALUE(D.COMPANY_CODE) ,
+    ANY_VALUE(D.COMPANY_NAME) ,
+    ANY_VALUE(C.SUBTYPE_CODE) ,
+    ANY_VALUE(B.RATE) ,
+    GROUP_CONCAT(F.OPTION_CODE, F.OPTION_NAME)
+
+    FROM ( 
+        SELECT PRODUCT_CODE, SUM(COVERAGE) AS COVERAGE 
+        FROM PRODUCT_OPTION 
+        GROUP BY PRODUCT_CODE 
+        ) A, 
+    PRODUCT_RATE B, 
+    PRODUCT C,
+    COMPANY D,
+    PRODUCT_OPTION E,
+    (SELECT OPTION_CODE, OPTION_NAME FROM DB_OPTION) F
+    WHERE A.PRODUCT_CODE = B.PRODUCT_CODE 
+    AND B.PRODUCT_CODE = E.PRODUCT_CODE 
+    AND B.PRODUCT_CODE = C.PRODUCT_CODE 
+    AND C.COMPANY_CODE = D.COMPANY_CODE
+    AND E.OPTION_CODE = F.OPTION_CODE
+    AND AGE = 30
+    AND GENDER = 2
+    AND PY = 10
+    GROUP BY chichu.A.COVERAGE
+    ORDER BY A.COVERAGE DESC ;
+    """
      # 3. SQL문 작성
     # (1) 인기 상품 : 성별 + 연령 + 유저지수 가장 높은 상품 순서대로
     popular_sql =f"""
@@ -180,13 +246,30 @@ def default(request, age, gender):
     ORDER BY A.COVERAGE DESC
     """ 
 
-    curs.execute(popular_sql)
+
+    curs.execute(test2_sql)
 
     for row in curs:
-        print(f'row : {row}')
+        test2.append(row)    
+
+    curs.execute(popular_sql)
+
+    
+    for row in curs:
         popular_list.append(row)
-    print(f'popular_list : {popular_list}')
+    
+    
+    
+    curs.execute(test_sql)
+
+    for row in curs:
+        popular_list.append(row)
+
+    
+    
     curs.execute(reasonable_sql)
+    
+    
     for row in curs:
         reasonable_list.append(row)
 
@@ -207,6 +290,8 @@ def default(request, age, gender):
     conn.close()
 
     data = {
+        # '테스트' : test,
+        # '테스트2' : test2,
         '인기순': popular_list,
         '가성비순' : reasonable_list,
         '치츄 높은순' : high_ci_list,
@@ -224,6 +309,8 @@ def detail(request, gender, age, py):
     cheap_list = []
     high_coverage_list = []
     
+    age = change_age(age)   
+
     # 필요한 기본 DB 정보
     host = "j6d206.p.ssafy.io" #접속할 db의 host명
     user = "chichu" #접속할 db의 user명
@@ -234,7 +321,7 @@ def detail(request, gender, age, py):
     conn = pymysql.connect( host= host, user = user, password = pw, db = db, charset="utf8")
     # Connection 으로부터 Cursor 생성 > dictionary 형태로 만들기
     curs = conn.cursor(pymysql.cursors.DictCursor) 
-    # http://127.0.0.1:8000/search/detail/30/2/10/
+
     # (1) 치츄 지수 높은 순
     high_ci_sql = f"""
     SELECT ANY_VALUE(A.PRODUCT_CODE) AS product_code, 
@@ -259,6 +346,8 @@ def detail(request, gender, age, py):
     GROUP BY chichu.B.TOTAL_INDEX
     ORDER BY B.TOTAL_INDEX DESC 
     """
+
+    
     
     # (2) 보험료 낮은 순 [성별, 나이, py 10, 일반형]
     cheap_sql = f"""
