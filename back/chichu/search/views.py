@@ -250,14 +250,10 @@ def default(request, age, gender):
 
     curs.execute(popular_sql)
     for row in curs:
-<<<<<<< HEAD
-        popular_list.append(row)
-=======
         row['option_code'] = row['option_code'].split(',')
         row['option_name'] = row['option_name'].split(',')
         popular_list.append(row)
     
->>>>>>> feature/BE/Server
 
     curs.execute(reasonable_sql)
     for row in curs:
