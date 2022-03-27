@@ -1,7 +1,7 @@
 import { styled } from '@mui/system';
 
 type props = {
-  istag: boolean;
+  istag: string | null;
 };
 
 const blue = {

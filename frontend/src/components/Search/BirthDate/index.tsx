@@ -73,7 +73,7 @@ function BirthDate() {
         <Box>
           <StyledInput
             placeholder="생년월일 (Ex. 19970405)"
-            value={birthDate}
+            value={birthDate || ''}
             onChange={onChangeBirthDate}
             maxLength={8}
           />

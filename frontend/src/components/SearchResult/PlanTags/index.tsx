@@ -4,6 +4,7 @@ import sample from './sample.json';
 import { PlanTagButton } from './styles';
 
 import Stack from '@mui/material/Stack';
+import { useRecoilValue } from 'recoil';
 
 type toggleList = string[];
 type PlanTagButtonType = {
@@ -27,12 +28,12 @@ const Button = ({ plan_tag, toggleList, setToggleList }: PlanTagButtonType) => {
       setToggle(!toggle);
     }
   };
-  console.log(toggleList);
+  // console.log(toggleList);
   return (
     <PlanTagButton
       // id={String(id)}
       onClick={onChangeColor}
-      istag={toggleList.includes(plan_tag)}
+      istag={toggleList.includes(plan_tag) ? 'true' : null}
     >
       {plan_tag}
     </PlanTagButton>
@@ -42,7 +43,6 @@ const Button = ({ plan_tag, toggleList, setToggleList }: PlanTagButtonType) => {
 function PlanTags() {
   const tagList: PlanTagType[] = sample;
   const [toggleList, setToggleList] = useState<toggleList>([]);
-
   return (
     <>
       <Stack spacing={2} direction="row">
