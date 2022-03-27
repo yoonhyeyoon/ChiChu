@@ -9,6 +9,8 @@ type PropType = {
 };
 
 export function OptionDetailBoard(props: PropType) {
+  console.log(typeof props.option);
+
   return (
     <div>
       {/* <dl>
