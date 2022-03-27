@@ -50,8 +50,6 @@ def default(request, age, gender):
     high_ci_list = []
     cheap_list = []
     high_coverage_list = []
-    test = []
-    test2 = []
 
     # 사용자 나이 바꾸기
     age = change_age(age)    
@@ -68,221 +66,220 @@ def default(request, age, gender):
     curs = conn.cursor(pymysql.cursors.DictCursor)
     # http://127.0.0.1:8000/search/default/30/2/ 
 
-    test_sql = f"""
-    SELECT OPTION_NAME, SUM(COVERAGE) 
-    FROM (SELECT A.PRODUCT_OPTION, A.COVERAGE, B.OPTION_NAME, B.OPTION_GROUP_CODE, B.OPTION_GROUP_NAME 
-    FROM (SELECT * FROM PRODUCT_OPTION WHERE PRODUCT_CODE='E10001') AS A 
-    JOIN DB_OPTION AS B ON A.OPTION_CODE = B.OPTION_CODE) AS C 
-    GROUP BY OPTION_NAME LIMIT 0, 1000
-    """
-
-    test2_sql = f"""
-        SELECT ANY_VALUE(A.PRODUCT_CODE),
-    ANY_VALUE(A.COVERAGE) ,
-    ANY_VALUE(C.PRODUCT_NAME) ,
-    ANY_VALUE(D.COMPANY_CODE) ,
-    ANY_VALUE(D.COMPANY_NAME) ,
-    ANY_VALUE(C.SUBTYPE_CODE) ,
-    ANY_VALUE(B.RATE) ,
-    GROUP_CONCAT(F.OPTION_CODE, F.OPTION_NAME)
-
-    FROM ( 
-        SELECT PRODUCT_CODE, SUM(COVERAGE) AS COVERAGE 
-        FROM PRODUCT_OPTION 
-        GROUP BY PRODUCT_CODE 
-        ) A, 
-    PRODUCT_RATE B, 
-    PRODUCT C,
-    COMPANY D,
-    PRODUCT_OPTION E,
-    (SELECT OPTION_CODE, OPTION_NAME FROM DB_OPTION) F
-    WHERE A.PRODUCT_CODE = B.PRODUCT_CODE 
-    AND B.PRODUCT_CODE = E.PRODUCT_CODE 
-    AND B.PRODUCT_CODE = C.PRODUCT_CODE 
-    AND C.COMPANY_CODE = D.COMPANY_CODE
-    AND E.OPTION_CODE = F.OPTION_CODE
-    AND AGE = 30
-    AND GENDER = 2
-    AND PY = 10
-    GROUP BY chichu.A.COVERAGE
-    ORDER BY A.COVERAGE DESC ;
-    """
+    
      # 3. SQL문 작성
     # (1) 인기 상품 : 성별 + 연령 + 유저지수 가장 높은 상품 순서대로
     popular_sql =f"""
-    SELECT ANY_VALUE(A.PRODUCT_CODE) AS product_code, 
-    ANY_VALUE(C.PRODUCT_NAME) as product_name,
-    ANY_VALUE(D.COMPANY_CODE) as company_code,
-    ANY_VALUE(D.COMPANY_NAME) as company_name,
-    ANY_VALUE(C.SUBTYPE_CODE) as subtype_code,
-    ANY_VALUE(B.RATE) as 'rate',
-    GROUP_CONCAT(A.OPTION_CODE) AS option_code, 
-    GROUP_CONCAT(A.PRODUCT_OPTION) AS option_name
-    FROM
-    PRODUCT_OPTION A, 
-    PRODUCT_RATE B,
-    PRODUCT C,
-    COMPANY D
-    WHERE A.PRODUCT_CODE = B.PRODUCT_CODE 
-    AND B.PRODUCT_CODE = C.PRODUCT_CODE
-    AND C.COMPANY_CODE = D.COMPANY_CODE
-    AND AGE = {age}
-    AND GENDER = {gender}
-    GROUP BY chichu.B.USER_INDEX
-    ORDER BY B.USER_INDEX DESC 
+    SELECT 
+        G.PRODUCT_CODE AS product_code,
+        G.PRODUCT_NAME as product_name, 
+        G.USER_INDEX as user_index,
+        G.COMPANY_CODE AS company_code,
+        G.COMPANY_NAME AS company_name,
+        G.SUBTYPE_CODE as subtype_code,
+        G.RATE AS rate,
+        GROUP_CONCAT(G.option_code) AS option_code, 
+        GROUP_CONCAT(G.option_name) AS option_name
+        FROM ( SELECT DISTINCT ANY_VALUE(A.PRODUCT_CODE) AS product_code, 
+            ANY_VALUE(C.PRODUCT_NAME) as product_name,
+            ANY_VALUE(D.COMPANY_CODE) as company_code,
+            ANY_VALUE(D.COMPANY_NAME) as company_name,
+            ANY_VALUE(C.SUBTYPE_CODE) as subtype_code,
+            ANY_VALUE(B.RATE) as rate,
+            ANY_VALUE(E.OPTION_CODE) as option_code,
+            ANY_VALUE(E.OPTION_NAME) as option_name,
+            ANY_VALUE(B.USER_INDEX) as user_index
+            FROM
+            PRODUCT_OPTION A, 
+            PRODUCT_RATE B,
+            PRODUCT C,
+            COMPANY D,
+            DB_OPTION E
+            WHERE A.PRODUCT_CODE = B.PRODUCT_CODE 
+            AND B.PRODUCT_CODE = C.PRODUCT_CODE
+            AND C.COMPANY_CODE = D.COMPANY_CODE
+            AND A.OPTION_CODE = E.OPTION_CODE
+            AND AGE = {age}
+            AND GENDER = {gender}
+            AND PY = 10
+        ) G
+    GROUP BY chichu.G.USER_INDEX
+    ORDER BY chichu.G.USER_INDEX DESC 
     LIMIT 6;
     """
 
     # (2) 가성비 : 성별 + 연령 + [보장금액 COVERAGE SUM / 월 보험료  * 가입기간 ]
 
     reasonable_sql = f"""
-    SELECT ANY_VALUE(A.PRODUCT_CODE) AS product_code, 
-    ANY_VALUE(C.PRODUCT_NAME) as product_name,
-    ANY_VALUE(D.COMPANY_CODE) as company_code,
-    ANY_VALUE(D.COMPANY_NAME) as company_name,
-    ANY_VALUE(C.SUBTYPE_CODE) as subtype_code,
-    ANY_VALUE(B.RATE) as 'rate',
-    GROUP_CONCAT(E.OPTION_CODE) AS option_code, 
-    GROUP_CONCAT(E.PRODUCT_OPTION) AS option_name
-    FROM ( 
-        SELECT PRODUCT_CODE, SUM(COVERAGE) AS COVERAGE 
-        FROM PRODUCT_OPTION 
-        GROUP BY PRODUCT_CODE 
-        ) A, 
-    PRODUCT_RATE B, 
-    PRODUCT C,
-    COMPANY D,
-    PRODUCT_OPTION E
-    WHERE A.PRODUCT_CODE = B.PRODUCT_CODE 
-    AND B.PRODUCT_CODE = E.PRODUCT_CODE 
-    AND B.PRODUCT_CODE = C.PRODUCT_CODE 
-    AND C.COMPANY_CODE = D.COMPANY_CODE
-    AND AGE = {age}
-    AND GENDER = {gender} 
-    GROUP BY chichu.A.COVERAGE / (B.RATE * B.PY)
-    ORDER BY A.COVERAGE / (B.RATE * B.PY) DESC 
-    LIMIT 6
+    SELECT DISTINCT ANY_VALUE(A.PRODUCT_CODE) AS product_code, 
+        ANY_VALUE(A.COVERAGE / (B.PY * B.RATE)) as reasonable,
+        ANY_VALUE(C.PRODUCT_NAME) as product_name,
+        ANY_VALUE(D.COMPANY_CODE) as company_code,
+        ANY_VALUE(D.COMPANY_NAME) as company_name,
+        ANY_VALUE(C.SUBTYPE_CODE) as subtype_code,
+        ANY_VALUE(B.RATE) as rate,
+        ANY_VALUE(B.PY) as py,
+        ANY_VALUE(A.OPTION_CODE) as option_code,
+        ANY_VALUE(A.OPTION_NAME) as option_name
+        FROM
+            ( SELECT PRODUCT_CODE, GROUP_CONCAT(OPTION_CODE) AS OPTION_CODE, GROUP_CONCAT(OPTION_NAME) AS OPTION_NAME, 
+                SUM(COVERAGE) AS COVERAGE FROM (
+                SELECT P.PRODUCT_CODE, P.OPTION_CODE, O.OPTION_NAME, P.COVERAGE
+                FROM PRODUCT_OPTION P, DB_OPTION O
+                WHERE P.OPTION_CODE = O.OPTION_CODE
+                )
+        PRODUCT_OPTION GROUP BY PRODUCT_CODE) A, 
+        PRODUCT_RATE B,
+        PRODUCT C,
+        COMPANY D
+        WHERE A.PRODUCT_CODE = B.PRODUCT_CODE 
+        AND B.PRODUCT_CODE = C.PRODUCT_CODE
+        AND C.COMPANY_CODE = D.COMPANY_CODE
+        AND AGE = {age}
+        AND GENDER = {gender}
+        AND PY = 10
+        ORDER BY reasonable DESC
+        LIMIT 6;
     """
 
 
     # (3) 치츄 지수 높은 순
     high_ci_sql = f"""
-    SELECT ANY_VALUE(A.PRODUCT_CODE) AS product_code, 
-    ANY_VALUE(C.PRODUCT_NAME) as product_name,
-    ANY_VALUE(D.COMPANY_CODE) as company_code,
-    ANY_VALUE(D.COMPANY_NAME) as company_name,
-    ANY_VALUE(C.SUBTYPE_CODE) as subtype_code,
-    ANY_VALUE(B.RATE) as 'rate',
-    GROUP_CONCAT(A.OPTION_CODE) AS option_code, 
-    GROUP_CONCAT(A.PRODUCT_OPTION) AS option_name
-    FROM
-    PRODUCT_OPTION A, 
-    PRODUCT_RATE B,
-    PRODUCT C,
-    COMPANY D
-    WHERE A.PRODUCT_CODE = B.PRODUCT_CODE 
-    AND B.PRODUCT_CODE = C.PRODUCT_CODE
-    AND C.COMPANY_CODE = D.COMPANY_CODE
-    AND B.PY = 10 
-    AND AGE = {age}
-    AND GENDER = {gender} 
-    GROUP BY chichu.B.TOTAL_INDEX
-    ORDER BY B.TOTAL_INDEX DESC 
+        SELECT 
+        G.PRODUCT_CODE AS product_code,
+        G.PRODUCT_NAME as product_name, 
+        G.TOTAL_INDEX as total_index,
+        G.COMPANY_CODE AS company_code,
+        G.COMPANY_NAME AS company_name,
+        G.SUBTYPE_CODE as subtype_code,
+        G.RATE AS rate,
+        GROUP_CONCAT(G.option_code) AS option_code, 
+        GROUP_CONCAT(G.option_name) AS option_name
+        FROM ( SELECT DISTINCT ANY_VALUE(A.PRODUCT_CODE) AS product_code, 
+            ANY_VALUE(C.PRODUCT_NAME) as product_name,
+            ANY_VALUE(D.COMPANY_CODE) as company_code,
+            ANY_VALUE(D.COMPANY_NAME) as company_name,
+            ANY_VALUE(C.SUBTYPE_CODE) as subtype_code,
+            ANY_VALUE(B.RATE) as rate,
+            ANY_VALUE(E.OPTION_CODE) as option_code,
+            ANY_VALUE(E.OPTION_NAME) as option_name,
+            ANY_VALUE(B.TOTAL_INDEX) as total_index
+            FROM
+            PRODUCT_OPTION A, 
+            PRODUCT_RATE B,
+            PRODUCT C,
+            COMPANY D,
+            DB_OPTION E
+            WHERE A.PRODUCT_CODE = B.PRODUCT_CODE 
+            AND B.PRODUCT_CODE = C.PRODUCT_CODE
+            AND C.COMPANY_CODE = D.COMPANY_CODE
+            AND A.OPTION_CODE = E.OPTION_CODE
+            AND AGE = {age}
+            AND GENDER = {gender}
+            AND PY = 10
+        ) G
+    GROUP BY chichu.G.TOTAL_INDEX
+    ORDER BY chichu.G.TOTAL_INDEX DESC 
+    LIMIT 6;
     """
     
     # (4) 보험료 낮은 순 [성별, 나이, py 10, 일반형]
     cheap_sql = f"""
-    SELECT ANY_VALUE(A.PRODUCT_CODE) AS product_code, 
-    ANY_VALUE(C.PRODUCT_NAME) as product_name,
-    ANY_VALUE(D.COMPANY_CODE) as company_code,
-    ANY_VALUE(D.COMPANY_NAME) as company_name,
-    ANY_VALUE(C.SUBTYPE_CODE) as subtype_code,
-    ANY_VALUE(B.RATE) as 'rate',
-    GROUP_CONCAT(A.OPTION_CODE) AS option_code, 
-    GROUP_CONCAT(A.PRODUCT_OPTION) AS option_name
-    FROM
-    PRODUCT_OPTION A, 
-    PRODUCT_RATE B,
-    PRODUCT C,
-    COMPANY D
-    WHERE A.PRODUCT_CODE = B.PRODUCT_CODE 
-    AND B.PRODUCT_CODE = C.PRODUCT_CODE
-    AND C.COMPANY_CODE = D.COMPANY_CODE
-    AND B.PY = 10 
-    AND AGE = {age}
-    AND GENDER = {gender} 
-    GROUP BY chichu.B.RATE
-    ORDER BY B.RATE
+    SELECT 
+        G.PRODUCT_CODE AS product_code,
+        G.PRODUCT_NAME as product_name, 
+        G.COMPANY_CODE AS company_code,
+        G.COMPANY_NAME AS company_name,
+        G.SUBTYPE_CODE as subtype_code,
+        G.RATE AS rate,
+        GROUP_CONCAT(G.option_code) AS option_code, 
+        GROUP_CONCAT(G.option_name) AS option_name
+        FROM ( SELECT DISTINCT ANY_VALUE(A.PRODUCT_CODE) AS product_code, 
+            ANY_VALUE(C.PRODUCT_NAME) as product_name,
+            ANY_VALUE(D.COMPANY_CODE) as company_code,
+            ANY_VALUE(D.COMPANY_NAME) as company_name,
+            ANY_VALUE(C.SUBTYPE_CODE) as subtype_code,
+            ANY_VALUE(B.RATE) as rate,
+            ANY_VALUE(E.OPTION_CODE) as option_code,
+            ANY_VALUE(E.OPTION_NAME) as option_name
+            FROM
+            PRODUCT_OPTION A, 
+            PRODUCT_RATE B,
+            PRODUCT C,
+            COMPANY D,
+            DB_OPTION E
+            WHERE A.PRODUCT_CODE = B.PRODUCT_CODE 
+            AND B.PRODUCT_CODE = C.PRODUCT_CODE
+            AND C.COMPANY_CODE = D.COMPANY_CODE
+            AND A.OPTION_CODE = E.OPTION_CODE
+            AND AGE = 30
+            AND GENDER = 2
+        ) G
+    GROUP BY chichu.G.RATE
+    ORDER BY chichu.G.RATE 
+    LIMIT 6;
     """
 
     # (5) 보장금액 높은 순
     high_coverage_sql = f"""
-    SELECT ANY_VALUE(A.PRODUCT_CODE) AS product_code, 
-    ANY_VALUE(C.PRODUCT_NAME) as product_name,
-    ANY_VALUE(D.COMPANY_CODE) as company_code,
-    ANY_VALUE(D.COMPANY_NAME) as company_name,
-    ANY_VALUE(C.SUBTYPE_CODE) as subtype_code,
-    ANY_VALUE(B.RATE) as 'rate',
-    GROUP_CONCAT(E.OPTION_CODE) AS option_code, 
-    GROUP_CONCAT(E.PRODUCT_OPTION) AS option_name
-
-    FROM ( 
-        SELECT PRODUCT_CODE, SUM(COVERAGE) AS COVERAGE 
-        FROM PRODUCT_OPTION 
-        GROUP BY PRODUCT_CODE 
-        ) A, 
-    PRODUCT_RATE B, 
-    PRODUCT C,
-    COMPANY D,
-    PRODUCT_OPTION E
-    WHERE A.PRODUCT_CODE = B.PRODUCT_CODE 
-    AND B.PRODUCT_CODE = E.PRODUCT_CODE 
-    AND B.PRODUCT_CODE = C.PRODUCT_CODE 
-    AND C.COMPANY_CODE = D.COMPANY_CODE
-    AND AGE = {age}
-    AND GENDER = {gender} 
-    AND PY = 10
-    GROUP BY chichu.A.COVERAGE
-    ORDER BY A.COVERAGE DESC
+    SELECT DISTINCT ANY_VALUE(A.PRODUCT_CODE) AS product_code, 
+        ANY_VALUE(A.COVERAGE) as coverage,
+        ANY_VALUE(C.PRODUCT_NAME) as product_name,
+        ANY_VALUE(D.COMPANY_CODE) as company_code,
+        ANY_VALUE(D.COMPANY_NAME) as company_name,
+        ANY_VALUE(C.SUBTYPE_CODE) as subtype_code,
+        ANY_VALUE(B.RATE) as rate,
+        ANY_VALUE(A.OPTION_CODE) as option_code,
+        ANY_VALUE(A.OPTION_NAME) as option_name
+        FROM
+            ( SELECT PRODUCT_CODE, GROUP_CONCAT(OPTION_CODE) AS OPTION_CODE, GROUP_CONCAT(OPTION_NAME) AS OPTION_NAME, 
+                SUM(COVERAGE) AS COVERAGE FROM (
+                SELECT P.PRODUCT_CODE, P.OPTION_CODE, O.OPTION_NAME, P.COVERAGE
+                FROM PRODUCT_OPTION P, DB_OPTION O
+                WHERE P.OPTION_CODE = O.OPTION_CODE
+                )
+        PRODUCT_OPTION GROUP BY PRODUCT_CODE) A, 
+        PRODUCT_RATE B,
+        PRODUCT C,
+        COMPANY D
+        WHERE A.PRODUCT_CODE = B.PRODUCT_CODE 
+        AND B.PRODUCT_CODE = C.PRODUCT_CODE
+        AND C.COMPANY_CODE = D.COMPANY_CODE
+        AND AGE = {age}
+        AND GENDER = {gender}
+        ORDER BY COVERAGE DESC
     """ 
-
-
-    curs.execute(test2_sql)
-
-    for row in curs:
-        test2.append(row)    
 
     curs.execute(popular_sql)
 
-    
     for row in curs:
+        row['option_code'] = row['option_code'].split(',')
+        row['option_name'] = row['option_name'].split(',')
         popular_list.append(row)
     
-    
-    
-    curs.execute(test_sql)
 
-    for row in curs:
-        popular_list.append(row)
-
-    
-    
     curs.execute(reasonable_sql)
-    
-    
     for row in curs:
+        row['option_code'] = row['option_code'].split(',')
+        row['option_name'] = row['option_name'].split(',')
         reasonable_list.append(row)
 
     curs.execute(high_ci_sql)
     for row in curs:
+        row['option_code'] = row['option_code'].split(',')
+        row['option_name'] = row['option_name'].split(',')
         high_ci_list.append(row)
 
     curs.execute(cheap_sql)
     for row in curs:
+        row['option_code'] = row['option_code'].split(',')
+        row['option_name'] = row['option_name'].split(',')
         cheap_list.append(row)
 
     curs.execute(high_coverage_sql)
     for row in curs:
+        row['option_code'] = row['option_code'].split(',')
+        row['option_name'] = row['option_name'].split(',')
         high_coverage_list.append(row)
 
     # db 접속 종료
@@ -290,13 +287,11 @@ def default(request, age, gender):
     conn.close()
 
     data = {
-        # '테스트' : test,
-        # '테스트2' : test2,
-        '인기순': popular_list,
-        '가성비순' : reasonable_list,
-        '치츄 높은순' : high_ci_list,
-        '보험료 낮은 순' : cheap_list,
-        '보장 높은 순' : high_coverage_list
+        'popular': popular_list,
+        'reasonable' : reasonable_list,
+        'chichu' : high_ci_list,
+        'cheap' : cheap_list,
+        'coverage' : high_coverage_list
     }
     return Response(data)
 
@@ -324,96 +319,129 @@ def detail(request, gender, age, py):
 
     # (1) 치츄 지수 높은 순
     high_ci_sql = f"""
-    SELECT ANY_VALUE(A.PRODUCT_CODE) AS product_code, 
-    ANY_VALUE(C.PRODUCT_NAME) as product_name,
-    ANY_VALUE(D.COMPANY_CODE) as company_code,
-    ANY_VALUE(D.COMPANY_NAME) as company_name,
-    ANY_VALUE(C.SUBTYPE_CODE) as subtype_code,
-    ANY_VALUE(B.RATE) as 'rate',
-    GROUP_CONCAT(A.OPTION_CODE) AS option_code, 
-    GROUP_CONCAT(A.PRODUCT_OPTION) AS option_name
-    FROM
-    PRODUCT_OPTION A, 
-    PRODUCT_RATE B,
-    PRODUCT C,
-    COMPANY D
-    WHERE A.PRODUCT_CODE = B.PRODUCT_CODE 
-    AND B.PRODUCT_CODE = C.PRODUCT_CODE
-    AND C.COMPANY_CODE = D.COMPANY_CODE
-    AND AGE = {age}
-    AND GENDER = {gender} 
-    AND B.PY = {py}
-    GROUP BY chichu.B.TOTAL_INDEX
-    ORDER BY B.TOTAL_INDEX DESC 
+        SELECT 
+        G.PRODUCT_CODE AS product_code,
+        G.PRODUCT_NAME as product_name, 
+        G.TOTAL_INDEX as total_index,
+        G.COMPANY_CODE AS company_code,
+        G.COMPANY_NAME AS company_name,
+        G.SUBTYPE_CODE as subtype_code,
+        G.RATE AS rate,
+        GROUP_CONCAT(G.option_code) AS option_code, 
+        GROUP_CONCAT(G.option_name) AS option_name
+        FROM ( SELECT DISTINCT ANY_VALUE(A.PRODUCT_CODE) AS product_code, 
+            ANY_VALUE(C.PRODUCT_NAME) as product_name,
+            ANY_VALUE(D.COMPANY_CODE) as company_code,
+            ANY_VALUE(D.COMPANY_NAME) as company_name,
+            ANY_VALUE(C.SUBTYPE_CODE) as subtype_code,
+            ANY_VALUE(B.RATE) as rate,
+            ANY_VALUE(E.OPTION_CODE) as option_code,
+            ANY_VALUE(E.OPTION_NAME) as option_name,
+            ANY_VALUE(B.TOTAL_INDEX) as total_index
+            FROM
+            PRODUCT_OPTION A, 
+            PRODUCT_RATE B,
+            PRODUCT C,
+            COMPANY D,
+            DB_OPTION E
+            WHERE A.PRODUCT_CODE = B.PRODUCT_CODE 
+            AND B.PRODUCT_CODE = C.PRODUCT_CODE
+            AND C.COMPANY_CODE = D.COMPANY_CODE
+            AND A.OPTION_CODE = E.OPTION_CODE
+            AND AGE = {age}
+            AND GENDER = {gender}
+            AND PY = {py}
+        ) G
+    GROUP BY chichu.G.TOTAL_INDEX
+    ORDER BY chichu.G.TOTAL_INDEX DESC 
+    LIMIT 6;
     """
-
-    
     
     # (2) 보험료 낮은 순 [성별, 나이, py 10, 일반형]
     cheap_sql = f"""
-    SELECT ANY_VALUE(A.PRODUCT_CODE) AS product_code, 
-    ANY_VALUE(C.PRODUCT_NAME) as product_name,
-    ANY_VALUE(D.COMPANY_CODE) as company_code,
-    ANY_VALUE(D.COMPANY_NAME) as company_name,
-    ANY_VALUE(C.SUBTYPE_CODE) as subtype_code,
-    ANY_VALUE(B.RATE) as 'rate',
-    GROUP_CONCAT(A.OPTION_CODE) AS option_code, 
-    GROUP_CONCAT(A.PRODUCT_OPTION) AS option_name
-    FROM
-    PRODUCT_OPTION A, 
-    PRODUCT_RATE B,
-    PRODUCT C,
-    COMPANY D
-    WHERE A.PRODUCT_CODE = B.PRODUCT_CODE 
-    AND B.PRODUCT_CODE = C.PRODUCT_CODE
-    AND C.COMPANY_CODE = D.COMPANY_CODE
-    AND AGE = {age}
-    AND GENDER = {gender} 
-    AND B.PY = {py}
-    GROUP BY chichu.B.RATE
-    ORDER BY B.RATE
+    SELECT 
+        G.PRODUCT_CODE AS product_code,
+        G.PRODUCT_NAME as product_name, 
+        G.COMPANY_CODE AS company_code,
+        G.COMPANY_NAME AS company_name,
+        G.SUBTYPE_CODE as subtype_code,
+        G.RATE AS rate,
+        GROUP_CONCAT(G.option_code) AS option_code, 
+        GROUP_CONCAT(G.option_name) AS option_name
+        FROM ( SELECT DISTINCT ANY_VALUE(A.PRODUCT_CODE) AS product_code, 
+            ANY_VALUE(C.PRODUCT_NAME) as product_name,
+            ANY_VALUE(D.COMPANY_CODE) as company_code,
+            ANY_VALUE(D.COMPANY_NAME) as company_name,
+            ANY_VALUE(C.SUBTYPE_CODE) as subtype_code,
+            ANY_VALUE(B.RATE) as rate,
+            ANY_VALUE(E.OPTION_CODE) as option_code,
+            ANY_VALUE(E.OPTION_NAME) as option_name
+            FROM
+            PRODUCT_OPTION A, 
+            PRODUCT_RATE B,
+            PRODUCT C,
+            COMPANY D,
+            DB_OPTION E
+            WHERE A.PRODUCT_CODE = B.PRODUCT_CODE 
+            AND B.PRODUCT_CODE = C.PRODUCT_CODE
+            AND C.COMPANY_CODE = D.COMPANY_CODE
+            AND A.OPTION_CODE = E.OPTION_CODE
+            AND AGE = {age}
+            AND GENDER = {gender}
+            AND PY = {py}
+        ) G
+    GROUP BY chichu.G.RATE
+    ORDER BY chichu.G.RATE 
+    LIMIT 6;
     """
 
     # (3) 보장금액 높은 순
     high_coverage_sql = f"""
-    SELECT ANY_VALUE(A.PRODUCT_CODE) AS product_code, 
-    ANY_VALUE(C.PRODUCT_NAME) as product_name,
-    ANY_VALUE(D.COMPANY_CODE) as company_code,
-    ANY_VALUE(D.COMPANY_NAME) as company_name,
-    ANY_VALUE(C.SUBTYPE_CODE) as subtype_code,
-    ANY_VALUE(B.RATE) as 'rate',
-    GROUP_CONCAT(E.OPTION_CODE) AS option_code, 
-    GROUP_CONCAT(E.PRODUCT_OPTION) AS option_name
-    FROM ( 
-        SELECT PRODUCT_CODE, SUM(COVERAGE) AS COVERAGE 
-        FROM PRODUCT_OPTION 
-        GROUP BY PRODUCT_CODE 
-        ) A, 
-    PRODUCT_RATE B, 
-    PRODUCT C,
-    COMPANY D,
-    PRODUCT_OPTION E
-    WHERE A.PRODUCT_CODE = B.PRODUCT_CODE 
-    AND B.PRODUCT_CODE = E.PRODUCT_CODE 
-    AND B.PRODUCT_CODE = C.PRODUCT_CODE 
-    AND C.COMPANY_CODE = D.COMPANY_CODE
-    AND AGE = {age}
-    AND GENDER = {gender} 
-    AND PY = {py}
-    GROUP BY chichu.A.COVERAGE
-    ORDER BY A.COVERAGE DESC
+    SELECT DISTINCT ANY_VALUE(A.PRODUCT_CODE) AS product_code, 
+        ANY_VALUE(A.COVERAGE) as coverage,
+        ANY_VALUE(C.PRODUCT_NAME) as product_name,
+        ANY_VALUE(D.COMPANY_CODE) as company_code,
+        ANY_VALUE(D.COMPANY_NAME) as company_name,
+        ANY_VALUE(C.SUBTYPE_CODE) as subtype_code,
+        ANY_VALUE(B.RATE) as rate,
+        ANY_VALUE(A.OPTION_CODE) as option_code,
+        ANY_VALUE(A.OPTION_NAME) as option_name
+        FROM
+            ( SELECT PRODUCT_CODE, GROUP_CONCAT(OPTION_CODE) AS OPTION_CODE, GROUP_CONCAT(OPTION_NAME) AS OPTION_NAME, 
+                SUM(COVERAGE) AS COVERAGE FROM (
+                SELECT P.PRODUCT_CODE, P.OPTION_CODE, O.OPTION_NAME, P.COVERAGE
+                FROM PRODUCT_OPTION P, DB_OPTION O
+                WHERE P.OPTION_CODE = O.OPTION_CODE
+                )
+        PRODUCT_OPTION GROUP BY PRODUCT_CODE) A, 
+        PRODUCT_RATE B,
+        PRODUCT C,
+        COMPANY D
+        WHERE A.PRODUCT_CODE = B.PRODUCT_CODE 
+        AND B.PRODUCT_CODE = C.PRODUCT_CODE
+        AND C.COMPANY_CODE = D.COMPANY_CODE
+        AND AGE = {age}
+        AND GENDER = {gender}
+        AND PY = {py}
+        ORDER BY COVERAGE DESC
     """ 
 
     curs.execute(high_ci_sql)
     for row in curs:
+        row['option_code'] = row['option_code'].split(',')
+        row['option_name'] = row['option_name'].split(',')
         high_ci_list.append(row)
 
     curs.execute(cheap_sql)
     for row in curs:
+        row['option_code'] = row['option_code'].split(',')
+        row['option_name'] = row['option_name'].split(',')
         cheap_list.append(row)
 
     curs.execute(high_coverage_sql)
     for row in curs:
+        row['option_code'] = row['option_code'].split(',')
+        row['option_name'] = row['option_name'].split(',')
         high_coverage_list.append(row)
 
     # db 접속 종료
@@ -421,9 +449,9 @@ def detail(request, gender, age, py):
     conn.close()
 
     data = {
-        '치츄 높은순' : high_ci_list,
-        '보험료 낮은 순' : cheap_list,
-        '보장 높은 순' : high_coverage_list
+        'chichu' : high_ci_list,
+        'cheap' : cheap_list,
+        'coverage' : high_coverage_list
     }
     return Response(data)
 
