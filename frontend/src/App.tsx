@@ -17,7 +17,7 @@ function App() {
           <Route path="/" element={<Landing />} />
           <Route path="/search" element={<Search />} />
           <Route path="/search/result" element={<SearchResult />} />
-          <Route path="/search/detail" element={<PlanDetail />} />
+          <Route path="/search/:id" element={<PlanDetail />} />
         </Routes>
       </BrowserRouter>
     </RecoilRoot>
