@@ -1,19 +1,18 @@
 from datetime import datetime
 from email.mime import application
-from h11 import PRODUCT_ID
+# from h11 import PRODUCT_ID
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework import serializers
 from django.shortcuts import get_object_or_404
 import pymysql
 import json
 
-import os
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "chichu.settings")
+# import os
+# os.environ.setdefault("DJANGO_SETTINGS_MODULE", "chichu.settings")
 
-import django
-django.setup()
+# import django
+# django.setup()
 
 from .models import DbOption, Company, ProductSubtype, Product, ProductOption, ProductRate, Contract, User
 from .serializers import (
@@ -39,7 +38,6 @@ def default(request, age, gender):
     conn = pymysql.connect( host= host, user = user, password = pw, db = db, charset="utf8")
     # Connection 으로부터 Cursor 생성 > dictionary 형태로 만들기
     curs = conn.cursor(pymysql.cursors.DictCursor)
-    # http://127.0.0.1:8000/search/default/30/2/ 
 
      # 3. SQL문 작성
     # (1) 인기 상품 : 성별 + 연령 + 유저지수 가장 높은 상품 순서대로
@@ -181,11 +179,9 @@ def default(request, age, gender):
     """ 
 
     curs.execute(popular_sql)
-
     for row in curs:
-        print(f'row : {row}')
         popular_list.append(row)
-    print(f'popular_list : {popular_list}')
+
     curs.execute(reasonable_sql)
     for row in curs:
         reasonable_list.append(row)
@@ -234,7 +230,7 @@ def detail(request, gender, age, py):
     conn = pymysql.connect( host= host, user = user, password = pw, db = db, charset="utf8")
     # Connection 으로부터 Cursor 생성 > dictionary 형태로 만들기
     curs = conn.cursor(pymysql.cursors.DictCursor) 
-    # http://127.0.0.1:8000/search/detail/30/2/10/
+
     # (1) 치츄 지수 높은 순
     high_ci_sql = f"""
     SELECT ANY_VALUE(A.PRODUCT_CODE) AS product_code, 
