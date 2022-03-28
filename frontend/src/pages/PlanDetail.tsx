@@ -14,6 +14,7 @@ import Box from '@mui/material/Box';
 function PlanDetail() {
   const sample = DetailSample;
 
+  // 안들어왔을 때는 로딩 떠있도록.
   return (
     <div>
       <Container maxWidth="md">
