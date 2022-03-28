@@ -5,20 +5,28 @@ import {
   CardContent,
   CardHeader,
 } from '@mui/material';
+import { Route, Link, useNavigate } from 'react-router-dom';
 
 import { PlanPreviewType } from '../../../types/types';
 import ProgressBarWithNumber from '../../Common/ProgressBarWithNumber';
 
 function PlanCard(props: PlanPreviewType) {
+  const navigate = useNavigate();
+  const product_code = 'E10001';
+
   return (
     <Card>
       <CardActionArea>
         <a
-          href="#"
+          href=""
           style={{ textDecoration: 'none' }}
           onClick={e => {
             if (props.moving) {
               e.preventDefault();
+            } else {
+              navigate(`./${product_code}`, {
+                state: { product_code: product_code },
+              });
             }
           }}
         >
