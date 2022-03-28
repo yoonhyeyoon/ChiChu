@@ -84,7 +84,6 @@ def default(request, age, gender):
             AND A.OPTION_CODE = E.OPTION_CODE
             AND AGE = {age}
             AND GENDER = {gender}
-            AND PY = 10
         ) G
     GROUP BY chichu.G.USER_INDEX
     ORDER BY chichu.G.USER_INDEX DESC 
@@ -120,13 +119,12 @@ def default(request, age, gender):
         AND C.COMPANY_CODE = D.COMPANY_CODE
         AND AGE = {age}
         AND GENDER = {gender}
-        AND PY = 10
         ORDER BY reasonable DESC
         LIMIT 6;
     """
 
 
-    # (3) 치츄 지수 높은 순
+    # (3) 치츄 지수 높은 순 (DEFAULT PY = 10 )
     high_ci_sql = f"""
         SELECT 
         G.PRODUCT_CODE AS product_code,
@@ -195,8 +193,9 @@ def default(request, age, gender):
             AND B.PRODUCT_CODE = C.PRODUCT_CODE
             AND C.COMPANY_CODE = D.COMPANY_CODE
             AND A.OPTION_CODE = E.OPTION_CODE
-            AND AGE = 30
-            AND GENDER = 2
+            AND AGE = {age}
+            AND GENDER = {gender}
+            AND PY = 10
         ) G
     GROUP BY chichu.G.RATE
     ORDER BY chichu.G.RATE 
@@ -230,6 +229,7 @@ def default(request, age, gender):
         AND C.COMPANY_CODE = D.COMPANY_CODE
         AND AGE = {age}
         AND GENDER = {gender}
+        AND PY = 10
         ORDER BY COVERAGE DESC
     """ 
 
@@ -489,5 +489,86 @@ def product(request, product_code, age, gender, py):
 
 # 4 - 보험비교
 @api_view(['GET'])
-def compare(request, products):
-    pass 
+def compare(request, age, gender, py, codes):
+    # 비교할 상품의 갯수 (2개, 3개)
+    if len(codes) == 12:
+        p1 = codes[:6]
+        p2 = codes[6:]
+
+    elif len(codes) == 18:
+        p1 = codes[:6]
+        p2 = codes[6:12]
+        p3 = codes[12:]
+
+    # 가져와야할 목록
+    # 1. 기본목록 p1 p2 p3의 각각 : product_code, company_name, company_code, 치츄지수, 상품지수, 유저지수,  
+    # 2. 치츄 목록
+    company_list = []
+    list1 = []
+
+    #DB에 접속
+    conn = pymysql.connect( host= host, user = user, password = pw, db = db, charset="utf8")
+    # Connection 으로부터 Cursor 생성 > dictionary 형태로 만들기
+    curs = conn.cursor(pymysql.cursors.DictCursor)
+
+    company_sql = f"""
+    SELECT DISTINCT A.PRODUCT_CODE AS product_code,
+    C.COMPANY_CODE as company_code,
+    C.COMPANY_NAME as company_name,
+    A.TOTAL_INDEX AS total_index 
+    
+    FROM PRODUCT_RATE A, 
+    PRODUCT B,
+    COMPANY C
+
+    WHERE AGE = {age}
+    AND GENDER = {gender}
+    AND PY = {py}
+    AND A.PRODUCT_CODE = B.PRODUCT_CODE
+    AND B.COMPANY_CODE = C.COMPANY_CODE 
+    AND A.PRODUCT_CODE IN ({p1}, {p2}, {p3})
+    """
+
+    list1_sql = f"""
+    SELECT * FROM
+            (SELECT A.OPTION_CODE, A.OPTION_NAME, A.OPTION_GROUP_CODE
+            FROM DB_OPTION A, PRODUCT_OPTION B
+            WHERE OPTION_GROUP_CODE = 'A9500' AND A.OPTION_CODE = B.OPTION_CODE
+            GROUP BY A.OPTION_CODE) A 
+        LEFT JOIN 
+            (SELECT A.PRODUCT_CODE, B.OPTION_CODE, B.COVERAGE 
+            FROM PRODUCT_RATE A, PRODUCT_OPTION B, DB_OPTION C
+            WHERE A.PRODUCT_CODE = B.PRODUCT_CODE 
+            AND B.OPTION_CODE = C.OPTION_CODE
+            AND C.OPTION_GROUP_CODE = 'A9500' 
+            ANDE AGE = {age}
+            AND GENDER = {gender}
+            AND PY = {py}
+            AND A.PRODUCT_CODE IN ({p1}, {p2}, {p3})
+        ORDER BY A.PRODUCT_CODE) B ON A.OPTION_CODE = B.OPTION_CODE
+    """
+    curs.execute(company_sql)
+    for row in curs:
+        company_list.append(row)
+
+    curs.execute(list1_sql)
+    for row in curs:
+        list1.append(row)
+
+    # db 접속 종료
+    curs.close()
+    conn.close()
+
+    data = {
+        'company': company_list,
+        'list1' : list1,
+
+    }
+    return Response(data)
+
+
+    # 2. 치아보철치료비(OPTION_GROUP_CODE : A9509) > PRODUCT_CODE, OPTION_NAME, COVERAGE 
+
+
+    # 3. 치아보전치료(OPTION_GROUP_CODE : A9500)
+    # 4. 치수치료비(OPTION_GROUP_CODE : 9508)
