@@ -84,7 +84,6 @@ def default(request, age, gender):
             AND A.OPTION_CODE = E.OPTION_CODE
             AND AGE = {age}
             AND GENDER = {gender}
-            AND PY = 10
         ) G
     GROUP BY chichu.G.USER_INDEX
     ORDER BY chichu.G.USER_INDEX DESC 
@@ -120,13 +119,12 @@ def default(request, age, gender):
         AND C.COMPANY_CODE = D.COMPANY_CODE
         AND AGE = {age}
         AND GENDER = {gender}
-        AND PY = 10
         ORDER BY reasonable DESC
         LIMIT 6;
     """
 
 
-    # (3) 치츄 지수 높은 순
+    # (3) 치츄 지수 높은 순 (DEFAULT PY = 10 )
     high_ci_sql = f"""
         SELECT 
         G.PRODUCT_CODE AS product_code,
@@ -195,8 +193,9 @@ def default(request, age, gender):
             AND B.PRODUCT_CODE = C.PRODUCT_CODE
             AND C.COMPANY_CODE = D.COMPANY_CODE
             AND A.OPTION_CODE = E.OPTION_CODE
-            AND AGE = 30
-            AND GENDER = 2
+            AND AGE = {age}
+            AND GENDER = {gender}
+            AND PY = 10
         ) G
     GROUP BY chichu.G.RATE
     ORDER BY chichu.G.RATE 
@@ -230,6 +229,7 @@ def default(request, age, gender):
         AND C.COMPANY_CODE = D.COMPANY_CODE
         AND AGE = {age}
         AND GENDER = {gender}
+        AND PY = 10
         ORDER BY COVERAGE DESC
     """ 
 
@@ -436,16 +436,33 @@ def detail(request, gender, age, py):
 @api_view(['GET'])
 def product(request, product_code, age, gender, py):
     age = change_age(age)
-    gender = 1 if gender == '남' else 2
 
     conn = pymysql.connect(host= host, user = user, password = pw, db = db, charset=charset)
     curs = conn.cursor(pymysql.cursors.DictCursor) 
+
+    try:
+        age_init = str(age)[0]
+        age1 = int(age_init + '0')
+        age2 = int(age_init + '5')
+
+        update_hit_sqls = [
+            f"UPDATE PRODUCT_RATE SET HIT=HIT+1 WHERE AGE = {age} AND PRODUCT_CODE = '{product_code}' AND GENDER = {gender} AND PY = {py}",
+            f"UPDATE PRODUCT_RATE SET SUM_PGA_HIT=SUM_PGA_HIT+1 WHERE AGE IN ({age1}, {age2}) AND PRODUCT_CODE = '{product_code}' AND GENDER = {gender} AND PY = {py}",
+            f"UPDATE PRODUCT_RATE SET SUM_A_HIT=SUM_A_HIT+1 WHERE AGE IN ({age1}, {age2})",
+            f"UPDATE PRODUCT_RATE SET HIT_INDEX=ROUND(SUM_PGA_HIT/SUM_A_HIT*100, 2) WHERE AGE IN ({age1}, {age2})",
+            f"UPDATE PRODUCT_RATE SET USER_INDEX=ROUND(0.5*CNT_INDEX + 0.5*HIT_INDEX, 2) WHERE AGE IN ({age1}, {age2})",
+            f"UPDATE PRODUCT_RATE SET TOTAL_INDEX=ROUND((2*COMPANY_INDEX + 3*PRODUCT_INDEX + USER_INDEX)/6, 2) WHERE AGE IN ({age1}, {age2})"
+        ]
+        for SQL in update_hit_sqls: curs.execute(SQL)
+        conn.commit()
+    except:
+        conn.rollback()
 
     SQL1 = f"SELECT C.PRODUCT_CODE AS PRODUCT_CODE, PRODUCT_NAME, D.COMPANY_CODE AS COMPANY_CODE, COMPANY_NAME, AGE, GENDER, PY, RATE, C.COMPANY_INDEX AS COMPANY_INDEX, PRODUCT_INDEX, USER_INDEX, TOTAL_INDEX FROM (SELECT A.PRODUCT_CODE AS PRODUCT_CODE, PRODUCT_NAME, COMPANY_CODE AS CC, AGE, GENDER, PY, RATE, COMPANY_INDEX, PRODUCT_INDEX, USER_INDEX, TOTAL_INDEX, COMPANY_CODE FROM (SELECT PRODUCT_CODE, AGE, GENDER, PY, RATE, COMPANY_INDEX, PRODUCT_INDEX, USER_INDEX, TOTAL_INDEX FROM PRODUCT_RATE WHERE PRODUCT_CODE = '{product_code}' AND AGE = '{age}' AND GENDER = '{gender}' AND PY = '{py}') A,  (SELECT PRODUCT_CODE, PRODUCT_NAME, COMPANY_CODE FROM PRODUCT WHERE PRODUCT_CODE = '{product_code}') B  WHERE A.PRODUCT_CODE = B.PRODUCT_CODE) C, (SELECT COMPANY_CODE, COMPANY_NAME FROM COMPANY) D WHERE CC = D.COMPANY_CODE LIMIT 0, 1000"
     SQL2 = f"SELECT PRODUCT_OPTION AS NAME, CONCAT(COVERAGE*10000, '원') AS COVERAGE FROM PRODUCT_OPTION WHERE PRODUCT_CODE='{product_code}'"
     SQL3 = f"SELECT OPTION_NAME AS NAME, CONCAT(SUM(COVERAGE)*10000, '원') AS COVERAGE FROM (SELECT A.PRODUCT_OPTION, A.COVERAGE, B.OPTION_NAME, B.OPTION_GROUP_CODE, B.OPTION_GROUP_NAME FROM (SELECT * FROM PRODUCT_OPTION WHERE PRODUCT_CODE='{product_code}') AS A JOIN DB_OPTION AS B ON A.OPTION_CODE = B.OPTION_CODE) AS C GROUP BY OPTION_NAME LIMIT 0, 1000"
     SQL4 = f"SELECT AA AS NAME, DD AS COVERAGE, DD/BB AS RATE FROM (SELECT OPTION_GROUP_NAME AS AA, SUM(COVERAGE) AS BB FROM (SELECT A.PRODUCT_OPTION, A.COVERAGE, B.OPTION_NAME, B.OPTION_GROUP_CODE, B.OPTION_GROUP_NAME FROM PRODUCT_OPTION AS A JOIN DB_OPTION AS B ON A.OPTION_CODE = B.OPTION_CODE) AS C GROUP BY OPTION_GROUP_NAME) C, (SELECT OPTION_GROUP_NAME AS CC, SUM(COVERAGE) AS DD FROM (SELECT A.PRODUCT_OPTION, A.COVERAGE, B.OPTION_NAME, B.OPTION_GROUP_CODE, B.OPTION_GROUP_NAME FROM (SELECT * FROM PRODUCT_OPTION WHERE PRODUCT_CODE='{product_code}') AS A JOIN DB_OPTION AS B ON A.OPTION_CODE = B.OPTION_CODE) AS C GROUP BY OPTION_GROUP_NAME) D WHERE AA = CC LIMIT 0, 1000"
-    SQL5 = f"SELECT AGE_CAT, CONCAT(ROUND(COUNT(*) / SUM(COUNT(*)) OVER()*100, 2), '%') AS RATE FROM (SELECT CASE  WHEN AGE < 20 THEN 10     WHEN AGE < 30 AND AGE >= 20 THEN 20     WHEN AGE < 40 AND AGE >= 30 THEN 30     WHEN AGE < 50 AND AGE >= 40 THEN 40     WHEN AGE < 60 AND AGE >= 50 THEN 50     WHEN AGE < 70 AND AGE >= 60 THEN 60     ELSE 70 END AS AGE_CAT FROM (SELECT USER_CODE FROM (SELECT CONTRACT_PK FROM PRODUCT_CONTRACT WHERE PRODUCT_CODE='{product_code}') AS A JOIN CONTRACT AS B ON A.CONTRACT_PK=B.CONTRACT_PK) AS C JOIN USER AS D ON C.USER_CODE=D.USER_CODE) AS E GROUP BY AGE_CAT"
+    SQL5 = f"SELECT AGE_CAT, ROUND(COUNT(*) / SUM(COUNT(*)) OVER()*100, 2) AS RATE FROM (SELECT CASE  WHEN AGE < 20 THEN 10     WHEN AGE < 30 AND AGE >= 20 THEN 20     WHEN AGE < 40 AND AGE >= 30 THEN 30     WHEN AGE < 50 AND AGE >= 40 THEN 40     WHEN AGE < 60 AND AGE >= 50 THEN 50     WHEN AGE < 70 AND AGE >= 60 THEN 60     ELSE 70 END AS AGE_CAT FROM (SELECT USER_CODE FROM (SELECT CONTRACT_PK FROM PRODUCT_CONTRACT WHERE PRODUCT_CODE='{product_code}') AS A JOIN CONTRACT AS B ON A.CONTRACT_PK=B.CONTRACT_PK) AS C JOIN USER AS D ON C.USER_CODE=D.USER_CODE) AS E GROUP BY AGE_CAT"
     SQL6 = f"SELECT CAST(TRUNCATE(@ROWNUM:=@ROWNUM+1, 0) AS CHAR(5)) AS ID, D.OPTION_NAME  FROM DB_OPTION AS D, ( SELECT @ROWNUM := 0) R WHERE D.OPTION_NAME IN ('임플란트',  '틀니', '브릿지', '충전치료', '신경치료', '잇몸질환', '치조골 이식수술', '스케일링', '치아골절 진단비', 'X-RAY 촬영', '아말감', '레진') LIMIT 0, 1000"
 
     base = []
@@ -489,5 +506,86 @@ def product(request, product_code, age, gender, py):
 
 # 4 - 보험비교
 @api_view(['GET'])
-def compare(request, products):
-    pass 
+def compare(request, age, gender, py, codes):
+    # 비교할 상품의 갯수 (2개, 3개)
+    if len(codes) == 12:
+        p1 = codes[:6]
+        p2 = codes[6:]
+
+    elif len(codes) == 18:
+        p1 = codes[:6]
+        p2 = codes[6:12]
+        p3 = codes[12:]
+
+    # 가져와야할 목록
+    # 1. 기본목록 p1 p2 p3의 각각 : product_code, company_name, company_code, 치츄지수, 상품지수, 유저지수,  
+    # 2. 치츄 목록
+    company_list = []
+    list1 = []
+
+    #DB에 접속
+    conn = pymysql.connect( host= host, user = user, password = pw, db = db, charset="utf8")
+    # Connection 으로부터 Cursor 생성 > dictionary 형태로 만들기
+    curs = conn.cursor(pymysql.cursors.DictCursor)
+
+    company_sql = f"""
+    SELECT DISTINCT A.PRODUCT_CODE AS product_code,
+    C.COMPANY_CODE as company_code,
+    C.COMPANY_NAME as company_name,
+    A.TOTAL_INDEX AS total_index 
+    
+    FROM PRODUCT_RATE A, 
+    PRODUCT B,
+    COMPANY C
+
+    WHERE AGE = {age}
+    AND GENDER = {gender}
+    AND PY = {py}
+    AND A.PRODUCT_CODE = B.PRODUCT_CODE
+    AND B.COMPANY_CODE = C.COMPANY_CODE 
+    AND A.PRODUCT_CODE IN ({p1}, {p2}, {p3})
+    """
+
+    list1_sql = f"""
+    SELECT * FROM
+            (SELECT A.OPTION_CODE, A.OPTION_NAME, A.OPTION_GROUP_CODE
+            FROM DB_OPTION A, PRODUCT_OPTION B
+            WHERE OPTION_GROUP_CODE = 'A9500' AND A.OPTION_CODE = B.OPTION_CODE
+            GROUP BY A.OPTION_CODE) A 
+        LEFT JOIN 
+            (SELECT A.PRODUCT_CODE, B.OPTION_CODE, B.COVERAGE 
+            FROM PRODUCT_RATE A, PRODUCT_OPTION B, DB_OPTION C
+            WHERE A.PRODUCT_CODE = B.PRODUCT_CODE 
+            AND B.OPTION_CODE = C.OPTION_CODE
+            AND C.OPTION_GROUP_CODE = 'A9500' 
+            ANDE AGE = {age}
+            AND GENDER = {gender}
+            AND PY = {py}
+            AND A.PRODUCT_CODE IN ({p1}, {p2}, {p3})
+        ORDER BY A.PRODUCT_CODE) B ON A.OPTION_CODE = B.OPTION_CODE
+    """
+    curs.execute(company_sql)
+    for row in curs:
+        company_list.append(row)
+
+    curs.execute(list1_sql)
+    for row in curs:
+        list1.append(row)
+
+    # db 접속 종료
+    curs.close()
+    conn.close()
+
+    data = {
+        'company': company_list,
+        'list1' : list1,
+
+    }
+    return Response(data)
+
+
+    # 2. 치아보철치료비(OPTION_GROUP_CODE : A9509) > PRODUCT_CODE, OPTION_NAME, COVERAGE 
+
+
+    # 3. 치아보전치료(OPTION_GROUP_CODE : A9500)
+    # 4. 치수치료비(OPTION_GROUP_CODE : 9508)
