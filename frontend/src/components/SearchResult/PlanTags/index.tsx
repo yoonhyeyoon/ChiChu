@@ -50,20 +50,30 @@ const Button = ({ plan_tag, toggleList, setToggleList }: PlanTagButtonType) => {
     }
   };
 
-  useEffect(() => {
-    console.log(toggleList);
-    // toggleList에 있는 tag만 포함된 planTaggedList로 filtering 반환
-    function checkTagged(el: any) {
-      if (el in toggleList) {
-        return true;
-      }
-    }
+  // useEffect(() => {
+  //   // console.log(toggleList);
+  //   // toggleList에 있는 tag만 포함된 planTaggedList로 filtering 반환
+  //   let trueCnt = 0;
+  //   function checkTagged(el: any) {
+  //     console.log(el);
+  //     if (toggleList.includes(el)) {
+  //       trueCnt++;
+  //       if (trueCnt === toggleList.length) {
+  //         return true;
+  //       }
+  //     }
+  //   }
 
-    const newList = plans.인기순.filter(product =>
-      product.option_name.includes('임플란트'),
-    );
-    console.log(newList);
-  }, [toggleList]);
+  //   if (planTaggedList) {
+  //     console.log(planTaggedList.data.cheap);
+  //     const newList = planTaggedList.data.cheap.filter(product =>
+  //       product.option_name.some(checkTagged),
+  //     );
+  //     console.log(newList);
+  //   }
+
+  //   // setPlanTaggedList(newList);
+  // }, [toggleList]);
 
   return (
     <PlanTagButton
