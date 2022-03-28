@@ -436,10 +436,27 @@ def detail(request, gender, age, py):
 @api_view(['GET'])
 def product(request, product_code, age, gender, py):
     age = change_age(age)
-    gender = 1 if gender == '남' else 2
 
     conn = pymysql.connect(host= host, user = user, password = pw, db = db, charset=charset)
     curs = conn.cursor(pymysql.cursors.DictCursor) 
+
+    try:
+        age_init = str(age)[0]
+        age1 = int(age_init + '0')
+        age2 = int(age_init + '5')
+
+        update_hit_sqls = [
+            f"UPDATE PRODUCT_RATE SET HIT=HIT+1 WHERE AGE = {age} AND PRODUCT_CODE = '{product_code}' AND GENDER = {gender} AND PY = {py}",
+            f"UPDATE PRODUCT_RATE SET SUM_PGA_HIT=SUM_PGA_HIT+1 WHERE AGE IN ({age1}, {age2}) AND PRODUCT_CODE = '{product_code}' AND GENDER = {gender} AND PY = {py}",
+            f"UPDATE PRODUCT_RATE SET SUM_A_HIT=SUM_A_HIT+1 WHERE AGE IN ({age1}, {age2})",
+            f"UPDATE PRODUCT_RATE SET HIT_INDEX=ROUND(SUM_PGA_HIT/SUM_A_HIT*100, 2) WHERE AGE IN ({age1}, {age2})",
+            f"UPDATE PRODUCT_RATE SET USER_INDEX=ROUND(0.5*CNT_INDEX + 0.5*HIT_INDEX, 2) WHERE AGE IN ({age1}, {age2})",
+            f"UPDATE PRODUCT_RATE SET TOTAL_INDEX=ROUND((2*COMPANY_INDEX + 3*PRODUCT_INDEX + USER_INDEX)/6, 2) WHERE AGE IN ({age1}, {age2})"
+        ]
+        for SQL in update_hit_sqls: curs.execute(SQL)
+        conn.commit()
+    except:
+        conn.rollback()
 
     SQL1 = f"SELECT C.PRODUCT_CODE AS PRODUCT_CODE, PRODUCT_NAME, D.COMPANY_CODE AS COMPANY_CODE, COMPANY_NAME, AGE, GENDER, PY, RATE, C.COMPANY_INDEX AS COMPANY_INDEX, PRODUCT_INDEX, USER_INDEX, TOTAL_INDEX FROM (SELECT A.PRODUCT_CODE AS PRODUCT_CODE, PRODUCT_NAME, COMPANY_CODE AS CC, AGE, GENDER, PY, RATE, COMPANY_INDEX, PRODUCT_INDEX, USER_INDEX, TOTAL_INDEX, COMPANY_CODE FROM (SELECT PRODUCT_CODE, AGE, GENDER, PY, RATE, COMPANY_INDEX, PRODUCT_INDEX, USER_INDEX, TOTAL_INDEX FROM PRODUCT_RATE WHERE PRODUCT_CODE = '{product_code}' AND AGE = '{age}' AND GENDER = '{gender}' AND PY = '{py}') A,  (SELECT PRODUCT_CODE, PRODUCT_NAME, COMPANY_CODE FROM PRODUCT WHERE PRODUCT_CODE = '{product_code}') B  WHERE A.PRODUCT_CODE = B.PRODUCT_CODE) C, (SELECT COMPANY_CODE, COMPANY_NAME FROM COMPANY) D WHERE CC = D.COMPANY_CODE LIMIT 0, 1000"
     SQL2 = f"SELECT PRODUCT_OPTION AS NAME, CONCAT(COVERAGE*10000, '원') AS COVERAGE FROM PRODUCT_OPTION WHERE PRODUCT_CODE='{product_code}'"
