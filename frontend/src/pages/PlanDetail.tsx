@@ -16,7 +16,10 @@ import DetailSample from '../components/PlanDetail/DetailSample.json';
 import { PieChart } from '../components/PlanDetail/PieChart/index';
 import { RadarChart } from '../components/PlanDetail/RadarChart/index';
 import { Box, Button } from '@mui/material';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import axios from 'axios';
+
 const info = DetailSample;
 
 interface CustomState {
@@ -142,19 +145,18 @@ function PlanDetail() {
               <br />
               <Box sx={{ maxWidth: '70vw' }}>
                 <OptionBoard option={info['option']} />
-                <br />
-                <Box textAlign="center">
+                <Box>
                   <Button onClick={() => setShowMore(cur => !cur)}>
                     {showMore ? '접기' : '보장 자세히 보기'}
+                    {showMore ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
                   </Button>
                 </Box>
+                {showMore && (
+                  <>
+                    <OptionDetailBoard option_detail={info['option_detail']} />
+                  </>
+                )}
               </Box>
-
-              {showMore && (
-                <>
-                  <OptionDetailBoard option_detail={info['option_detail']} />
-                </>
-              )}
               <br />
               <PieChart age_rate={info['age_rate']} />
               <br />
