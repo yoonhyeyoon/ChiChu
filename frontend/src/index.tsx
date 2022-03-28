@@ -4,6 +4,9 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { RecoilRoot } from 'recoil';
+import axios from 'axios';
+
+axios.defaults.baseURL = 'http://127.0.0.1:8000/api/search';
 
 ReactDOM.render(
   <React.StrictMode>
