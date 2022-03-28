@@ -5,6 +5,7 @@ import CompanyIndexModal from '../components/PlanDetail/Modal/CompanyIndexModal/
 import ProductIndexModal from '../components/PlanDetail/Modal/ProductIndexModal/index';
 import UserIndexModal from '../components/PlanDetail/Modal/UserIndexModal/index';
 import { OptionBoard } from '../components/PlanDetail/OptionBoard/index';
+import { OptionDetailBoard } from '../components/PlanDetail/OptionDetailBoard/index';
 import CompanyProfile from '../components/PlanDetail/CompanyProfile';
 import QuestionTooltip from '../components/PlanDetail/QuestionTooltip';
 import DetailSample from '../components/PlanDetail/DetailSample.json';
@@ -45,8 +46,11 @@ function PlanDetail() {
             plan_average={9.59}
           />
         </Box>
+        <></>
         <br />
         <OptionBoard option={sample['option']} />
+        <br />
+        <OptionDetailBoard option_detail={sample['option_detail']} />
       </Container>
     </div>
   );

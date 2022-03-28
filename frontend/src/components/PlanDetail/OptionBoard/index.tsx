@@ -9,8 +9,6 @@ type PropType = {
 };
 
 export function OptionBoard(props: PropType) {
-  console.log(props.option);
-  console.log(typeof props.option);
   let implant = 0;
   let teulni = 0;
   let bridge = 0;
@@ -83,7 +81,7 @@ export function OptionBoard(props: PropType) {
           <DD_RIGHT>{amalgam ? amalgam : '0원'}</DD_RIGHT>
         </dd>
         <dd>
-          <DD_LEFT>복합레진</DD_LEFT>
+          <DD_LEFT>레진</DD_LEFT>
           <DD_RIGHT>{legin ? legin : '0원'}</DD_RIGHT>
         </dd>
       </dl>
