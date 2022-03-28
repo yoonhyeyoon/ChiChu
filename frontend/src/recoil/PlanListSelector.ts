@@ -16,25 +16,29 @@ export type ProductType = {
 };
 
 export type PlanListType = {
-  인기순: ProductType[];
-  가성비순: ProductType[];
-  '치츄 높은순': ProductType[];
-  '보험료 낮은 순': ProductType[];
-  '보장 높은 순': ProductType[];
+  cheap: ProductType[];
+  chichu: ProductType[];
+  coverage: ProductType[];
+  popular: ProductType[];
+  resonable: ProductType[];
+};
+
+export type DataType = {
+  data: PlanListType;
 };
 
 const getData = (
   gender: number | null,
   age: number | null,
-): Promise<PlanListType> =>
+): Promise<DataType> =>
   axios.get(`http://127.0.0.1:8000/api/search/default/${age}/${gender}/`);
 
-export const PlanTaggedList = atom<PlanListType | undefined>({
+export const PlanTaggedList = atom<DataType | undefined>({
   key: 'PlanTaggedList',
   default: undefined,
 });
 
-export const PlanListSelector = selector<PlanListType | undefined>({
+export const PlanListSelector = selector<DataType | undefined>({
   key: 'PlanListSelector',
   get: async ({ get }) => {
     console.log('들어왔어요');
@@ -50,7 +54,7 @@ export const PlanListSelector = selector<PlanListType | undefined>({
     }
     try {
       const response = await getData(gender, age);
-      console.log(response);
+      console.log(response.data);
       return response;
     } catch (err) {
       console.log(err);
