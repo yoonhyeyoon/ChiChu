@@ -1,4 +1,4 @@
-import { selector } from 'recoil';
+import { atom, selector } from 'recoil';
 import customAxios from '../utils/customAxios';
 import { UserAge } from './UserAge';
 import { UserGender } from './UserGender';
@@ -27,7 +27,12 @@ const getData = (
   gender: number | null,
   age: number | null,
 ): Promise<PlanListType> =>
-  axios.get(`http://j6d206.p.ssafy.io/search/default/${age}/${gender}/`);
+  axios.get(`http://127.0.0.1:8000/api/search/default/${age}/${gender}/`);
+
+export const PlanTaggedList = atom<PlanListType | undefined>({
+  key: 'PlanTaggedList',
+  default: undefined,
+});
 
 export const PlanListSelector = selector<PlanListType | undefined>({
   key: 'PlanListSelector',
@@ -50,5 +55,8 @@ export const PlanListSelector = selector<PlanListType | undefined>({
     } catch (err) {
       console.log(err);
     }
+  },
+  set: ({ set }, newValue) => {
+    set(PlanTaggedList, newValue);
   },
 });

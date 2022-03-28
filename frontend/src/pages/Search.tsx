@@ -30,7 +30,7 @@ function Search() {
         </Stack>
         <DefaultInfo />
         <Button />
-        <PlanTags />
+        {/* <PlanTags /> */}
       </Box>
     </Container>
   );

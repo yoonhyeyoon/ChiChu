@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PlanTagType } from '../../../types/types';
 import sample from './sample.json';
+import planList from './list.json';
 import { PlanTagButton } from './styles';
 
 import Stack from '@mui/material/Stack';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { PlanListSelector } from '../../../recoil/PlanListSelector';
 
 type toggleList = string[];
 type PlanTagButtonType = {
@@ -13,10 +15,29 @@ type PlanTagButtonType = {
   setToggleList: React.Dispatch<React.SetStateAction<toggleList>>;
 };
 
+//더미 임시
+type ProductType = {
+  product_code: string;
+  product_name: string;
+  user_index: number;
+  company_code: string;
+  company_name: string;
+  subtype_code: string;
+  rate: number;
+  option_code: string[];
+  option_name: string[];
+};
+
+type PlanListType = {
+  인기순: Array<ProductType>;
+};
+//
+
 const Button = ({ plan_tag, toggleList, setToggleList }: PlanTagButtonType) => {
   const [toggle, setToggle] = useState(false);
-  const color = toggle ? 'blue' : 'grey';
-
+  const [planTaggedList, setPlanTaggedList] = useRecoilState(PlanListSelector);
+  const plans: PlanListType = planList;
+  console.log(planTaggedList);
   const onChangeColor = () => {
     if (toggleList.includes(plan_tag)) {
       // 없으면
@@ -28,7 +49,22 @@ const Button = ({ plan_tag, toggleList, setToggleList }: PlanTagButtonType) => {
       setToggle(!toggle);
     }
   };
-  // console.log(toggleList);
+
+  useEffect(() => {
+    console.log(toggleList);
+    // toggleList에 있는 tag만 포함된 planTaggedList로 filtering 반환
+    function checkTagged(el: any) {
+      if (el in toggleList) {
+        return true;
+      }
+    }
+
+    const newList = plans.인기순.filter(product =>
+      product.option_name.includes('임플란트'),
+    );
+    console.log(newList);
+  }, [toggleList]);
+
   return (
     <PlanTagButton
       // id={String(id)}
@@ -42,6 +78,7 @@ const Button = ({ plan_tag, toggleList, setToggleList }: PlanTagButtonType) => {
 
 function PlanTags() {
   const tagList: PlanTagType[] = sample;
+
   const [toggleList, setToggleList] = useState<toggleList>([]);
   return (
     <>
