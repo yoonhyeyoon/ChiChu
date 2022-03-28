@@ -3,55 +3,53 @@ import { DD_RIGHT, DD_LEFT } from './styles';
 
 type PropType = {
   option: {
-    OPTION_NAME: string;
-    'SUM(COVERAGE)': number;
+    NAME: string;
+    COVERAGE: string;
   }[];
 };
 
 export function OptionBoard(props: PropType) {
-  console.log(props.option);
-  console.log(typeof props.option);
-  let implant = 0;
-  let teulni = 0;
-  let bridge = 0;
+  let implant = '';
+  let teulni = '';
+  let bridge = '';
 
-  let legin = 0;
-  let crown = 0;
-  let amalgam = 0;
+  let legin = '';
+  let crown = '';
+  let amalgam = '';
 
-  let singyeong = 0;
+  let singyeong = '';
 
-  let itmom = 0;
-  let chizogol = 0;
-  let scaling = 0;
-  let goljeol = 0;
-  let x_ray = 0;
+  let itmom = '';
+  let chizogol = '';
+  let scaling = '';
+  let goljeol = '';
+  let x_ray = '';
 
   for (const item of props.option) {
-    if (item['OPTION_NAME'] == '레진') {
-      legin = item['SUM(COVERAGE)'];
-    } else if (item['OPTION_NAME'] == '크라운') {
-      crown = item['SUM(COVERAGE)'];
-    } else if (item['OPTION_NAME'] == '아말감') {
-      amalgam = item['SUM(COVERAGE)'];
-    } else if (item['OPTION_NAME'] == '임플란트') {
-      implant = item['SUM(COVERAGE)'];
-    } else if (item['OPTION_NAME'] == '틀니') {
-      teulni = item['SUM(COVERAGE)'];
-    } else if (item['OPTION_NAME'] == '브릿지') {
-      bridge = item['SUM(COVERAGE)'];
-    } else if (item['OPTION_NAME'] == '신경치료') {
-      singyeong = item['SUM(COVERAGE)'];
-    } else if (item['OPTION_NAME'] == '잇몸질환') {
-      itmom = item['SUM(COVERAGE)'];
-    } else if (item['OPTION_NAME'] == '치조골 이식수술') {
-      chizogol = item['SUM(COVERAGE)'];
-    } else if (item['OPTION_NAME'] == '스케일링') {
-      scaling = item['SUM(COVERAGE)'];
-    } else if (item['OPTION_NAME'] == '치아골절 진단비') {
-      goljeol = item['SUM(COVERAGE)'];
-    } else if (item['OPTION_NAME'] == 'X-RAY 촬영') {
-      x_ray = item['SUM(COVERAGE)'];
+    if (item['NAME'] == '레진') {
+      legin = item['COVERAGE'];
+    } else if (item['NAME'] == '크라운') {
+      crown = item['COVERAGE'];
+    } else if (item['NAME'] == '아말감') {
+      amalgam = item['COVERAGE'];
+    } else if (item['NAME'] == '임플란트') {
+      implant = item['COVERAGE'];
+    } else if (item['NAME'] == '틀니') {
+      teulni = item['COVERAGE'];
+    } else if (item['NAME'] == '브릿지') {
+      bridge = item['COVERAGE'];
+    } else if (item['NAME'] == '신경치료') {
+      singyeong = item['COVERAGE'];
+    } else if (item['NAME'] == '잇몸질환') {
+      itmom = item['COVERAGE'];
+    } else if (item['NAME'] == '치조골 이식수술') {
+      chizogol = item['COVERAGE'];
+    } else if (item['NAME'] == '스케일링') {
+      scaling = item['COVERAGE'];
+    } else if (item['NAME'] == '치아골절 진단비') {
+      goljeol = item['COVERAGE'];
+    } else if (item['NAME'] == 'X-RAY 촬영') {
+      x_ray = item['COVERAGE'];
     }
   }
 
@@ -83,7 +81,7 @@ export function OptionBoard(props: PropType) {
           <DD_RIGHT>{amalgam ? amalgam : '0원'}</DD_RIGHT>
         </dd>
         <dd>
-          <DD_LEFT>복합레진</DD_LEFT>
+          <DD_LEFT>레진</DD_LEFT>
           <DD_RIGHT>{legin ? legin : '0원'}</DD_RIGHT>
         </dd>
       </dl>
