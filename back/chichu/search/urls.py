@@ -11,5 +11,6 @@ urlpatterns = [
     # 세부보험 
     path('product/<str:product_code>/<int:age>/<str:gender>/<int:py>', views.product),
     # 보험 비교
-    path('compare/', views.compare),
+    # path('compare/', views.compare),
+    path('compare/<int:age>/<int:gender>/<int:py>/<str:codes>', views.compare)    
 ]
