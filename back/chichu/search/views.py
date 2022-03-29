@@ -501,76 +501,221 @@ def compare(request, age, gender, py, codes):
         p1 = codes[:6]
         p2 = codes[6:12]
         p3 = codes[12:]
+    print(p1)
+    print(p2)
+    print(p3)
 
     # 가져와야할 목록
-    # 1. 기본목록 p1 p2 p3의 각각 : product_code, company_name, company_code, 치츄지수, 상품지수, 유저지수,  
-    # 2. 치츄 목록
+    # 1. 회사, 치츄 목록 : product_code, company_name, company_code, total_index
     company_list = []
     list1 = []
+    list2 = []
+    list3 = []
 
     #DB에 접속
     conn = pymysql.connect( host= host, user = user, password = pw, db = db, charset="utf8")
-    # Connection 으로부터 Cursor 생성 > dictionary 형태로 만들기
     curs = conn.cursor(pymysql.cursors.DictCursor)
 
-    company_sql = f"""
-    SELECT DISTINCT A.PRODUCT_CODE AS product_code,
-    C.COMPANY_CODE as company_code,
-    C.COMPANY_NAME as company_name,
-    A.TOTAL_INDEX AS total_index 
-    
-    FROM PRODUCT_RATE A, 
-    PRODUCT B,
-    COMPANY C
+    if len(codes) == 18:
+        company_sql = f"""
+        SELECT DISTINCT A.PRODUCT_CODE AS product_code,
+        C.COMPANY_CODE as company_code,
+        C.COMPANY_NAME as company_name,
+        A.TOTAL_INDEX AS total_index 
+        
+        FROM PRODUCT_RATE A, 
+        PRODUCT B,
+        COMPANY C
 
-    WHERE AGE = {age}
-    AND GENDER = {gender}
-    AND PY = {py}
-    AND A.PRODUCT_CODE = B.PRODUCT_CODE
-    AND B.COMPANY_CODE = C.COMPANY_CODE 
-    AND A.PRODUCT_CODE IN ({p1}, {p2}, {p3})
-    """
+        WHERE AGE = {age}
+        AND GENDER = {gender}
+        AND PY = {py}
+        AND A.PRODUCT_CODE = B.PRODUCT_CODE
+        AND B.COMPANY_CODE = C.COMPANY_CODE 
+        AND A.PRODUCT_CODE IN ('{p1}', '{p2}', '{p3}')
+        """
 
-    list1_sql = f"""
-    SELECT * FROM
-            (SELECT A.OPTION_CODE, A.OPTION_NAME, A.OPTION_GROUP_CODE
-            FROM DB_OPTION A, PRODUCT_OPTION B
-            WHERE OPTION_GROUP_CODE = 'A9500' AND A.OPTION_CODE = B.OPTION_CODE
-            GROUP BY A.OPTION_CODE) A 
-        LEFT JOIN 
-            (SELECT A.PRODUCT_CODE, B.OPTION_CODE, B.COVERAGE 
-            FROM PRODUCT_RATE A, PRODUCT_OPTION B, DB_OPTION C
-            WHERE A.PRODUCT_CODE = B.PRODUCT_CODE 
-            AND B.OPTION_CODE = C.OPTION_CODE
-            AND C.OPTION_GROUP_CODE = 'A9500' 
-            ANDE AGE = {age}
-            AND GENDER = {gender}
-            AND PY = {py}
-            AND A.PRODUCT_CODE IN ({p1}, {p2}, {p3})
-        ORDER BY A.PRODUCT_CODE) B ON A.OPTION_CODE = B.OPTION_CODE
-    """
-    curs.execute(company_sql)
-    for row in curs:
-        company_list.append(row)
+        
+        # 2. 치아보철치료비(OPTION_GROUP_CODE : A9509) > PRODUCT_CODE, OPTION_NAME, COVERAGE 
+        list1_sql = f"""
+        SELECT E.OPTION_CODE as option_code, E.OPTION_NAME as option_name, GROUP_CONCAT(E.PRODUCT_CODE) as product_code, GROUP_CONCAT(E.COVERAGE) as coverage 
+        FROM (SELECT D.OPTION_CODE, D.OPTION_NAME, D.PRODUCT_CODE, SUM(D.COVERAGE) AS COVERAGE
+        FROM (SELECT A.PRODUCT_CODE, C.OPTION_NAME, B.OPTION_CODE, B.COVERAGE 
+        FROM PRODUCT_RATE A, PRODUCT_OPTION B, DB_OPTION C
+        WHERE A.PRODUCT_CODE = B.PRODUCT_CODE AND
+        B.OPTION_CODE = C.OPTION_CODE
+        AND C.OPTION_GROUP_CODE = 'A9509' 
+        AND A.PY = 10 AND A.GENDER = 2 AND A.AGE=30
+        AND A.PRODUCT_CODE IN ('{p1}', '{p2}', '{p3}')) D
+        GROUP BY D.OPTION_CODE, D.PRODUCT_CODE
+        ORDER BY D.OPTION_CODE) E 
+        GROUP BY E.OPTION_CODE
+        """
+        
+        # AND A.PRODUCT_CODE IN ('E10001', 'E10002', 'E10003')) D
+        
+        list2_sql = f"""
+        SELECT E.OPTION_CODE as option_code, E.OPTION_NAME as option_name, GROUP_CONCAT(E.PRODUCT_CODE) as product_code, GROUP_CONCAT(E.COVERAGE) as coverage 
+        FROM (SELECT D.OPTION_CODE, D.OPTION_NAME, D.PRODUCT_CODE, SUM(D.COVERAGE) AS COVERAGE
+        FROM (SELECT A.PRODUCT_CODE, C.OPTION_NAME, B.OPTION_CODE, B.COVERAGE 
+        FROM PRODUCT_RATE A, PRODUCT_OPTION B, DB_OPTION C
+        WHERE A.PRODUCT_CODE = B.PRODUCT_CODE AND
+        B.OPTION_CODE = C.OPTION_CODE
+        AND C.OPTION_GROUP_CODE = 'A9500' 
+        AND A.PY = 10 AND A.GENDER = 2 AND A.AGE=30
+        AND A.PRODUCT_CODE IN ('{p1}', '{p2}', '{p3}')) D
+        GROUP BY D.OPTION_CODE, D.PRODUCT_CODE
+        ORDER BY D.OPTION_CODE) E 
+        GROUP BY E.OPTION_CODE
+        """
+        list3_sql = f"""
+        SELECT E.OPTION_CODE as option_code, E.OPTION_NAME as option_name, GROUP_CONCAT(E.PRODUCT_CODE) as product_code, GROUP_CONCAT(E.COVERAGE) as coverage 
+        FROM (SELECT D.OPTION_CODE, D.OPTION_NAME, D.PRODUCT_CODE, SUM(D.COVERAGE) AS COVERAGE
+        FROM (SELECT A.PRODUCT_CODE, C.OPTION_NAME, B.OPTION_CODE, B.COVERAGE 
+        FROM PRODUCT_RATE A, PRODUCT_OPTION B, DB_OPTION C
+        WHERE A.PRODUCT_CODE = B.PRODUCT_CODE AND
+        B.OPTION_CODE = C.OPTION_CODE
+        AND C.OPTION_GROUP_CODE = 'A9508' 
+        AND A.PY = 10 AND A.GENDER = 2 AND A.AGE=30
+        AND A.PRODUCT_CODE IN ('{p1}', '{p2}', '{p3}')) D
+        GROUP BY D.OPTION_CODE, D.PRODUCT_CODE
+        ORDER BY D.OPTION_CODE) E 
+        GROUP BY E.OPTION_CODE
+        """
 
-    curs.execute(list1_sql)
-    for row in curs:
-        list1.append(row)
+        curs.execute(company_sql)
+        for row in curs:
+            company_list.append(row)
 
-    # db 접속 종료
-    curs.close()
-    conn.close()
+        curs.execute(list1_sql)
+        for row in curs:
+            row['product_code'] = row['product_code'].split(',')
+            row['coverage'] = row['coverage'].split(',')
+            list1.append(row)
 
-    data = {
-        'company': company_list,
-        'list1' : list1,
-
-    }
-    return Response(data)
-
-
-    # 2. 치아보철치료비(OPTION_GROUP_CODE : A9509) > PRODUCT_CODE, OPTION_NAME, COVERAGE 
+        curs.execute(list2_sql)
+        for row in curs:
+            row['product_code'] = row['product_code'].split(',')
+            row['coverage'] = row['coverage'].split(',')
+            list2.append(row)
 
 
-    # 3. 치아보전치료(OPTION_GROUP_CODE : A9500)
-    # 4. 치수치료비(OPTION_GROUP_CODE : 9508)
+        curs.execute(list3_sql)
+        for row in curs:
+            row['product_code'] = row['product_code'].split(',')
+            row['coverage'] = row['coverage'].split(',')
+            list3.append(row)
+
+        # db 접속 종료
+        curs.close()
+        conn.close()
+
+        data = {
+            'company': company_list,
+            '치아보철치료' : list1,
+            '치아보전치료' : list2,
+            '치수치료': list3
+        }
+        return Response(data)
+
+    else:
+        company_sql = f"""
+        SELECT DISTINCT A.PRODUCT_CODE AS product_code,
+        C.COMPANY_CODE as company_code,
+        C.COMPANY_NAME as company_name,
+        A.TOTAL_INDEX AS total_index 
+        
+        FROM PRODUCT_RATE A, 
+        PRODUCT B,
+        COMPANY C
+
+        WHERE AGE = {age}
+        AND GENDER = {gender}
+        AND PY = {py}
+        AND A.PRODUCT_CODE = B.PRODUCT_CODE
+        AND B.COMPANY_CODE = C.COMPANY_CODE 
+        AND A.PRODUCT_CODE IN ('{p1}', '{p2}')
+        """
+
+        
+        # 2. 치아보철치료비(OPTION_GROUP_CODE : A9509) > PRODUCT_CODE, OPTION_NAME, COVERAGE 
+        list1_sql = f"""
+        SELECT E.OPTION_CODE as option_code, E.OPTION_NAME as option_name, GROUP_CONCAT(E.PRODUCT_CODE) as product_code, GROUP_CONCAT(E.COVERAGE) as coverage 
+        FROM (SELECT D.OPTION_CODE, D.OPTION_NAME, D.PRODUCT_CODE, SUM(D.COVERAGE) AS COVERAGE
+        FROM (SELECT A.PRODUCT_CODE, C.OPTION_NAME, B.OPTION_CODE, B.COVERAGE 
+        FROM PRODUCT_RATE A, PRODUCT_OPTION B, DB_OPTION C
+        WHERE A.PRODUCT_CODE = B.PRODUCT_CODE AND
+        B.OPTION_CODE = C.OPTION_CODE
+        AND C.OPTION_GROUP_CODE = 'A9509' 
+        AND A.PY = 10 AND A.GENDER = 2 AND A.AGE=30
+        AND A.PRODUCT_CODE IN ('{p1}', '{p2}')) D
+        GROUP BY D.OPTION_CODE, D.PRODUCT_CODE
+        ORDER BY D.OPTION_CODE) E 
+        GROUP BY E.OPTION_CODE
+        """
+        
+        # AND A.PRODUCT_CODE IN ('E10001', 'E10002', 'E10003')) D
+        
+        list2_sql = f"""
+        SELECT E.OPTION_CODE as option_code, E.OPTION_NAME as option_name, GROUP_CONCAT(E.PRODUCT_CODE) as product_code, GROUP_CONCAT(E.COVERAGE) as coverage 
+        FROM (SELECT D.OPTION_CODE, D.OPTION_NAME, D.PRODUCT_CODE, SUM(D.COVERAGE) AS COVERAGE
+        FROM (SELECT A.PRODUCT_CODE, C.OPTION_NAME, B.OPTION_CODE, B.COVERAGE 
+        FROM PRODUCT_RATE A, PRODUCT_OPTION B, DB_OPTION C
+        WHERE A.PRODUCT_CODE = B.PRODUCT_CODE AND
+        B.OPTION_CODE = C.OPTION_CODE
+        AND C.OPTION_GROUP_CODE = 'A9500' 
+        AND A.PY = 10 AND A.GENDER = 2 AND A.AGE=30
+        AND A.PRODUCT_CODE IN ('{p1}', '{p2}')) D
+        GROUP BY D.OPTION_CODE, D.PRODUCT_CODE
+        ORDER BY D.OPTION_CODE) E 
+        GROUP BY E.OPTION_CODE
+        """
+        list3_sql = f"""
+        SELECT E.OPTION_CODE as option_code, E.OPTION_NAME as option_name, GROUP_CONCAT(E.PRODUCT_CODE) as product_code, GROUP_CONCAT(E.COVERAGE) as coverage 
+        FROM (SELECT D.OPTION_CODE, D.OPTION_NAME, D.PRODUCT_CODE, SUM(D.COVERAGE) AS COVERAGE
+        FROM (SELECT A.PRODUCT_CODE, C.OPTION_NAME, B.OPTION_CODE, B.COVERAGE 
+        FROM PRODUCT_RATE A, PRODUCT_OPTION B, DB_OPTION C
+        WHERE A.PRODUCT_CODE = B.PRODUCT_CODE AND
+        B.OPTION_CODE = C.OPTION_CODE
+        AND C.OPTION_GROUP_CODE = 'A9508' 
+        AND A.PY = 10 AND A.GENDER = 2 AND A.AGE=30
+        AND A.PRODUCT_CODE IN ('{p1}', '{p2}')) D
+        GROUP BY D.OPTION_CODE, D.PRODUCT_CODE
+        ORDER BY D.OPTION_CODE) E 
+        GROUP BY E.OPTION_CODE
+        """
+
+        curs.execute(company_sql)
+        for row in curs:
+            company_list.append(row)
+
+        curs.execute(list1_sql)
+        for row in curs:
+            row['product_code'] = row['product_code'].split(',')
+            row['coverage'] = row['coverage'].split(',')
+            list1.append(row)
+
+        curs.execute(list2_sql)
+        for row in curs:
+            row['product_code'] = row['product_code'].split(',')
+            row['coverage'] = row['coverage'].split(',')
+            list2.append(row)
+
+
+        curs.execute(list3_sql)
+        for row in curs:
+            row['product_code'] = row['product_code'].split(',')
+            row['coverage'] = row['coverage'].split(',')
+            list3.append(row)
+
+        # db 접속 종료
+        curs.close()
+        conn.close()
+
+        data = {
+            'company': company_list,
+            '치아보철치료' : list1,
+            '치아보전치료' : list2,
+            '치수치료': list3
+        }
+        return Response(data)     
