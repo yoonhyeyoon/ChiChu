@@ -491,7 +491,7 @@ def product(request, product_code, age, gender, py):
 
 # 4 - 보험비교
 @api_view(['GET'])
-def compare(request, age, gender, py, codes):
+def compare(request, age, gender, codes):
     # 비교할 상품의 갯수 (2개, 3개)
     if len(codes) == 12:
         p1 = codes[:6]
@@ -501,9 +501,7 @@ def compare(request, age, gender, py, codes):
         p1 = codes[:6]
         p2 = codes[6:12]
         p3 = codes[12:]
-    print(p1)
-    print(p2)
-    print(p3)
+
 
     # 가져와야할 목록
     # 1. 회사, 치츄 목록 : product_code, company_name, company_code, total_index
@@ -529,7 +527,6 @@ def compare(request, age, gender, py, codes):
 
         WHERE AGE = {age}
         AND GENDER = {gender}
-        AND PY = {py}
         AND A.PRODUCT_CODE = B.PRODUCT_CODE
         AND B.COMPANY_CODE = C.COMPANY_CODE 
         AND A.PRODUCT_CODE IN ('{p1}', '{p2}', '{p3}')
@@ -545,7 +542,8 @@ def compare(request, age, gender, py, codes):
         WHERE A.PRODUCT_CODE = B.PRODUCT_CODE AND
         B.OPTION_CODE = C.OPTION_CODE
         AND C.OPTION_GROUP_CODE = 'A9509' 
-        AND A.PY = 10 AND A.GENDER = 2 AND A.AGE=30
+        AND A.GENDER = {gender}
+        AND A.AGE= {age}
         AND A.PRODUCT_CODE IN ('{p1}', '{p2}', '{p3}')) D
         GROUP BY D.OPTION_CODE, D.PRODUCT_CODE
         ORDER BY D.OPTION_CODE) E 
@@ -562,7 +560,8 @@ def compare(request, age, gender, py, codes):
         WHERE A.PRODUCT_CODE = B.PRODUCT_CODE AND
         B.OPTION_CODE = C.OPTION_CODE
         AND C.OPTION_GROUP_CODE = 'A9500' 
-        AND A.PY = 10 AND A.GENDER = 2 AND A.AGE=30
+        AND A.GENDER = {gender} 
+        AND A.AGE={age}
         AND A.PRODUCT_CODE IN ('{p1}', '{p2}', '{p3}')) D
         GROUP BY D.OPTION_CODE, D.PRODUCT_CODE
         ORDER BY D.OPTION_CODE) E 
@@ -576,7 +575,7 @@ def compare(request, age, gender, py, codes):
         WHERE A.PRODUCT_CODE = B.PRODUCT_CODE AND
         B.OPTION_CODE = C.OPTION_CODE
         AND C.OPTION_GROUP_CODE = 'A9508' 
-        AND A.PY = 10 AND A.GENDER = 2 AND A.AGE=30
+        AND A.GENDER = {gender} AND A.AGE= {age}
         AND A.PRODUCT_CODE IN ('{p1}', '{p2}', '{p3}')) D
         GROUP BY D.OPTION_CODE, D.PRODUCT_CODE
         ORDER BY D.OPTION_CODE) E 
@@ -619,6 +618,7 @@ def compare(request, age, gender, py, codes):
         return Response(data)
 
     else:
+        # 회사, 치츄 지수 
         company_sql = f"""
         SELECT DISTINCT A.PRODUCT_CODE AS product_code,
         C.COMPANY_CODE as company_code,
@@ -631,14 +631,13 @@ def compare(request, age, gender, py, codes):
 
         WHERE AGE = {age}
         AND GENDER = {gender}
-        AND PY = {py}
         AND A.PRODUCT_CODE = B.PRODUCT_CODE
         AND B.COMPANY_CODE = C.COMPANY_CODE 
         AND A.PRODUCT_CODE IN ('{p1}', '{p2}')
         """
 
         
-        # 2. 치아보철치료비(OPTION_GROUP_CODE : A9509) > PRODUCT_CODE, OPTION_NAME, COVERAGE 
+        # 2. 치아보철치료비
         list1_sql = f"""
         SELECT E.OPTION_CODE as option_code, E.OPTION_NAME as option_name, GROUP_CONCAT(E.PRODUCT_CODE) as product_code, GROUP_CONCAT(E.COVERAGE) as coverage 
         FROM (SELECT D.OPTION_CODE, D.OPTION_NAME, D.PRODUCT_CODE, SUM(D.COVERAGE) AS COVERAGE
@@ -647,14 +646,13 @@ def compare(request, age, gender, py, codes):
         WHERE A.PRODUCT_CODE = B.PRODUCT_CODE AND
         B.OPTION_CODE = C.OPTION_CODE
         AND C.OPTION_GROUP_CODE = 'A9509' 
-        AND A.PY = 10 AND A.GENDER = 2 AND A.AGE=30
+        AND A.GENDER = {gender}
+        AND A.AGE= {age}
         AND A.PRODUCT_CODE IN ('{p1}', '{p2}')) D
         GROUP BY D.OPTION_CODE, D.PRODUCT_CODE
         ORDER BY D.OPTION_CODE) E 
         GROUP BY E.OPTION_CODE
         """
-        
-        # AND A.PRODUCT_CODE IN ('E10001', 'E10002', 'E10003')) D
         
         list2_sql = f"""
         SELECT E.OPTION_CODE as option_code, E.OPTION_NAME as option_name, GROUP_CONCAT(E.PRODUCT_CODE) as product_code, GROUP_CONCAT(E.COVERAGE) as coverage 
@@ -664,12 +662,14 @@ def compare(request, age, gender, py, codes):
         WHERE A.PRODUCT_CODE = B.PRODUCT_CODE AND
         B.OPTION_CODE = C.OPTION_CODE
         AND C.OPTION_GROUP_CODE = 'A9500' 
-        AND A.PY = 10 AND A.GENDER = 2 AND A.AGE=30
+        AND A.GENDER = {gender} 
+        AND A.AGE={age}
         AND A.PRODUCT_CODE IN ('{p1}', '{p2}')) D
         GROUP BY D.OPTION_CODE, D.PRODUCT_CODE
         ORDER BY D.OPTION_CODE) E 
         GROUP BY E.OPTION_CODE
         """
+
         list3_sql = f"""
         SELECT E.OPTION_CODE as option_code, E.OPTION_NAME as option_name, GROUP_CONCAT(E.PRODUCT_CODE) as product_code, GROUP_CONCAT(E.COVERAGE) as coverage 
         FROM (SELECT D.OPTION_CODE, D.OPTION_NAME, D.PRODUCT_CODE, SUM(D.COVERAGE) AS COVERAGE
@@ -678,7 +678,7 @@ def compare(request, age, gender, py, codes):
         WHERE A.PRODUCT_CODE = B.PRODUCT_CODE AND
         B.OPTION_CODE = C.OPTION_CODE
         AND C.OPTION_GROUP_CODE = 'A9508' 
-        AND A.PY = 10 AND A.GENDER = 2 AND A.AGE=30
+        AND A.GENDER = {gender} AND A.AGE= {age}
         AND A.PRODUCT_CODE IN ('{p1}', '{p2}')) D
         GROUP BY D.OPTION_CODE, D.PRODUCT_CODE
         ORDER BY D.OPTION_CODE) E 
