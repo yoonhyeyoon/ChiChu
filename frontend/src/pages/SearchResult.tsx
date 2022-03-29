@@ -12,7 +12,7 @@ import { planListState } from '../recoil/searchResultState';
 import PlanTags from '../components/SearchResult/PlanTags';
 import PlanRateRange from '../components/SearchResult/PlanRateRange';
 import { PlanFilteredList } from '../recoil/PlanFilteredList';
-import SecondarySearch from '../components/SearchResult/SecondarySearch';
+import SecondarySearch from '../components/SearchResult/SecondarySearchModal';
 
 function SearchResult(): JSX.Element {
   const planList = useRecoilValue<PlanPreviewType[]>(planListState);

@@ -5,10 +5,12 @@ import { UserGender } from './UserGender';
 import axios from 'axios';
 import { PlanDataType, PlanListType, ProductType } from '../types/types';
 import { PlanFilteredList } from './PlanFilteredList';
+import { UserPeriod } from './UserPeriod';
 
 const getData = (
   gender: number | null,
   age: number | null,
+  period: number | null,
 ): Promise<PlanDataType> =>
   axios.get(`http://127.0.0.1:8000/api/search/default/${age}/${gender}/`);
 
@@ -20,16 +22,17 @@ export const PlanListSelector = selector<
     console.log('들어왔어요');
     const gender = get(UserGender);
     const age = get(UserAge);
+    const period = get(UserPeriod);
     if (
       !gender ||
       !age
       // window.location.pathname != 'http://localhost:3000/search/result'
     ) {
-      console.log(gender, age);
+      console.log(gender, age, period);
       return undefined;
     }
     try {
-      const response = await getData(gender, age);
+      const response = await getData(gender, age, period);
       console.log(response.data);
       return response.data;
     } catch (err) {

@@ -22,7 +22,8 @@ function Button() {
   console.log(userAge, userGender);
 
   const handleClick = () => {
-    navigate('result', { replace: false });
+    // navigate('result', { replace: false });
+    location.href = 'http://localhost:3000/search/result';
   };
   return (
     <Stack spacing={2} direction="row">

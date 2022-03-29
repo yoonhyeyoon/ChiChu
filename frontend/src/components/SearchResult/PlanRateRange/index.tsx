@@ -62,7 +62,7 @@ export default function PlanRateRange() {
   return (
     <Box
       sx={{
-        width: 400,
+        width: 500,
         margin: '0 auto',
         paddingTop: 6.5,
       }}
