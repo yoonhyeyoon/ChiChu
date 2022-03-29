@@ -3,42 +3,18 @@ import customAxios from '../utils/customAxios';
 import { UserAge } from './UserAge';
 import { UserGender } from './UserGender';
 import axios from 'axios';
-
-export type ProductType = {
-  product_code: string;
-  product_name: string;
-  company_code: number;
-  company_name: string;
-  subtype_code: number;
-  rate: number;
-  option_code: string;
-  option_name: string;
-};
-
-export type PlanListType = {
-  cheap: ProductType[];
-  chichu: ProductType[];
-  coverage: ProductType[];
-  popular: ProductType[];
-  resonable: ProductType[];
-};
-
-export type DataType = {
-  data: PlanListType;
-};
+import { PlanDataType, PlanListType, ProductType } from '../types/types';
+import { PlanFilteredList } from './PlanFilteredList';
 
 const getData = (
   gender: number | null,
   age: number | null,
-): Promise<DataType> =>
+): Promise<PlanDataType> =>
   axios.get(`http://127.0.0.1:8000/api/search/default/${age}/${gender}/`);
 
-export const PlanTaggedList = atom<DataType | undefined>({
-  key: 'PlanTaggedList',
-  default: undefined,
-});
-
-export const PlanListSelector = selector<DataType | undefined>({
+export const PlanListSelector = selector<
+  PlanDataType | undefined | PlanListType
+>({
   key: 'PlanListSelector',
   get: async ({ get }) => {
     console.log('들어왔어요');
@@ -55,12 +31,13 @@ export const PlanListSelector = selector<DataType | undefined>({
     try {
       const response = await getData(gender, age);
       console.log(response.data);
-      return response;
+      return response.data;
     } catch (err) {
       console.log(err);
     }
   },
   set: ({ set }, newValue) => {
-    set(PlanTaggedList, newValue);
+    set(PlanFilteredList, newValue);
+    console.log('set에 들어어어어왔어');
   },
 });
