@@ -28,16 +28,28 @@ type PropType = {
   }[];
 };
 
-// 프론트에서 값 없으면 분기처리
-
 export function RadarChart(props: PropType) {
   const values = Object.values(props);
   const label_arr = [];
   const data_arr = [];
-
   for (const item of values[0]) {
     label_arr.push(item['NAME']);
     data_arr.push(item['RATE']);
+  }
+  // 담보 값 없으면 분기처리
+  if (values.length < 3) {
+    if (!label_arr.includes('치아보존치료비')) {
+      label_arr.push('치아보존치료비');
+      data_arr.push(0);
+    }
+    if (!label_arr.includes('치아신경치료비')) {
+      label_arr.push('치아신경치료비');
+      data_arr.push(0);
+    }
+    if (!label_arr.includes('치아보철치료비')) {
+      label_arr.push('치아보철치료비');
+      data_arr.push(0);
+    }
   }
 
   const data = {

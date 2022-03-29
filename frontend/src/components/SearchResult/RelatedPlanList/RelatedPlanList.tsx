@@ -4,8 +4,8 @@ import { useState } from 'react';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 
-import { PlanPreviewType } from '../../../types/types';
 import Card from '../PlanCard';
+import { ProductType } from '../../../types/types';
 
 const responsiveStyle = {
   superLargeDesktop: {
@@ -27,7 +27,7 @@ const responsiveStyle = {
   },
 };
 
-function RelatedPlanList({ list }: { list: PlanPreviewType[] }) {
+function RelatedPlanList({ list }: { list: ProductType[] }) {
   const [playing, setPlaying] = useState(true);
   const [moving, setMoving] = useState(false);
 
@@ -62,15 +62,7 @@ function RelatedPlanList({ list }: { list: PlanPreviewType[] }) {
         itemClass="carousel-item-padding-40-px"
       >
         {list.map(content => (
-          <Card
-            logo_img={content.logo_img}
-            brand_name={content.brand_name}
-            plan_name={content.plan_name}
-            plan_type={content.plan_type}
-            plan_cost={content.plan_cost}
-            plan_score={content.plan_score}
-            moving={moving}
-          />
+          <Card content={{ ...content, moving }} />
         ))}
       </Carousel>
     </div>

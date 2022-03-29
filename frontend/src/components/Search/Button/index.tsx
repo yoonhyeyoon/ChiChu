@@ -9,7 +9,7 @@ import { styled } from '@mui/system';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { UserGender } from '../../../recoil/UserGender';
 import { UserAge } from '../../../recoil/UserAge';
-import { CustomButtonRoot } from './styles';
+import { CustomButtonRoot } from '../../Common/Button/styles';
 
 function CustomButton(props: ButtonUnstyledProps) {
   return <ButtonUnstyled {...props} component={CustomButtonRoot} />;
