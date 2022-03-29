@@ -29,6 +29,7 @@ export type ProductType = {
   rate: number;
   option_code: string[];
   option_name: string[];
+  moving?: boolean;
 };
 
 export type PlanListType = {

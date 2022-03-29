@@ -5,23 +5,24 @@ import Container from '@mui/material/Container';
 
 import PlanBarList from '../components/SearchResult/PlanBarList/index';
 import PlanCardList from '../components/SearchResult/PlanCardList/index';
-import RelatedPlanList from '../components/SearchResult/RelatedPlanList/RelatedPlanList';
-import SortButton from '../components/SearchResult/SortButton';
-import { PlanPreviewType } from '../types/types';
-import { planListState } from '../recoil/searchResultState';
-import PlanTags from '../components/SearchResult/PlanTags';
 import PlanRateRange from '../components/SearchResult/PlanRateRange';
-import { PlanFilteredList } from '../recoil/PlanFilteredList';
+import PlanTags from '../components/SearchResult/PlanTags';
+import RelatedPlanList from '../components/SearchResult/RelatedPlanList/RelatedPlanList';
 import SecondarySearch from '../components/SearchResult/SecondarySearch';
+import SortButton from '../components/SearchResult/SortButton';
+import { PlanFilteredList } from '../recoil/PlanFilteredList';
+import { PlanListType, ProductType } from '../types/types';
 
 function SearchResult(): JSX.Element {
-  const planList = useRecoilValue<PlanPreviewType[]>(planListState);
+  // as 를 쓰면 타입을 강제로 선언할 수 있음.
+  const planList = useRecoilValue(PlanFilteredList)?.popular as ProductType[];
   const [showMore, setShowMore] = useState(false);
   const plans = useRecoilValue(PlanFilteredList);
   if (plans) {
     console.log(plans.popular.slice(1, 2));
   }
 
+  // Suspense는 같은 컴포넌트에서 써도 효과 있음.
   return (
     <>
       <Suspense fallback={<div>Loading...</div>}>
@@ -39,7 +40,8 @@ function SearchResult(): JSX.Element {
             <PlanRateRange />
             <SortButton />
 
-            <PlanCardList list={planList.slice(0, 3)} />
+            {/* 오류 회피를 위해, planList가 있을 때만 렌더링 */}
+            {planList && <PlanCardList list={planList.slice(0, 3)} />}
 
             <Box textAlign="center">
               <Button onClick={() => setShowMore(cur => !cur)}>
@@ -47,7 +49,7 @@ function SearchResult(): JSX.Element {
               </Button>
             </Box>
 
-            {showMore && (
+            {/* {showMore && (
               <>
                 <PlanBarList list={planList.slice(4)} />
                 <h2>아직 잘 모르시겠다면 추천해드릴게요!</h2>
@@ -56,7 +58,7 @@ function SearchResult(): JSX.Element {
                 <h3>가성비가 좋아요!</h3>
                 <RelatedPlanList list={planList} />
               </>
-            )}
+            )} */}
           </Box>
         </Container>
       </Suspense>
