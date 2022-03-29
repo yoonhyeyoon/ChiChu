@@ -9,7 +9,7 @@ import SortButton from '../components/SearchResult/SortButton';
 import { PlanPreviewType } from '../types/types';
 import { planListState } from '../recoil/searchResultState';
 import PlanTags from '../components/SearchResult/PlanTags';
-import PlanMoneyRange from '../components/SearchResult/PlanMoneyRange';
+import PlanRateRange from '../components/SearchResult/PlanRateRange';
 
 function SearchResult(): JSX.Element {
   const planList = useRecoilValue<PlanPreviewType[]>(planListState);
@@ -19,7 +19,7 @@ function SearchResult(): JSX.Element {
     <>
       <Suspense fallback={<div>Loading...</div>}>
         <PlanTags />
-        <PlanMoneyRange />
+        <PlanRateRange />
         <SortButton />
 
         <PlanCardList list={planList.slice(0, 3)} />
