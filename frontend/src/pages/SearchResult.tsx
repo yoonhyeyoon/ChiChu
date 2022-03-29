@@ -1,5 +1,5 @@
 import { Suspense, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { Box, Button } from '@mui/material';
 import Container from '@mui/material/Container';
 
@@ -12,16 +12,14 @@ import SecondarySearchModal from '../components/SearchResult/SecondarySearchModa
 import SortButton from '../components/SearchResult/SortButton';
 import { PlanFilteredList } from '../recoil/PlanFilteredList';
 import { PlanListType, ProductType } from '../types/types';
+import { UserPeriod } from '../recoil/UserPeriod';
 
 function SearchResult(): JSX.Element {
   // as 를 쓰면 타입을 강제로 선언할 수 있음.
   const planList = useRecoilValue(PlanFilteredList)?.popular as ProductType[];
   const [showMore, setShowMore] = useState(false);
-  const plans = useRecoilValue(PlanFilteredList);
-  if (plans) {
-    console.log(plans.popular.slice(1, 2));
-  }
-
+  const [userPeriod, setUserPeriod] = useRecoilState(UserPeriod);
+  console.log(userPeriod);
   // Suspense는 같은 컴포넌트에서 써도 효과 있음.
   return (
     <>

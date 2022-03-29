@@ -41,14 +41,11 @@ export default function PlanRateRange() {
 
     if (planFilteredList) {
       const newDict: PlanListType = { ...planFilteredList };
-      ['cheap', 'chichu', 'coverage', 'popular', 'reasonable'].forEach(
-        planType => {
-          newDict[planType] = planFilteredList.cheap.filter(
-            product =>
-              product.rate >= planRate[0] && product.rate <= planRate[1],
-          );
-        },
-      );
+      ['cheap', 'chichu', 'coverage'].forEach(planType => {
+        newDict[planType] = planFilteredList.cheap.filter(
+          product => product.rate >= planRate[0] && product.rate <= planRate[1],
+        );
+      });
       // console.log(planFilteredList, newDict);
       setPlanFilteredList(newDict);
     }
@@ -58,7 +55,7 @@ export default function PlanRateRange() {
   const handleChange = (event: Event, newValue: number | number[]) => {
     setPlanRate(newValue as number[]);
   };
-  console.log(maxRate);
+  // console.log(maxRate);
   return (
     <Box
       sx={{

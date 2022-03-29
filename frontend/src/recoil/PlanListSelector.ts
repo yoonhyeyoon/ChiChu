@@ -12,7 +12,9 @@ const getData = (
   age: number | null,
   period: number | null,
 ): Promise<PlanDataType> =>
-  axios.get(`http://127.0.0.1:8000/api/search/default/${age}/${gender}/`);
+  axios.get(
+    `http://127.0.0.1:8000/api/search/detail/${age}/${gender}/${period}`,
+  );
 
 export const PlanListSelector = selector<
   PlanDataType | undefined | PlanListType

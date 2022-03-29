@@ -21,9 +21,9 @@ const Button = ({ plan_tag, toggleList, setToggleList }: PlanTagButtonType) => {
   const [planFilteredList, setPlanFilteredList] =
     useRecoilState(PlanListSelector);
   // atom으로 따로 불러와야함
-  const plans = useRecoilValue(PlanFilteredList);
+  // const plans = useRecoilValue(PlanFilteredList);
   // const plans: PlanListType = planList;
-  console.log(plans?.cheap);
+  // console.log(plans?.cheap);
   const onChangeColor = () => {
     if (toggleList.includes(plan_tag)) {
       // 없으면
@@ -53,7 +53,8 @@ const Button = ({ plan_tag, toggleList, setToggleList }: PlanTagButtonType) => {
       }
     }
 
-    if (planFilteredList) {
+    if (planFilteredList && toggleList.length) {
+      console.log(toggleList);
       const newDict: PlanListType = { ...planFilteredList };
       newDict['cheap'] = planFilteredList.cheap.filter(product =>
         product.option_name.some(checkTagged),
@@ -64,16 +65,16 @@ const Button = ({ plan_tag, toggleList, setToggleList }: PlanTagButtonType) => {
       newDict['chichu'] = planFilteredList.chichu.filter(product =>
         product.option_name.some(checkTagged),
       );
-      newDict['popular'] = planFilteredList.popular.filter(product =>
-        product.option_name.some(checkTagged),
-      );
+      // newDict['popular'] = planFilteredList.popular.filter(product =>
+      //   product.option_name.some(checkTagged),
+      // );
       newDict['coverage'] = planFilteredList.coverage.filter(product =>
         product.option_name.some(checkTagged),
       );
-      newDict['reasonable'] = planFilteredList.reasonable.filter(product =>
-        product.option_name.some(checkTagged),
-      );
-      // console.log(planFilteredList, newDict);
+      // newDict['reasonable'] = planFilteredList.reasonable.filter(product =>
+      //   product.option_name.some(checkTagged),
+      // );
+      console.log(planFilteredList, newDict);
       setPlanFilteredList(newDict);
     }
   }, [toggleList]);
