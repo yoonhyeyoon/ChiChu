@@ -13,6 +13,11 @@ function createData(
   fat: number,
   carbs: number,
   protein: number,
+  // company_index: number,
+  // not_give: number,
+  // complaints: number,
+  // carbs: number,
+  // protein: number,
 ) {
   return { name, calories, fat, carbs, protein };
 }

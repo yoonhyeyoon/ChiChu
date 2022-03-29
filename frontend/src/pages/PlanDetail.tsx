@@ -80,7 +80,6 @@ function PlanDetail() {
       .then(res => {
         setInfo(res.data);
         console.log(res.data);
-        // setLoading(false);
       })
       .catch(err => {
         console.log(err);
@@ -157,11 +156,11 @@ function PlanDetail() {
           </Container>
           <div>
             <RightBox
-              gender={info.base[0]['GENDER']}
-              age={info.base[0]['AGE']}
+              gender={userGender ? userGender : 0}
+              age={userAge ? userAge : 0}
               rate={info.base[0]['RATE']}
               py={info.base[0]['PY']}
-              link={'link'}
+              link={info.base[0]['PRODUCT_LINK']}
             ></RightBox>
           </div>
         </Board>
