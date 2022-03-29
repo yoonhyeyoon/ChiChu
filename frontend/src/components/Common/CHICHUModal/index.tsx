@@ -3,32 +3,27 @@ import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
+import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Search from '../../../pages/Search';
 import SecondarySearch from '../../../pages/SecondarySearch';
+import { styledModal } from './styles';
 
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  // width: 400,
-  bgcolor: 'background.paper',
-  // border: '2px solid #000',
-  borderRadius: '30px',
-  boxShadow: 24,
-  p: 4,
-};
-
-function SecondarySearchModal() {
+function CHICHUModal({
+  icon,
+  element,
+}: {
+  icon: JSX.Element;
+  element: JSX.Element;
+}) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   return (
     <div>
-      <Button onClick={handleOpen}>Open modal</Button>
+      <IconButton onClick={handleOpen}>{icon}</IconButton>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -41,13 +36,11 @@ function SecondarySearchModal() {
         }}
       >
         <Fade in={open}>
-          <Box sx={style}>
-            <SecondarySearch />
-          </Box>
+          <Box sx={styledModal}>{element}</Box>
         </Fade>
       </Modal>
     </div>
   );
 }
 
-export default SecondarySearchModal;
+export default CHICHUModal;

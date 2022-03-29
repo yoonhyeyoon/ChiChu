@@ -2,17 +2,19 @@ import { Suspense, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { Box, Button } from '@mui/material';
 import Container from '@mui/material/Container';
-
 import PlanBarList from '../components/SearchResult/PlanBarList/index';
 import PlanCardList from '../components/SearchResult/PlanCardList/index';
 import PlanRateRange from '../components/SearchResult/PlanRateRange';
 import PlanTags from '../components/SearchResult/PlanTags';
 import RelatedPlanList from '../components/SearchResult/RelatedPlanList/RelatedPlanList';
-import SecondarySearchModal from '../components/SearchResult/SecondarySearchModal';
+import CHICHUModal from '../components/Common/CHICHUModal';
 import SortButton from '../components/SearchResult/SortButton';
 import { PlanFilteredList } from '../recoil/PlanFilteredList';
 import { PlanListType, ProductType } from '../types/types';
 import { UserPeriod } from '../recoil/UserPeriod';
+import BasicTable from '../components/PlanDetail/Modal/CompanyIndexModal/BasicTable';
+import SecondarySearch from './SecondarySearch';
+import AddAlarmIcon from '@mui/icons-material/AddAlarm';
 
 function SearchResult(): JSX.Element {
   // as 를 쓰면 타입을 강제로 선언할 수 있음.
@@ -33,7 +35,11 @@ function SearchResult(): JSX.Element {
               // alignItems: 'center',
             }}
           >
-            <SecondarySearchModal />
+            <CHICHUModal
+              icon={<AddAlarmIcon />}
+              element={<SecondarySearch />}
+            />
+            {/* <SecondarySearchModal /> */}
             <PlanTags />
             <PlanRateRange />
             <SortButton />

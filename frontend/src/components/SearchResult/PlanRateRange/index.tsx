@@ -42,8 +42,9 @@ export default function PlanRateRange() {
     if (planFilteredList) {
       const newDict: PlanListType = { ...planFilteredList };
       ['cheap', 'chichu', 'coverage'].forEach(planType => {
-        newDict[planType] = planFilteredList.cheap.filter(
-          product => product.rate >= planRate[0] && product.rate <= planRate[1],
+        newDict[planType] = planFilteredList[planType].filter(
+          (product: { rate: number }) =>
+            product.rate >= planRate[0] && product.rate <= planRate[1],
         );
       });
       // console.log(planFilteredList, newDict);
