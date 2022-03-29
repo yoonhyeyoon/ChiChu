@@ -8,22 +8,24 @@ import {
   Paper,
 } from '@mui/material';
 
+import TableHeader from '../components/PlanComparison/TableHeader';
 import TableRowGroup from '../components/PlanComparison/TableRowGroup';
+import {
+  ComparisonTableType,
+  ComparisonTableCompanyType,
+} from '../types/types';
 import sampleList from '../components/PlanComparison/sampleList.json';
-import { ComparisonTableType } from '../types/types';
+import sampleCompany from '../components/PlanComparison/sampleCompany.json';
 
 const sample: ComparisonTableType = sampleList;
+const companies: ComparisonTableCompanyType[] = sampleCompany.company;
 
 function PlanComparison() {
   return (
     <TableContainer component={Paper}>
       <Table stickyHeader sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
-          <TableRow>
-            <TableCell align="center">VS</TableCell>
-            <TableCell align="center">[교] 교보생명, 튼튼치아</TableCell>
-            <TableCell align="center">[삼] 삼성생명, 건강치아</TableCell>
-          </TableRow>
+          <TableHeader companies={companies} />
         </TableHead>
         <TableBody>
           <TableRow>

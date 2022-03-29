@@ -13,6 +13,13 @@ export type ComparisonTableRowType = {
   coverage: string[];
 };
 
+export type ComparisonTableCompanyType = {
+  product_code: string;
+  company_code: string;
+  company_name: string;
+  total_index: number;
+};
+
 export type ComparisonTableType = {
   치아보철치료비?: ComparisonTableRowType[];
   치아보존치료비?: ComparisonTableRowType[];
