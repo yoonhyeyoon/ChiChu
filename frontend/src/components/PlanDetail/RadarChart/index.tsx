@@ -19,13 +19,33 @@ ChartJS.register(
   Tooltip,
   Legend,
 );
-export function RadarChart() {
+
+type PropType = {
+  option_group: {
+    NAME: string;
+    COVERAGE: number;
+    RATE: number;
+  }[];
+};
+
+// 프론트에서 값 없으면 분기처리
+
+export function RadarChart(props: PropType) {
+  const values = Object.values(props);
+  const label_arr = [];
+  const data_arr = [];
+
+  for (const item of values[0]) {
+    label_arr.push(item['NAME']);
+    data_arr.push(item['RATE']);
+  }
+
   const data = {
-    labels: ['Thing 1', 'Thing 2', 'Thing 3', 'Thing 4', 'Thing 5', 'Thing 6'],
+    labels: label_arr,
     datasets: [
       {
         label: '# of Votes',
-        data: [2, 9, 3, 5, 2, 3],
+        data: data_arr,
         backgroundColor: 'rgba(255, 99, 132, 0.2)',
         borderColor: 'rgba(255, 99, 132, 1)',
         borderWidth: 1,

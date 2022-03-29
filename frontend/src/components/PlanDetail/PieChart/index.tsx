@@ -7,7 +7,7 @@ import { Container } from './styles';
 type PropType = {
   age_rate: {
     AGE_CAT: number;
-    RATE: string;
+    RATE: number;
   }[];
 };
 
@@ -18,19 +18,16 @@ export function PieChart(props: PropType) {
   const data_arr = [];
 
   for (const item of values[0]) {
-    console.log(item);
     label_arr.push(item['AGE_CAT']);
     data_arr.push(item['RATE']);
   }
-  console.log(label_arr, data_arr);
 
   const data = {
     labels: label_arr,
     datasets: [
       {
         label: '# of Votes',
-        // data: data_arr,
-        data: [30.5, 20, 39.5, 10],
+        data: data_arr,
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
           'rgba(54, 162, 235, 0.2)',

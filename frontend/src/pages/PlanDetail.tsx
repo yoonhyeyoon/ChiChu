@@ -20,7 +20,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import axios from 'axios';
 
-const info = DetailSample;
+// const info = DetailSample;
 
 interface CustomState {
   [x: string]: any;
@@ -29,27 +29,30 @@ interface CustomState {
   };
 }
 
-// type InfoType = {
-//   age_rage: Array<{ AGE_CAT: number; RATE: string }>;
-//   base: Array<{
-//     AGE: number;
-//     COMPANY_CODE: string;
-//     COMPANY_INDEX: number;
-//     COMPANY_NAME: string;
-//     GENDER: string;
-//     PRODUCT_CODE: string;
-//     PRODUCT_INDEX: number;
-//     PRODUCT_NAME: string;
-//     PY: number;
-//     RATE: number;
-//     TOTAL_INDEX: number;
-//     USER_INDEX: number;
-//   }>;
-//   option: Array<{ NAME: string; COVERAGE: string }>;
-//   option_column: Array<{ ID: string; OPTION_NAME: string }>;
-//   option_detail: Array<{ NAME: string; COVERAGE: string }>;
-//   option_group: Array<{ NAME: string; COVERAGE: string }>;
-// };
+type InfoType = {
+  age_rage: { AGE_CAT: number; RATE: string }[];
+  base: {
+    AGE: number;
+    COMPANY_CODE: string;
+    COMPANY_INDEX: number;
+    COMPANY_NAME: string;
+    GENDER: string;
+    PRODUCT_CODE: string;
+    PRODUCT_INDEX: number;
+    PRODUCT_NAME: string;
+    PY: number;
+    RATE: number;
+    TOTAL_INDEX: number;
+    USER_INDEX: number;
+  };
+  option: {
+    NAME: string;
+    COVERAGE: string;
+  }[];
+  option_column: { ID: string; OPTION_NAME: string }[];
+  option_detail: { NAME: string; COVERAGE: string }[];
+  option_group: { NAME: string; COVERAGE: number; RATE: number }[];
+};
 
 function PlanDetail() {
   const location = useLocation();
@@ -61,14 +64,7 @@ function PlanDetail() {
   const [loading, setLoading] = useState(true);
   const [showMore, setShowMore] = useState(false);
 
-  // const [info, setInfo] = useState<InfoType>({
-  //   age_rage: [],
-  //   base: [],
-  //   option: [],
-  //   option_column: [],
-  //   option_detail: [],
-  //   option_group: [],
-  // });
+  const [info, setInfo] = useState<InfoType | null>(null);
 
   const getProductInfo = () => {
     const credentials = {
@@ -82,9 +78,9 @@ function PlanDetail() {
         `/product/${credentials.product_code}/${credentials.age}/${credentials.gender}/${credentials.py}`,
       )
       .then(res => {
+        setInfo(res.data);
         console.log(res.data);
-        // setInfo(res.data);
-        setLoading(false);
+        // setLoading(false);
       })
       .catch(err => {
         console.log(err);
@@ -94,21 +90,19 @@ function PlanDetail() {
   useEffect(() => {
     console.log(userAge, userGender, state.product_code);
     getProductInfo();
-    // console.log(info);
   }, []);
 
-  // 안들어왔을 때는 로딩 떠있도록.
-  // if (!info) {
-  //   return (
-  //     <div>
-  //       <span>Loading...</span>
-  //     </div>
-  //   );
-  // }
-  return (
-    <div>
-      <Suspense fallback={<div>Loading...</div>}>
-        {loading === false ? (
+  //안들어왔을 때는 로딩 떠있도록.
+  if (!info) {
+    return (
+      <div>
+        <span>Loading...</span>
+      </div>
+    );
+  } else {
+    return (
+      <div>
+        <Suspense fallback={<div>Loading...</div>}>
           <div>
             <Container maxWidth="md">
               <Box sx={{ textAlign: 'left', maxWidth: '70vw' }}>
@@ -160,17 +154,13 @@ function PlanDetail() {
               <br />
               <PieChart age_rate={info['age_rate']} />
               <br />
-              <RadarChart />
+              <RadarChart option_group={info['option_group']} />
             </Container>
           </div>
-        ) : (
-          <div>
-            <span>Loading...</span>
-          </div>
-        )}
-      </Suspense>
-    </div>
-  );
+        </Suspense>
+      </div>
+    );
+  }
 }
 
 export default PlanDetail;

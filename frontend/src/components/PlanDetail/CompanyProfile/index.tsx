@@ -15,6 +15,7 @@ export type CompanyProfileType = {
 };
 
 function CompanyProfile(props: CompanyProfileType) {
+  console.log(props);
   return (
     <Container>
       <Profile>

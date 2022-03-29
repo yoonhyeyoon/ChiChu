@@ -5,14 +5,14 @@
       "PRODUCT_NAME": "무배당라이나다이렉트치아보험Ⅱ(갱신형) 집중보장",
       "COMPANY_CODE": "3",
       "COMPANY_NAME": "라이나생명",
-      "AGE": 20,
-      "GENDER": "1",
+      "AGE": 30,
+      "GENDER": "2",
       "PY": 10,
-      "RATE": 15035,
+      "RATE": 17654,
       "COMPANY_INDEX": 85.02,
-      "PRODUCT_INDEX": 39.08,
-      "USER_INDEX": 0.0,
-      "TOTAL_INDEX": 47.88
+      "PRODUCT_INDEX": 38.86,
+      "USER_INDEX": 7.99,
+      "TOTAL_INDEX": 49.1
     }
   ],
   "option": [
@@ -82,36 +82,31 @@
   "option_group": [
     {
       "NAME": "치아보존치료비",
-      "COVERAGE": 39.0,
+      "COVERAGE": 39,
       "RATE": 0.0179
     },
     {
-      "NAME": "신경치료",
-      "COVERAGE": 2.0,
+      "NAME": "치아신경치료비",
+      "COVERAGE": 2,
       "RATE": 0.0182
-    },
-    {
-      "NAME": "기타 보장",
-      "COVERAGE": 5.0,
-      "RATE": 0.0009
     }
   ],
   "age_rate": [
     {
       "AGE_CAT": 30,
-      "RATE": "13.89%"
+      "RATE": 13.89
     },
     {
       "AGE_CAT": 40,
-      "RATE": "69.44%"
+      "RATE": 69.44
     },
     {
       "AGE_CAT": 20,
-      "RATE": "13.89%"
+      "RATE": 13.89
     },
     {
       "AGE_CAT": 10,
-      "RATE": "2.78%"
+      "RATE": 2.78
     }
   ],
   "option_column": [
