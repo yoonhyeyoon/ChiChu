@@ -3,16 +3,10 @@ import { Box, Button } from '@mui/material';
 import { textAlign } from '@mui/system';
 import { BOX_RIGHT, DD_RIGHT, DD_LEFT } from './styles';
 import { CustomButtonRoot } from '../../Common/Button/styles';
+import Link from '@mui/material/Link';
 
-// Box로 되서 text-align: right
-// 성별, 나이 기준
-// hr
-// 납입기간, 보장기간
-// hr
-// 월 {rate} 원
-// 보험사이트 가기 버튼.
 type PropType = {
-  gender: string;
+  gender: number;
   age: number;
   rate: number;
   py: number;
@@ -22,9 +16,9 @@ type PropType = {
 function RightBox(props: PropType) {
   let gender_str = '';
 
-  if (props.gender === '1') {
+  if (props.gender === 1) {
     gender_str = '남성';
-  } else if (props.gender === '2') {
+  } else if (props.gender === 2) {
     gender_str = '여성';
   } else {
     gender_str = '성별 알수 없음';
@@ -46,9 +40,11 @@ function RightBox(props: PropType) {
       </div>
       <hr />
       <h1>월 {props.rate.toLocaleString()}원</h1>
-      <CustomButtonRoot style={{ margin: '0px' }}>
-        보험사 사이트 가기
-      </CustomButtonRoot>
+      <Link href={props.link}>
+        <CustomButtonRoot style={{ margin: '0px' }}>
+          보험사 사이트 가기
+        </CustomButtonRoot>
+      </Link>
     </BOX_RIGHT>
   );
 }

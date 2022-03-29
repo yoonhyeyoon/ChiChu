@@ -56,7 +56,7 @@ export function RadarChart(props: PropType) {
     labels: label_arr,
     datasets: [
       {
-        label: '# of Votes',
+        label: '상대적 보장우수성',
         data: data_arr,
         backgroundColor: 'rgba(255, 99, 132, 0.2)',
         borderColor: 'rgba(255, 99, 132, 1)',
