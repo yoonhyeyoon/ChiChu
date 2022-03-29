@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Box, Button } from '@mui/material';
 import { textAlign } from '@mui/system';
 import { BOX_RIGHT, DD_RIGHT, DD_LEFT } from './styles';
-import { CustomButtonRoot } from '../../Common/Button/styles';
+import { CustomButtonRoot } from '../../Common/CHICHUButton/styles';
 import Link from '@mui/material/Link';
 
 type PropType = {
