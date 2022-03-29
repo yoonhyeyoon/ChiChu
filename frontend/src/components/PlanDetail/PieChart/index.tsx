@@ -1,5 +1,6 @@
 import React from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Pie } from 'react-chartjs-2';
 import { Container } from './styles';
 
@@ -10,7 +11,7 @@ type PropType = {
   }[];
 };
 
-ChartJS.register(ArcElement, Tooltip, Legend);
+ChartJS.register(ArcElement, Tooltip);
 export function PieChart(props: PropType) {
   const values = Object.values(props);
   const label_arr = [];
@@ -18,17 +19,18 @@ export function PieChart(props: PropType) {
 
   for (const item of values[0]) {
     console.log(item);
-    // label_arr.push(item['AGE_CAT']);
-    // data_arr.push(item['RATE']);
+    label_arr.push(item['AGE_CAT']);
+    data_arr.push(item['RATE']);
   }
+  console.log(label_arr, data_arr);
 
-  // console.log(label_arr);
   const data = {
-    labels: [],
+    labels: label_arr,
     datasets: [
       {
         label: '# of Votes',
-        data: [],
+        // data: data_arr,
+        data: [30.5, 20, 39.5, 10],
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
           'rgba(54, 162, 235, 0.2)',
@@ -49,9 +51,10 @@ export function PieChart(props: PropType) {
       },
     ],
   };
+
   return (
     <Container>
-      <Pie data={data} />
+      <Pie data={data} plugins={[ChartDataLabels]} />
     </Container>
   );
 }

@@ -16,12 +16,13 @@ export const AvatarDiv = styled.div`
 
 export const ProfileName = styled.div`
   flex-direction: column;
-  margin-top: 0;
+  margin-top: 0.6rem;
   margin-left: 0.5rem;
 `;
 
-export const CompanyName = styled.h1`
+export const CompanyName = styled.h3`
   margin: 0;
+  word-wrap: break-word;
 `;
 export const ProductName = styled.h3`
   margin: 0;
