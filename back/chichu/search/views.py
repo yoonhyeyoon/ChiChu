@@ -2,7 +2,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 import pymysql
 
-# 필요한 기본 DB 정보
+# 필요한 기본 DB 
 host = "j6d206.p.ssafy.io" #접속할 db의 host명
 user = "chichu" #접속할 db의 user명
 pw = "ssafy" #접속할 db의 password
