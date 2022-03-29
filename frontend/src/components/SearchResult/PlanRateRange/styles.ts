@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 import Slider from '@mui/material/Slider';
+import { blue } from '../../../styles/Colors';
 
 export const PlanRateRangeSlider = styled(Slider)({
-  color: '#52af77',
+  color: blue[400],
   height: 8,
   '& .MuiSlider-track': {
     border: 'none',
@@ -27,7 +28,7 @@ export const PlanRateRangeSlider = styled(Slider)({
     width: 32,
     height: 32,
     borderRadius: '50% 50% 50% 0',
-    backgroundColor: '#52af77',
+    backgroundColor: blue[600],
     transformOrigin: 'bottom left',
     transform: 'translate(50%, -100%) rotate(-45deg) scale(0)',
     '&:before': { display: 'none' },

@@ -4,7 +4,7 @@ import { UserAge } from './UserAge';
 import { UserGender } from './UserGender';
 import axios from 'axios';
 import { PlanDataType, PlanListType, ProductType } from '../types/types';
-import { PlanTaggedList } from './PlanTaggedList';
+import { PlanFilteredList } from './PlanFilteredList';
 
 const getData = (
   gender: number | null,
@@ -37,7 +37,7 @@ export const PlanListSelector = selector<
     }
   },
   set: ({ set }, newValue) => {
-    set(PlanTaggedList, newValue);
+    set(PlanFilteredList, newValue);
     console.log('set에 들어어어어왔어');
   },
 });

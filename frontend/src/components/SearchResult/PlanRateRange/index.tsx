@@ -1,42 +1,69 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
-import { PlanTaggedList } from '../../../recoil/PlanTaggedList';
+import { PlanFilteredList } from '../../../recoil/PlanFilteredList';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { PlanListSelector } from '../../../recoil/PlanListSelector';
 import { PlanRateRangeSlider } from './styles';
+import { PlanListType } from '../../../types/types';
 
 function valuetext(value: number) {
-  return `${value}°C입니다`;
+  return `${value}원`;
 }
 
 export default function PlanRateRange() {
-  const [planTaggedList, setPlanTaggedList] = useRecoilState(PlanListSelector);
-  const [rate, setRate] = React.useState([0, 0]);
+  const [planFilteredList, setPlanFilteredList] =
+    useRecoilState(PlanListSelector);
+  const plans = useRecoilValue(PlanFilteredList);
+  // console.log(plans);
+  const [planRate, setPlanRate] = React.useState([0, 0]);
   const [maxRate, setMaxRate] = React.useState(0);
-  console.log(planTaggedList);
+  // console.log(planFilteredList);
 
-  const rateLst: any = [];
+  const planRateLst: any = [];
   // const maxRate = 0;
   React.useEffect(() => {
-    planTaggedList?.cheap.map(product => rateLst.push(product.rate));
-    console.log(rateLst);
-    setRate([0, Math.max(...rateLst)]);
-    setMaxRate(Math.max(...rateLst));
+    planFilteredList?.cheap.map(product => planRateLst.push(product.rate));
+    // console.log(planRateLst);
+    setPlanRate([0, Math.max(...planRateLst)]);
+    setMaxRate(Math.max(...planRateLst));
   }, []);
 
-  console.log(rateLst, rate);
+  // console.log(planRateLst, planRate);
+
+  // 납입금액별 필터
+  React.useEffect(() => {
+    function checkRanged(rate: number) {
+      if (rate >= planRate[0] && rate <= planRate[1]) {
+        return true;
+      }
+    }
+
+    if (planFilteredList) {
+      const newDict: PlanListType = { ...planFilteredList };
+      ['cheap', 'chichu', 'coverage', 'popular', 'reasonable'].forEach(
+        planType => {
+          newDict[planType] = planFilteredList.cheap.filter(
+            product =>
+              product.rate >= planRate[0] && product.rate <= planRate[1],
+          );
+        },
+      );
+      // console.log(planFilteredList, newDict);
+      setPlanFilteredList(newDict);
+    }
+  }, [planRate]);
 
   // const [value, setValue] = React.useState<number[]>(rate);
   const handleChange = (event: Event, newValue: number | number[]) => {
-    setRate(newValue as number[]);
+    setPlanRate(newValue as number[]);
   };
 
   return (
     <Box sx={{ width: 400 }}>
       <PlanRateRangeSlider
         getAriaLabel={() => 'Temperature range'}
-        value={rate}
+        value={planRate}
         onChange={handleChange}
         valueLabelDisplay="auto"
         getAriaValueText={valuetext}

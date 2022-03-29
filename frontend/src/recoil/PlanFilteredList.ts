@@ -1,9 +1,9 @@
 import { atom } from 'recoil';
 import { PlanDataType, PlanListType, ProductType } from '../types/types';
 
-export const PlanTaggedList = atom<
+export const PlanFilteredList = atom<
   PlanListType | ProductType | undefined | PlanDataType
 >({
-  key: 'PlanTaggedList',
+  key: 'PlanFilteredList',
   default: undefined,
 });

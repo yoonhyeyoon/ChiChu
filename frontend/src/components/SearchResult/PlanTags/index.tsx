@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { PlanTagType } from '../../../types/types';
+import { PlanListType, PlanTagType } from '../../../types/types';
 import sample from './sample.json';
 import planList from './list.json';
 import { PlanTagButton } from './styles';
@@ -7,7 +7,7 @@ import { PlanTagButton } from './styles';
 import Stack from '@mui/material/Stack';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { PlanListSelector } from '../../../recoil/PlanListSelector';
-import { PlanTaggedList } from '../../../recoil/PlanTaggedList';
+import { PlanFilteredList } from '../../../recoil/PlanFilteredList';
 
 type toggleList = string[];
 type PlanTagButtonType = {
@@ -16,32 +16,12 @@ type PlanTagButtonType = {
   setToggleList: React.Dispatch<React.SetStateAction<toggleList>>;
 };
 
-//더미 임시
-export type ProductType = {
-  product_code: string;
-  product_name: string;
-  company_code: number;
-  company_name: string;
-  subtype_code: number;
-  rate: number;
-  option_code: string[];
-  option_name: string[];
-};
-
-export type PlanListType = {
-  cheap: ProductType[];
-  chichu: ProductType[];
-  coverage: ProductType[];
-  popular: ProductType[];
-  reasonable: ProductType[];
-};
-//
-
 const Button = ({ plan_tag, toggleList, setToggleList }: PlanTagButtonType) => {
   const [toggle, setToggle] = useState(false);
-  const [planTaggedList, setPlanTaggedList] = useRecoilState(PlanListSelector);
+  const [planFilteredList, setPlanFilteredList] =
+    useRecoilState(PlanListSelector);
   // atom으로 따로 불러와야함
-  const plans = useRecoilValue(PlanTaggedList);
+  // const plans = useRecoilValue(PlanFilteredList);
   // const plans: PlanListType = planList;
   // console.log(plans);
   const onChangeColor = () => {
@@ -60,41 +40,41 @@ const Button = ({ plan_tag, toggleList, setToggleList }: PlanTagButtonType) => {
     // console.log(toggleList);
     // toggleList에 있는 tag만 포함된 planTaggedList로 filtering 반환
     let toggledListCopy = toggleList;
-    function checkTagged(el: string) {
-      // console.log(el);
-      if (toggledListCopy.includes(el)) {
-        toggledListCopy = toggledListCopy.filter(element => element !== el);
-        // console.log(el, toggledListCopy);
+    function checkTagged(option: string) {
+      // console.log(option);
+      if (toggledListCopy.includes(option)) {
+        toggledListCopy = toggledListCopy.filter(element => element !== option);
+        // console.log(option, toggledListCopy);
         if (toggledListCopy.length == 0) {
-          // console.log(el, '성공인디');
+          // console.log(option, '성공인디');
           toggledListCopy = toggleList;
           return true;
         }
       }
     }
 
-    if (planTaggedList) {
-      const newDict: PlanListType = { ...planTaggedList };
-      newDict['cheap'] = planTaggedList.cheap.filter(product =>
+    if (planFilteredList) {
+      const newDict: PlanListType = { ...planFilteredList };
+      newDict['cheap'] = planFilteredList.cheap.filter(product =>
         product.option_name.some(checkTagged),
       );
-      // const newList = planTaggedList.cheap.filter(product =>
+      // const newList = planFilteredList.cheap.filter(product =>
       //   product.option_name.some(checkTagged),
       // );
-      newDict['chichu'] = planTaggedList.chichu.filter(product =>
+      newDict['chichu'] = planFilteredList.chichu.filter(product =>
         product.option_name.some(checkTagged),
       );
-      newDict['popular'] = planTaggedList.popular.filter(product =>
+      newDict['popular'] = planFilteredList.popular.filter(product =>
         product.option_name.some(checkTagged),
       );
-      newDict['coverage'] = planTaggedList.coverage.filter(product =>
+      newDict['coverage'] = planFilteredList.coverage.filter(product =>
         product.option_name.some(checkTagged),
       );
-      newDict['reasonable'] = planTaggedList.reasonable.filter(product =>
+      newDict['reasonable'] = planFilteredList.reasonable.filter(product =>
         product.option_name.some(checkTagged),
       );
-      // console.log(planTaggedList, newDict);
-      setPlanTaggedList(newDict);
+      // console.log(planFilteredList, newDict);
+      setPlanFilteredList(newDict);
     }
   }, [toggleList]);
 
