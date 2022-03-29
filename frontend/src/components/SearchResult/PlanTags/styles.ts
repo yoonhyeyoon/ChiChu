@@ -27,18 +27,21 @@ const grey = {
 
 export const PlanTagButton = styled('button')<props>`
   font-family: IBM Plex Sans, sans-serif;
-  font-weight: bold;
-  font-size: 0.875rem;
+  // font-weight: bold;
+  font-size: 0.82rem;
   background-color: ${props => (props.istag ? blue[400] : blue[200])};
-  opacity: ${props => (props.istag ? 1 : 0.6)};
-  padding: 11px 20px;
+  opacity: ${props => (props.istag ? 1 : 0.8)};
+  padding: 10px 10px;
   border-radius: 0.9rem;
   color: white;
   transition: all 150ms ease;
   cursor: pointer;
   border: none;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.05), 0 6px 6px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.1s linear;
 
   &:hover {
     background-color: ${props => (props.istag ? blue[400] : blue[400])};
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), 0 6px 4px rgba(0, 0, 0, 0.2);
   }
 `;

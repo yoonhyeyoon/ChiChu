@@ -21,9 +21,9 @@ const Button = ({ plan_tag, toggleList, setToggleList }: PlanTagButtonType) => {
   const [planFilteredList, setPlanFilteredList] =
     useRecoilState(PlanListSelector);
   // atom으로 따로 불러와야함
-  // const plans = useRecoilValue(PlanFilteredList);
+  const plans = useRecoilValue(PlanFilteredList);
   // const plans: PlanListType = planList;
-  // console.log(plans);
+  console.log(plans?.cheap);
   const onChangeColor = () => {
     if (toggleList.includes(plan_tag)) {
       // 없으면

@@ -58,9 +58,15 @@ export default function PlanRateRange() {
   const handleChange = (event: Event, newValue: number | number[]) => {
     setPlanRate(newValue as number[]);
   };
-
+  console.log(maxRate);
   return (
-    <Box sx={{ width: 400 }}>
+    <Box
+      sx={{
+        width: 400,
+        margin: '0 auto',
+        paddingTop: 6.5,
+      }}
+    >
       <PlanRateRangeSlider
         getAriaLabel={() => 'Temperature range'}
         value={planRate}
