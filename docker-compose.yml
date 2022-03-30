@@ -36,6 +36,7 @@ services:
       - "3306:3306"
     networks:
       - default
-      
 networks:
-  - default
+  default:
+    external:
+      name: chichu_net
