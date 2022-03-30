@@ -9,8 +9,9 @@ import {
   StyledOption,
   StyledPopper,
 } from '../Gender/styles';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useResetRecoilState } from 'recoil';
 import { UserPeriod } from '../../../recoil/UserPeriod';
+import { PlanListSelector } from '../../../recoil/PlanListSelector';
 
 function CustomSelect(props: SelectUnstyledProps<number>) {
   const components: SelectUnstyledProps<number>['components'] = {
@@ -25,8 +26,11 @@ function CustomSelect(props: SelectUnstyledProps<number>) {
 
 function Period() {
   const [userPeriod, setUserPeriod] = useRecoilState(UserPeriod);
+  const planListSelector = useResetRecoilState(PlanListSelector);
+
   const handleChange = (e: number | null) => {
     setUserPeriod(e);
+    // planListSelector();
   };
 
   return (

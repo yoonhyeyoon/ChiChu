@@ -9,6 +9,7 @@ import DefaultInfo from '../components/Search/DefaultInfo';
 import Button from '../components/Search/Button';
 import PlanTags from '../components/SearchResult/PlanTags';
 import Period from '../components/Search/Period';
+import SecondaryButton from '../components/SecondarySearch/Button';
 
 function SecondarySearch() {
   return (
@@ -31,7 +32,7 @@ function SecondarySearch() {
         </Stack>
         <Period />
         <DefaultInfo />
-        <Button />
+        <SecondaryButton />
         {/* <PlanTags /> */}
       </Box>
     </Container>

@@ -1,10 +1,7 @@
-import * as React from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
-import ButtonUnstyled, {
-  buttonUnstyledClasses,
-  ButtonUnstyledProps,
-} from '@mui/base/ButtonUnstyled';
+import ButtonUnstyled, { ButtonUnstyledProps } from '@mui/base/ButtonUnstyled';
 import { styled } from '@mui/system';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { UserGender } from '../../../recoil/UserGender';
@@ -16,31 +13,28 @@ function CustomButton(props: ButtonUnstyledProps) {
   return <ButtonUnstyled {...props} component={CustomButtonRoot} />;
 }
 
-function Button() {
+function SecondaryButton() {
   const navigate = useNavigate();
   const userAge = useRecoilValue(UserAge);
   const userGender = useRecoilValue(UserGender);
   console.log(userAge, userGender);
-
-  const planListSelector = useResetRecoilState(PlanListSelector);
-
+  // const planListSelector = useResetRecoilState(PlanListSelector);
   const handleClick = () => {
-    // 납입기간 초기화
-    planListSelector();
-    navigate('result', { replace: false });
+    // planListSelector();
+    navigate('', { replace: false });
     // navigate.
     // location.href = 'http://localhost:3000/search/result';
   };
   return (
     <Stack spacing={2} direction="row">
-      {/* <CustomButton>Button</CustomButton> */}
       <CustomButton
         disabled={userAge && userGender != null ? false : true}
         onClick={handleClick}
       >
-        보험 찾아보기
+        확인
       </CustomButton>
     </Stack>
   );
 }
-export default Button;
+
+export default SecondaryButton;

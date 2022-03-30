@@ -44,5 +44,7 @@ export const PlanListSelector = selector<
   set: ({ set }, newValue) => {
     set(PlanFilteredList, newValue);
     console.log('set에 들어어어어왔어');
+    // 납입기간 초기화
+    // set(UserPeriod, 10);
   },
 });
