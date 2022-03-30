@@ -7,4 +7,4 @@ COPY . .
 
 EXPOSE 8000
 
-ENTRYPOINT python manage.py runserver 0:8000
+ENTRYPOINT python chichu/manage.py runserver 0:8000
