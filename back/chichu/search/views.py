@@ -61,6 +61,7 @@ def default(request, age, gender):
         G.COMPANY_NAME AS company_name,
         G.SUBTYPE_CODE as subtype_code,
         G.RATE AS rate,
+        G.PY AS py,
         GROUP_CONCAT(G.option_code) AS option_code, 
         GROUP_CONCAT(G.option_name) AS option_name
         FROM ( SELECT DISTINCT ANY_VALUE(A.PRODUCT_CODE) AS product_code, 
@@ -69,6 +70,7 @@ def default(request, age, gender):
             ANY_VALUE(D.COMPANY_NAME) as company_name,
             ANY_VALUE(C.SUBTYPE_CODE) as subtype_code,
             ANY_VALUE(B.RATE) as rate,
+            ANY_VALUE(B.PY) as py,
             ANY_VALUE(E.OPTION_CODE) as option_code,
             ANY_VALUE(E.OPTION_NAME) as option_name,
             ANY_VALUE(B.USER_INDEX) as user_index
