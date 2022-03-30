@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { UserGender } from '../../../recoil/UserGender';
 import {
   StyledButton,
@@ -34,12 +34,21 @@ function renderValue(option: SelectOption<number> | null) {
 }
 
 function Gender() {
-  const setUserGender = useSetRecoilState(UserGender);
+  const [userGender, setUserGender] = useRecoilState(UserGender);
   const handleChange = (e: number | null) => {
     setUserGender(e);
   };
+
   return (
-    <CustomSelect renderValue={renderValue} onChange={handleChange}>
+    // <CustomSelect renderValue={renderValue} onChange={handleChange}>
+    //   <StyledOption value={1}>남성</StyledOption>
+    //   <StyledOption value={2}>여성</StyledOption>
+    // </CustomSelect>
+    <CustomSelect
+      value={userGender}
+      renderValue={renderValue}
+      onChange={handleChange}
+    >
       <StyledOption value={1}>남성</StyledOption>
       <StyledOption value={2}>여성</StyledOption>
     </CustomSelect>

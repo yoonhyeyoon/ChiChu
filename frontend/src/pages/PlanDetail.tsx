@@ -19,8 +19,10 @@ import { Box, Button } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import axios from 'axios';
+import RightBox from '../components/PlanDetail/RightBox';
+import { Board } from '../components/PlanDetail/DetailBackground/styles';
 
-const info = DetailSample;
+// const info = DetailSample;
 
 interface CustomState {
   [x: string]: any;
@@ -29,27 +31,30 @@ interface CustomState {
   };
 }
 
-// type InfoType = {
-//   age_rage: Array<{ AGE_CAT: number; RATE: string }>;
-//   base: Array<{
-//     AGE: number;
-//     COMPANY_CODE: string;
-//     COMPANY_INDEX: number;
-//     COMPANY_NAME: string;
-//     GENDER: string;
-//     PRODUCT_CODE: string;
-//     PRODUCT_INDEX: number;
-//     PRODUCT_NAME: string;
-//     PY: number;
-//     RATE: number;
-//     TOTAL_INDEX: number;
-//     USER_INDEX: number;
-//   }>;
-//   option: Array<{ NAME: string; COVERAGE: string }>;
-//   option_column: Array<{ ID: string; OPTION_NAME: string }>;
-//   option_detail: Array<{ NAME: string; COVERAGE: string }>;
-//   option_group: Array<{ NAME: string; COVERAGE: string }>;
-// };
+type InfoType = {
+  age_rage: { AGE_CAT: number; RATE: string }[];
+  base: {
+    AGE: number;
+    COMPANY_CODE: string;
+    COMPANY_INDEX: number;
+    COMPANY_NAME: string;
+    GENDER: string;
+    PRODUCT_CODE: string;
+    PRODUCT_INDEX: number;
+    PRODUCT_NAME: string;
+    PY: number;
+    RATE: number;
+    TOTAL_INDEX: number;
+    USER_INDEX: number;
+  };
+  option: {
+    NAME: string;
+    COVERAGE: string;
+  }[];
+  option_column: { ID: string; OPTION_NAME: string }[];
+  option_detail: { NAME: string; COVERAGE: string }[];
+  option_group: { NAME: string; COVERAGE: number; RATE: number }[];
+};
 
 function PlanDetail() {
   const location = useLocation();
@@ -58,17 +63,8 @@ function PlanDetail() {
   const userGender = useRecoilValue(UserGender);
   // const userPeriod = useRecoilValue(UserPeriod);
 
-  const [loading, setLoading] = useState(true);
   const [showMore, setShowMore] = useState(false);
-
-  // const [info, setInfo] = useState<InfoType>({
-  //   age_rage: [],
-  //   base: [],
-  //   option: [],
-  //   option_column: [],
-  //   option_detail: [],
-  //   option_group: [],
-  // });
+  const [info, setInfo] = useState<InfoType | null>(null);
 
   const getProductInfo = () => {
     const credentials = {
@@ -82,9 +78,8 @@ function PlanDetail() {
         `/product/${credentials.product_code}/${credentials.age}/${credentials.gender}/${credentials.py}`,
       )
       .then(res => {
+        setInfo(res.data);
         console.log(res.data);
-        // setInfo(res.data);
-        setLoading(false);
       })
       .catch(err => {
         console.log(err);
@@ -94,83 +89,84 @@ function PlanDetail() {
   useEffect(() => {
     console.log(userAge, userGender, state.product_code);
     getProductInfo();
-    // console.log(info);
   }, []);
 
-  // 안들어왔을 때는 로딩 떠있도록.
-  // if (!info) {
-  //   return (
-  //     <div>
-  //       <span>Loading...</span>
-  //     </div>
-  //   );
-  // }
-  return (
-    <div>
-      <Suspense fallback={<div>Loading...</div>}>
-        {loading === false ? (
+  //안들어왔을 때는 로딩 떠있도록.
+  if (!info) {
+    return (
+      <div>
+        <span>Loading...</span>
+      </div>
+    );
+  } else {
+    return (
+      <div>
+        <Board>
+          <Container maxWidth="md">
+            <Box sx={{ textAlign: 'left', maxWidth: '70vw' }}>
+              <CompanyProfile
+                company_name={info.base[0]['COMPANY_NAME']}
+                product_name={info.base[0]['PRODUCT_NAME']}
+              />
+            </Box>
+            <Box sx={{ textAlign: 'left', maxWidth: '70vw' }}>
+              <hr />
+              <QuestionTooltip title="치츄지수" />
+              <ProgressBarWithNumber
+                plan_score={info.base[0]['TOTAL_INDEX']}
+                plan_average={69.24}
+              />
+            </Box>
+            <Box sx={{ textAlign: 'left', maxWidth: '50vw' }}>
+              <CompanyIndexModal />
+              <ProgressBarWithNumber
+                plan_score={info.base[0]['COMPANY_INDEX']}
+                plan_average={63.46}
+              />
+              <ProductIndexModal />
+              <ProgressBarWithNumber
+                plan_score={info.base[0]['PRODUCT_INDEX']}
+                plan_average={50.78}
+              />
+              <UserIndexModal />
+              <ProgressBarWithNumber
+                plan_score={info.base[0]['USER_INDEX']}
+                plan_average={9.59}
+              />
+            </Box>
+            <br />
+            <Box sx={{ maxWidth: '70vw' }}>
+              <OptionBoard option={info['option']} />
+              <Box>
+                <Button onClick={() => setShowMore(cur => !cur)}>
+                  {showMore ? '접기' : '보장 자세히 보기'}
+                  {showMore ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
+                </Button>
+              </Box>
+              {showMore && (
+                <>
+                  <OptionDetailBoard option_detail={info['option_detail']} />
+                </>
+              )}
+            </Box>
+            <br />
+            <PieChart age_rate={info['age_rate']} />
+            <br />
+            <RadarChart option_group={info['option_group']} />
+          </Container>
           <div>
-            <Container maxWidth="md">
-              <Box sx={{ textAlign: 'left', maxWidth: '70vw' }}>
-                <CompanyProfile
-                  company_name={info.base[0]['COMPANY_NAME']}
-                  product_name={info.base[0]['PRODUCT_NAME']}
-                />
-              </Box>
-              <Box sx={{ textAlign: 'left', maxWidth: '70vw' }}>
-                <hr />
-                <QuestionTooltip title="치츄지수" />
-                <ProgressBarWithNumber
-                  plan_score={info.base[0]['TOTAL_INDEX']}
-                  plan_average={69.24}
-                />
-              </Box>
-              <Box sx={{ textAlign: 'left', maxWidth: '50vw' }}>
-                <CompanyIndexModal />
-                <ProgressBarWithNumber
-                  plan_score={info.base[0]['COMPANY_INDEX']}
-                  plan_average={63.46}
-                />
-                <ProductIndexModal />
-                <ProgressBarWithNumber
-                  plan_score={info.base[0]['PRODUCT_INDEX']}
-                  plan_average={50.78}
-                />
-                <UserIndexModal />
-                <ProgressBarWithNumber
-                  plan_score={info.base[0]['USER_INDEX']}
-                  plan_average={9.59}
-                />
-              </Box>
-              <br />
-              <Box sx={{ maxWidth: '70vw' }}>
-                <OptionBoard option={info['option']} />
-                <Box>
-                  <Button onClick={() => setShowMore(cur => !cur)}>
-                    {showMore ? '접기' : '보장 자세히 보기'}
-                    {showMore ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
-                  </Button>
-                </Box>
-                {showMore && (
-                  <>
-                    <OptionDetailBoard option_detail={info['option_detail']} />
-                  </>
-                )}
-              </Box>
-              <br />
-              <PieChart age_rate={info['age_rate']} />
-              <br />
-              <RadarChart />
-            </Container>
+            <RightBox
+              gender={userGender ? userGender : 0}
+              age={userAge ? userAge : 0}
+              rate={info.base[0]['RATE']}
+              py={info.base[0]['PY']}
+              link={info.base[0]['PRODUCT_LINK']}
+            ></RightBox>
           </div>
-        ) : (
-          <div>
-            <span>Loading...</span>
-          </div>
-        )}
-      </Suspense>
-    </div>
-  );
+        </Board>
+      </div>
+    );
+  }
 }
 
 export default PlanDetail;

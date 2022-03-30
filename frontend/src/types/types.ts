@@ -17,3 +17,34 @@ export interface PlanTagType {
   id: number;
   plan_tag: string;
 }
+
+// planList selector
+
+export type ProductType = {
+  product_code: string;
+  product_name: string;
+  company_code: number;
+  company_name: string;
+  subtype_code: number;
+  rate: number;
+  option_code: string[];
+  option_name: string[];
+  moving?: boolean;
+};
+
+export type PlanListType = {
+  cheap: ProductType[];
+  chichu: ProductType[];
+  coverage: ProductType[];
+  popular: ProductType[];
+  reasonable: ProductType[];
+};
+
+export type PlanDataType = {
+  data: PlanListType;
+  cheap: ProductType[];
+  chichu: ProductType[];
+  coverage: ProductType[];
+  popular: ProductType[];
+  reasonable: ProductType[];
+};

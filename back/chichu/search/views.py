@@ -284,6 +284,8 @@ def default(request, age, gender):
 @api_view(['GET'])
 def detail(request, gender, age, py):
     # 리스트에 담기 ?
+    popular_list = []
+    reasonable_list = []
     high_ci_list = []
     cheap_list = []
     high_coverage_list = []
@@ -294,6 +296,78 @@ def detail(request, gender, age, py):
     conn = pymysql.connect( host= host, user = user, password = pw, db = db, charset="utf8")
     # Connection 으로부터 Cursor 생성 > dictionary 형태로 만들기
     curs = conn.cursor(pymysql.cursors.DictCursor) 
+
+    # (1) 인기 상품 : 성별 + 연령 + 유저지수 가장 높은 상품 순서대로
+    popular_sql =f"""
+    SELECT 
+        G.PRODUCT_CODE AS product_code,
+        G.PRODUCT_NAME as product_name, 
+        G.USER_INDEX as user_index,
+        G.COMPANY_CODE AS company_code,
+        G.COMPANY_NAME AS company_name,
+        G.SUBTYPE_CODE as subtype_code,
+        G.RATE AS rate,
+        GROUP_CONCAT(G.option_code) AS option_code, 
+        GROUP_CONCAT(G.option_name) AS option_name
+        FROM ( SELECT DISTINCT ANY_VALUE(A.PRODUCT_CODE) AS product_code, 
+            ANY_VALUE(C.PRODUCT_NAME) as product_name,
+            ANY_VALUE(D.COMPANY_CODE) as company_code,
+            ANY_VALUE(D.COMPANY_NAME) as company_name,
+            ANY_VALUE(C.SUBTYPE_CODE) as subtype_code,
+            ANY_VALUE(B.RATE) as rate,
+            ANY_VALUE(E.OPTION_CODE) as option_code,
+            ANY_VALUE(E.OPTION_NAME) as option_name,
+            ANY_VALUE(B.USER_INDEX) as user_index
+            FROM
+            PRODUCT_OPTION A, 
+            PRODUCT_RATE B,
+            PRODUCT C,
+            COMPANY D,
+            DB_OPTION E
+            WHERE A.PRODUCT_CODE = B.PRODUCT_CODE 
+            AND B.PRODUCT_CODE = C.PRODUCT_CODE
+            AND C.COMPANY_CODE = D.COMPANY_CODE
+            AND A.OPTION_CODE = E.OPTION_CODE
+            AND AGE = {age}
+            AND GENDER = {gender}
+        ) G
+    GROUP BY chichu.G.USER_INDEX
+    ORDER BY chichu.G.USER_INDEX DESC 
+    LIMIT 6;
+    """
+
+    # (2) 가성비 : 성별 + 연령 + [보장금액 COVERAGE SUM / 월 보험료  * 가입기간 ]
+
+    reasonable_sql = f"""
+    SELECT DISTINCT ANY_VALUE(A.PRODUCT_CODE) AS product_code, 
+        ANY_VALUE(A.COVERAGE / (B.PY * B.RATE)) as reasonable,
+        ANY_VALUE(C.PRODUCT_NAME) as product_name,
+        ANY_VALUE(D.COMPANY_CODE) as company_code,
+        ANY_VALUE(D.COMPANY_NAME) as company_name,
+        ANY_VALUE(C.SUBTYPE_CODE) as subtype_code,
+        ANY_VALUE(B.RATE) as rate,
+        ANY_VALUE(B.PY) as py,
+        ANY_VALUE(A.OPTION_CODE) as option_code,
+        ANY_VALUE(A.OPTION_NAME) as option_name
+        FROM
+            ( SELECT PRODUCT_CODE, GROUP_CONCAT(OPTION_CODE) AS OPTION_CODE, GROUP_CONCAT(OPTION_NAME) AS OPTION_NAME, 
+                SUM(COVERAGE) AS COVERAGE FROM (
+                SELECT P.PRODUCT_CODE, P.OPTION_CODE, O.OPTION_NAME, P.COVERAGE
+                FROM PRODUCT_OPTION P, DB_OPTION O
+                WHERE P.OPTION_CODE = O.OPTION_CODE
+                )
+        PRODUCT_OPTION GROUP BY PRODUCT_CODE) A, 
+        PRODUCT_RATE B,
+        PRODUCT C,
+        COMPANY D
+        WHERE A.PRODUCT_CODE = B.PRODUCT_CODE 
+        AND B.PRODUCT_CODE = C.PRODUCT_CODE
+        AND C.COMPANY_CODE = D.COMPANY_CODE
+        AND AGE = {age}
+        AND GENDER = {gender}
+        ORDER BY reasonable DESC
+        LIMIT 6;
+    """
 
     # (1) 치츄 지수 높은 순
     high_ci_sql = f"""
@@ -404,6 +478,19 @@ def detail(request, gender, age, py):
         ORDER BY COVERAGE DESC
     """ 
 
+    curs.execute(popular_sql)
+    for row in curs:
+        row['option_code'] = row['option_code'].split(',')
+        row['option_name'] = row['option_name'].split(',')
+        popular_list.append(row)
+    
+
+    curs.execute(reasonable_sql)
+    for row in curs:
+        row['option_code'] = row['option_code'].split(',')
+        row['option_name'] = row['option_name'].split(',')
+        reasonable_list.append(row)
+
     curs.execute(high_ci_sql)
     for row in curs:
         row['option_code'] = row['option_code'].split(',')
@@ -427,6 +514,8 @@ def detail(request, gender, age, py):
     conn.close()
 
     data = {
+        'popular': popular_list,
+        'reasonable' : reasonable_list,
         'chichu' : high_ci_list,
         'cheap' : cheap_list,
         'coverage' : high_coverage_list
@@ -460,7 +549,7 @@ def product(request, product_code, age, gender, py):
     except:
         conn.rollback()
 
-    SQL1 = f"SELECT C.PRODUCT_CODE AS PRODUCT_CODE, PRODUCT_NAME, D.COMPANY_CODE AS COMPANY_CODE, COMPANY_NAME, AGE, GENDER, PY, RATE, C.COMPANY_INDEX AS COMPANY_INDEX, PRODUCT_INDEX, USER_INDEX, TOTAL_INDEX FROM (SELECT A.PRODUCT_CODE AS PRODUCT_CODE, PRODUCT_NAME, COMPANY_CODE AS CC, AGE, GENDER, PY, RATE, COMPANY_INDEX, PRODUCT_INDEX, USER_INDEX, TOTAL_INDEX, COMPANY_CODE FROM (SELECT PRODUCT_CODE, AGE, GENDER, PY, RATE, COMPANY_INDEX, PRODUCT_INDEX, USER_INDEX, TOTAL_INDEX FROM PRODUCT_RATE WHERE PRODUCT_CODE = '{product_code}' AND AGE = '{age}' AND GENDER = '{gender}' AND PY = '{py}') A,  (SELECT PRODUCT_CODE, PRODUCT_NAME, COMPANY_CODE FROM PRODUCT WHERE PRODUCT_CODE = '{product_code}') B  WHERE A.PRODUCT_CODE = B.PRODUCT_CODE) C, (SELECT COMPANY_CODE, COMPANY_NAME FROM COMPANY) D WHERE CC = D.COMPANY_CODE LIMIT 0, 1000"
+    SQL1 = f"SELECT C.PRODUCT_CODE, PRODUCT_NAME, COMPANY_CODE, COMPANY_NAME, SUBTYPE_CODE, PRODUCT_LINK, AGE, GENDER, PY, RATE, COMPANY_INDEX, PRODUCT_INDEX, USER_INDEX, TOTAL_INDEX FROM (SELECT A.PRODUCT_CODE AS PRODUCT_CODE, PRODUCT_NAME, A.COMPANY_CODE AS COMPANY_CODE, COMPANY_NAME, SUBTYPE_CODE, PRODUCT_LINK FROM PRODUCT AS A JOIN COMPANY AS B ON A.COMPANY_CODE = B.COMPANY_CODE) AS C JOIN PRODUCT_RATE AS D ON C.PRODUCT_CODE = D.PRODUCT_CODE WHERE C.PRODUCT_CODE = '{product_code}' AND AGE = {age} AND GENDER = {gender} AND PY = {py}"
     SQL2 = f"SELECT PRODUCT_OPTION AS NAME, CONCAT(COVERAGE*10000, '원') AS COVERAGE FROM PRODUCT_OPTION WHERE PRODUCT_CODE='{product_code}'"
     SQL3 = f"SELECT OPTION_NAME AS NAME, CONCAT(SUM(COVERAGE)*10000, '원') AS COVERAGE FROM (SELECT A.PRODUCT_OPTION, A.COVERAGE, B.OPTION_NAME, B.OPTION_GROUP_CODE, B.OPTION_GROUP_NAME FROM (SELECT * FROM PRODUCT_OPTION WHERE PRODUCT_CODE='{product_code}') AS A JOIN DB_OPTION AS B ON A.OPTION_CODE = B.OPTION_CODE) AS C GROUP BY OPTION_NAME LIMIT 0, 1000"
     SQL4 = f"SELECT AA AS NAME, DD AS COVERAGE, DD/BB AS RATE  FROM (SELECT OPTION_GROUP_NAME AS AA, SUM(COVERAGE) AS BB     FROM (SELECT A.PRODUCT_OPTION, A.COVERAGE, B.OPTION_NAME, B.OPTION_GROUP_CODE, B.OPTION_GROUP_NAME     FROM PRODUCT_OPTION AS A JOIN DB_OPTION AS B ON A.OPTION_CODE = B.OPTION_CODE) AS C              GROUP BY OPTION_GROUP_NAME) C,              (SELECT OPTION_GROUP_NAME AS CC, SUM(COVERAGE) AS DD      FROM (SELECT A.PRODUCT_OPTION, A.COVERAGE, B.OPTION_NAME, B.OPTION_GROUP_CODE, B.OPTION_GROUP_NAME         FROM (SELECT * FROM PRODUCT_OPTION WHERE PRODUCT_CODE='E10001') AS A         JOIN DB_OPTION AS B ON A.OPTION_CODE = B.OPTION_CODE) AS C      GROUP BY OPTION_GROUP_NAME) D  WHERE AA = CC AND AA != '기타 보장' LIMIT 0, 1000"

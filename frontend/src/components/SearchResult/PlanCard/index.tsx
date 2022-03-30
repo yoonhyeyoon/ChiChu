@@ -5,14 +5,13 @@ import {
   CardContent,
   CardHeader,
 } from '@mui/material';
-import { Route, Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-import { PlanPreviewType } from '../../../types/types';
+import { ProductType } from '../../../types/types';
 import ProgressBarWithNumber from '../../Common/ProgressBarWithNumber';
 
-function PlanCard(props: PlanPreviewType) {
+function PlanCard({ content }: { content: ProductType }) {
   const navigate = useNavigate();
-  const product_code = 'E10001';
 
   return (
     <Card>
@@ -21,11 +20,11 @@ function PlanCard(props: PlanPreviewType) {
           href=""
           style={{ textDecoration: 'none' }}
           onClick={e => {
-            if (props.moving) {
+            if (content.moving) {
               e.preventDefault();
             } else {
-              navigate(`./${product_code}`, {
-                state: { product_code: product_code },
+              navigate(`./${content.product_code}`, {
+                state: { product_code: content.product_code },
               });
             }
           }}
@@ -33,20 +32,20 @@ function PlanCard(props: PlanPreviewType) {
           <CardHeader
             avatar={
               <Avatar
-                src={props.logo_img}
-                alt={props.brand_name}
+                src={content.product_name}
+                alt={content.company_name}
                 variant="rounded"
               />
             }
-            title={props.brand_name}
-            subheader={props.plan_name}
+            title={content.company_name}
+            subheader={content.product_name}
           />
           <CardContent>
             <span>설계 유형</span>
-            <h3>{props.plan_type}</h3>
+            <h3>{content.subtype_code}</h3>
             <span>보험료</span>
-            <h3>{props.plan_cost}</h3>
-            <ProgressBarWithNumber plan_score={props.plan_score} />
+            <h3>{content.rate}</h3>
+            {/* <ProgressBarWithNumber plan_score={content.rate} /> */}
           </CardContent>
         </a>
       </CardActionArea>

@@ -25,7 +25,7 @@ export const Backdrop = styled('div')`
 `;
 
 export const style = {
-  width: 400,
+  // width: 400,
   bgcolor: 'white',
   border: '2px solid #000',
   p: 2,

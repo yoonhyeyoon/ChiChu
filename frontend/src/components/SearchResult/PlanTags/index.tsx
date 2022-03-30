@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { PlanTagType } from '../../../types/types';
+import { PlanListType, PlanTagType } from '../../../types/types';
 import sample from './sample.json';
 import planList from './list.json';
 import { PlanTagButton } from './styles';
@@ -7,6 +7,7 @@ import { PlanTagButton } from './styles';
 import Stack from '@mui/material/Stack';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { PlanListSelector } from '../../../recoil/PlanListSelector';
+import { PlanFilteredList } from '../../../recoil/PlanFilteredList';
 
 type toggleList = string[];
 type PlanTagButtonType = {
@@ -15,29 +16,14 @@ type PlanTagButtonType = {
   setToggleList: React.Dispatch<React.SetStateAction<toggleList>>;
 };
 
-//더미 임시
-type ProductType = {
-  product_code: string;
-  product_name: string;
-  user_index: number;
-  company_code: string;
-  company_name: string;
-  subtype_code: string;
-  rate: number;
-  option_code: string[];
-  option_name: string[];
-};
-
-type PlanListType = {
-  인기순: Array<ProductType>;
-};
-//
-
 const Button = ({ plan_tag, toggleList, setToggleList }: PlanTagButtonType) => {
   const [toggle, setToggle] = useState(false);
-  const [planTaggedList, setPlanTaggedList] = useRecoilState(PlanListSelector);
-  const plans: PlanListType = planList;
-  console.log(planTaggedList);
+  const [planFilteredList, setPlanFilteredList] =
+    useRecoilState(PlanListSelector);
+  // atom으로 따로 불러와야함
+  // const plans = useRecoilValue(PlanFilteredList);
+  // const plans: PlanListType = planList;
+  // console.log(plans?.cheap);
   const onChangeColor = () => {
     if (toggleList.includes(plan_tag)) {
       // 없으면
@@ -50,30 +36,48 @@ const Button = ({ plan_tag, toggleList, setToggleList }: PlanTagButtonType) => {
     }
   };
 
-  // useEffect(() => {
-  //   // console.log(toggleList);
-  //   // toggleList에 있는 tag만 포함된 planTaggedList로 filtering 반환
-  //   let trueCnt = 0;
-  //   function checkTagged(el: any) {
-  //     console.log(el);
-  //     if (toggleList.includes(el)) {
-  //       trueCnt++;
-  //       if (trueCnt === toggleList.length) {
-  //         return true;
-  //       }
-  //     }
-  //   }
+  useEffect(() => {
+    // console.log(toggleList);
+    // toggleList에 있는 tag만 포함된 planTaggedList로 filtering 반환
+    let toggledListCopy = toggleList;
+    function checkTagged(option: string) {
+      // console.log(option);
+      if (toggledListCopy.includes(option)) {
+        toggledListCopy = toggledListCopy.filter(element => element !== option);
+        // console.log(option, toggledListCopy);
+        if (toggledListCopy.length == 0) {
+          // console.log(option, '성공인디');
+          toggledListCopy = toggleList;
+          return true;
+        }
+      }
+    }
 
-  //   if (planTaggedList) {
-  //     console.log(planTaggedList.data.cheap);
-  //     const newList = planTaggedList.data.cheap.filter(product =>
-  //       product.option_name.some(checkTagged),
-  //     );
-  //     console.log(newList);
-  //   }
-
-  //   // setPlanTaggedList(newList);
-  // }, [toggleList]);
+    if (planFilteredList && toggleList.length) {
+      console.log(toggleList);
+      const newDict: PlanListType = { ...planFilteredList };
+      newDict['cheap'] = planFilteredList.cheap.filter(product =>
+        product.option_name.some(checkTagged),
+      );
+      // const newList = planFilteredList.cheap.filter(product =>
+      //   product.option_name.some(checkTagged),
+      // );
+      newDict['chichu'] = planFilteredList.chichu.filter(product =>
+        product.option_name.some(checkTagged),
+      );
+      // newDict['popular'] = planFilteredList.popular.filter(product =>
+      //   product.option_name.some(checkTagged),
+      // );
+      newDict['coverage'] = planFilteredList.coverage.filter(product =>
+        product.option_name.some(checkTagged),
+      );
+      // newDict['reasonable'] = planFilteredList.reasonable.filter(product =>
+      //   product.option_name.some(checkTagged),
+      // );
+      console.log(planFilteredList, newDict);
+      setPlanFilteredList(newDict);
+    }
+  }, [toggleList]);
 
   return (
     <PlanTagButton
