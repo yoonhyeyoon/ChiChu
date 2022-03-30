@@ -297,7 +297,6 @@ def detail(request, gender, age, py):
     # Connection 으로부터 Cursor 생성 > dictionary 형태로 만들기
     curs = conn.cursor(pymysql.cursors.DictCursor) 
 
-    # (1) 인기 상품 : 성별 + 연령 + 유저지수 가장 높은 상품 순서대로
     popular_sql =f"""
     SELECT 
         G.PRODUCT_CODE AS product_code,
@@ -307,6 +306,7 @@ def detail(request, gender, age, py):
         G.COMPANY_NAME AS company_name,
         G.SUBTYPE_CODE as subtype_code,
         G.RATE AS rate,
+        G.PY AS py,
         GROUP_CONCAT(G.option_code) AS option_code, 
         GROUP_CONCAT(G.option_name) AS option_name
         FROM ( SELECT DISTINCT ANY_VALUE(A.PRODUCT_CODE) AS product_code, 
@@ -315,6 +315,7 @@ def detail(request, gender, age, py):
             ANY_VALUE(D.COMPANY_NAME) as company_name,
             ANY_VALUE(C.SUBTYPE_CODE) as subtype_code,
             ANY_VALUE(B.RATE) as rate,
+            ANY_VALUE(B.PY) as py,
             ANY_VALUE(E.OPTION_CODE) as option_code,
             ANY_VALUE(E.OPTION_NAME) as option_name,
             ANY_VALUE(B.USER_INDEX) as user_index
