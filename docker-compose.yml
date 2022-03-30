@@ -11,7 +11,7 @@ services:
     networks:
       - default
   back:
-    build: ./back/chichu/
+    build: ./back/
     restart: always
     environment:
       TZ: Asia/Seoul
