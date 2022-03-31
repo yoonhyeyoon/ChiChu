@@ -8,7 +8,6 @@ import PlanTags from '../components/SearchResult/PlanTags';
 import RelatedPlanList from '../components/SearchResult/RelatedPlanList/RelatedPlanList';
 import SecondarySearchModal from '../components/SearchResult/SecondarySearchModal';
 import SortButton from '../components/SearchResult/SortButton';
-
 import { PlanFilteredList } from '../recoil/PlanFilteredList';
 import { UserPeriod } from '../recoil/UserPeriod';
 import { ProductType } from '../types/types';
