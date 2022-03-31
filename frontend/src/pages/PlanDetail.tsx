@@ -4,6 +4,7 @@ import Container from '@mui/material/Container';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { UserGender } from '../recoil/UserGender';
 import { UserAge } from '../recoil/UserAge';
+import { UserPeriod } from '../recoil/UserPeriod';
 import ProgressBarWithNumber from '../components/Common/ProgressBarWithNumber';
 import CompanyIndexModal from '../components/PlanDetail/Modal/CompanyIndexModal/index';
 import ProductIndexModal from '../components/PlanDetail/Modal/ProductIndexModal/index';
@@ -61,7 +62,7 @@ function PlanDetail() {
   const state = location.state as CustomState;
   const userAge = useRecoilValue(UserAge);
   const userGender = useRecoilValue(UserGender);
-  // const userPeriod = useRecoilValue(UserPeriod);
+  const userPeriod = useRecoilValue(UserPeriod);
 
   const [showMore, setShowMore] = useState(false);
   const [info, setInfo] = useState<InfoType | null>(null);
@@ -71,7 +72,7 @@ function PlanDetail() {
       age: userAge,
       gender: userGender,
       product_code: state.product_code,
-      py: 10,
+      py: userPeriod,
     };
     axios
       .get(
@@ -87,7 +88,7 @@ function PlanDetail() {
   };
 
   useEffect(() => {
-    console.log(userAge, userGender, state.product_code);
+    console.log(userAge, userGender, userPeriod, state.product_code);
     getProductInfo();
   }, []);
 
