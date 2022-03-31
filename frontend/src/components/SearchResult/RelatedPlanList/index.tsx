@@ -62,7 +62,7 @@ function RelatedPlanList({ list }: { list: ProductType[] }) {
         itemClass="carousel-item-padding-40-px"
       >
         {list.map(content => (
-          <Card content={{ ...content, moving }} />
+          <Card content={{ ...content, moving }} key={content.product_code} />
         ))}
       </Carousel>
     </div>

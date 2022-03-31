@@ -199,7 +199,7 @@ def default(request, age, gender):
             AND GENDER = {gender}
             AND PY = 10
         ) G
-    GROUP BY chichu.G.RATE
+    GROUP BY chichu.G.PRODUCT_CODE
     ORDER BY chichu.G.RATE 
     """
 
@@ -276,6 +276,11 @@ def default(request, age, gender):
         'cheap' : cheap_list,
         'coverage' : high_coverage_list
     }
+
+    print(len(popular_list))
+    print(len(high_ci_list))
+    print(len(cheap_list))
+    print(len(high_coverage_list))
     return Response(data)
 
 
@@ -441,7 +446,7 @@ def detail(request, gender, age, py):
             AND GENDER = {gender}
             AND PY = {py}
         ) G
-    GROUP BY chichu.G.RATE
+    GROUP BY chichu.G.PRODUCT_CODE
     ORDER BY chichu.G.RATE 
     """
 
@@ -861,4 +866,5 @@ def compare(request, age, gender, codes):
             '치아보전치료' : list2,
             '치수치료': list3
         }
+
         return Response(data)     

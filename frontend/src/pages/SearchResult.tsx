@@ -1,14 +1,17 @@
 import { Suspense, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { Box, Button, Container } from '@mui/material';
+
 import PlanBarList from '../components/SearchResult/PlanBarList/index';
 import PlanCardList from '../components/SearchResult/PlanCardList/index';
 import PlanRateRange from '../components/SearchResult/PlanRateRange';
 import PlanTags from '../components/SearchResult/PlanTags';
-import RelatedPlanList from '../components/SearchResult/RelatedPlanList/RelatedPlanList';
+import RelatedPlanList from '../components/SearchResult/RelatedPlanList';
 import SecondarySearchModal from '../components/SearchResult/SecondarySearchModal';
 import SortButton from '../components/SearchResult/SortButton';
+
 import { PlanFilteredList } from '../recoil/PlanFilteredList';
+import { planListState } from '../recoil/searchResultState';
 import { UserPeriod } from '../recoil/UserPeriod';
 import { ProductType } from '../types/types';
 import Header from '../components/Common/Header';
@@ -22,8 +25,12 @@ function SearchResult(): JSX.Element {
   const age = useRecoilValue(UserAge);
   const planFilteredList = useRecoilValue(PlanFilteredList);
 
-  const planList = useRecoilValue(PlanFilteredList)?.popular as ProductType[];
-  console.log(planList);
+  const planList = useRecoilValue(planListState);
+  const popularList = useRecoilValue(PlanFilteredList)
+    ?.popular as ProductType[];
+  const reasonableList = useRecoilValue(PlanFilteredList)
+    ?.reasonable as ProductType[];
+
   const [showMore, setShowMore] = useState(false);
   const userPeriod = useRecoilValue(UserPeriod);
   console.log(userPeriod);
@@ -71,9 +78,9 @@ function SearchResult(): JSX.Element {
 
                 <h2>아직 잘 모르시겠다면 추천해드릴게요!</h2>
                 <h3>이런 보험을 많이 찾아요!</h3>
-                <RelatedPlanList list={planList} />
+                <RelatedPlanList list={popularList} />
                 <h3>가성비가 좋아요!</h3>
-                <RelatedPlanList list={planList} />
+                <RelatedPlanList list={reasonableList} />
               </>
             )}
           </Box>
