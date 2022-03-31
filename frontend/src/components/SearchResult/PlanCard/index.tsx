@@ -5,29 +5,24 @@ import {
   CardContent,
   CardHeader,
 } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { ProductType } from '../../../types/types';
-import ProgressBarWithNumber from '../../Common/ProgressBarWithNumber';
+// import ProgressBarWithNumber from '../../Common/ProgressBarWithNumber';
 
 function PlanCard({ content }: { content: ProductType }) {
-  const navigate = useNavigate();
-
   return (
     <Card>
       <CardActionArea>
-        <a
-          href=""
-          style={{ textDecoration: 'none' }}
+        <Link
+          to={`./${content.product_code}`}
+          state={{ product_code: content.product_code, py: content.py }}
           onClick={e => {
             if (content.moving) {
               e.preventDefault();
-            } else {
-              navigate(`./${content.product_code}`, {
-                state: { product_code: content.product_code, py: content.py },
-              });
             }
           }}
+          style={{ textDecoration: 'none' }}
         >
           <CardHeader
             avatar={
@@ -47,7 +42,7 @@ function PlanCard({ content }: { content: ProductType }) {
             <h3>{content.rate}</h3>
             {/* <ProgressBarWithNumber plan_score={content.rate} /> */}
           </CardContent>
-        </a>
+        </Link>
       </CardActionArea>
     </Card>
   );
