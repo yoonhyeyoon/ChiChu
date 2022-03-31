@@ -14,12 +14,18 @@ import SecondarySearchModal from '../components/SearchResult/SecondarySearchModa
 import SortButton from '../components/SearchResult/SortButton';
 
 import { PlanFilteredList } from '../recoil/PlanFilteredList';
+import { planListState } from '../recoil/searchResultState';
 import { UserPeriod } from '../recoil/UserPeriod';
 import { ProductType } from '../types/types';
 
 function SearchResult(): JSX.Element {
   // as 를 쓰면 타입을 강제로 선언할 수 있음.
-  const planList = useRecoilValue(PlanFilteredList)?.popular as ProductType[];
+  const planList = useRecoilValue(planListState);
+  const popularList = useRecoilValue(PlanFilteredList)
+    ?.popular as ProductType[];
+  const reasonableList = useRecoilValue(PlanFilteredList)
+    ?.reasonable as ProductType[];
+
   const [showMore, setShowMore] = useState(false);
   const [userPeriod, setUserPeriod] = useRecoilState(UserPeriod);
   console.log(userPeriod);
@@ -62,9 +68,9 @@ function SearchResult(): JSX.Element {
 
                 <h2>아직 잘 모르시겠다면 추천해드릴게요!</h2>
                 <h3>이런 보험을 많이 찾아요!</h3>
-                <RelatedPlanList list={planList} />
+                <RelatedPlanList list={popularList} />
                 <h3>가성비가 좋아요!</h3>
-                <RelatedPlanList list={planList} />
+                <RelatedPlanList list={reasonableList} />
               </>
             )}
           </Box>
