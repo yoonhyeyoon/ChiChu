@@ -1,9 +1,24 @@
 import React, { Component } from 'react';
-import Slider from 'react-slick';
+
+import {
+  SlideTitle,
+  Container,
+  StyledSlider,
+  CardBox,
+  CardImg,
+  CardText,
+} from './styles';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
-function Slide({ sliders }) {
+type PropType = {
+  postList: {
+    name: string;
+    img: string;
+  }[];
+};
+
+function PostCarousel(props: PropType) {
   const settings = {
     dots: true,
     infinite: true,
@@ -13,22 +28,23 @@ function Slide({ sliders }) {
     autoplaySpeed: 2000,
     pauseOnHover: true,
   };
+  console.log(props);
 
   return (
     <Container>
       <SlideTitle>포스트</SlideTitle>
       <StyledSlider {...settings}>
-        {sliders.map((name, image) => {
+        {/* {props.map((name, img) => {
           return (
             <CardBox>
               <CardImg alt="서비스이미지" src={img} />
               <CardText>{name}</CardText>
             </CardBox>
           );
-        })}
+        })} */}
       </StyledSlider>
     </Container>
   );
 }
 
-export default Slide;
+export default PostCarousel;
