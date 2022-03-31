@@ -13,7 +13,7 @@ const getData = (
   period: number | null,
 ): Promise<PlanDataType> =>
   axios.get(
-    `http://127.0.0.1:8000/api/search/detail/${age}/${gender}/${period}`,
+    `http://j6d206.p.ssafy.io:8000/api/search/detail/${age}/${gender}/${period}`,
   );
 
 export const PlanListSelector = selector<
