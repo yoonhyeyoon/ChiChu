@@ -1,9 +1,20 @@
-import { atom } from 'recoil';
+import { atom, selector } from 'recoil';
 
-import { PlanPreviewType } from '../types/types';
-import sample from '../components/SearchResult/sample.json';
+import { PlanFilteredList } from './PlanFilteredList';
+import { ProductType } from '../types/types';
 
-export const planListState = atom<PlanPreviewType[]>({
+export const sortByState = atom({
+  key: 'sortByState',
+  default: 'chichu',
+});
+
+export const planListState = selector<ProductType[]>({
   key: 'planListState',
-  default: sample,
+  get: ({ get }) => {
+    const sortBy = get(sortByState);
+    const planLists = get(PlanFilteredList);
+    if (planLists) {
+      return planLists[sortBy];
+    }
+  },
 });

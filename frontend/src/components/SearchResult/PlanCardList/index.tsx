@@ -3,11 +3,11 @@ import { Grid } from '@mui/material';
 import Card from '../PlanCard';
 import { ProductType } from '../../../types/types';
 
-function CardList({ list }: { list: ProductType[] }) {
+function PlanCardList({ list }: { list: ProductType[] }) {
   return (
     <Grid container spacing={2}>
       {list.map(content => (
-        <Grid item xs={4} key={content.product_name}>
+        <Grid item xs={4} key={content.product_code}>
           <Card content={content} />
         </Grid>
       ))}
@@ -15,4 +15,4 @@ function CardList({ list }: { list: ProductType[] }) {
   );
 }
 
-export default CardList;
+export default PlanCardList;
