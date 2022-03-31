@@ -24,7 +24,7 @@ function PlanCard({ content }: { content: ProductType }) {
               e.preventDefault();
             } else {
               navigate(`./${content.product_code}`, {
-                state: { product_code: content.product_code },
+                state: { product_code: content.product_code, py: content.py },
               });
             }
           }}

@@ -45,6 +45,7 @@ export type ProductType = {
   company_name: string;
   subtype_code: number;
   rate: number;
+  py: number;
   option_code: string[];
   option_name: string[];
   moving?: boolean;

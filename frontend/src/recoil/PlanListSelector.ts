@@ -11,10 +11,7 @@ const getData = (
   gender: number | null,
   age: number | null,
   period: number | null,
-): Promise<PlanDataType> =>
-  axios.get(
-    `http://j6d206.p.ssafy.io:8000/api/search/detail/${age}/${gender}/${period}`,
-  );
+): Promise<PlanDataType> => axios.get(`/detail/${age}/${gender}/${period}`);
 
 export const PlanListSelector = selector<
   PlanDataType | undefined | PlanListType
