@@ -7,7 +7,6 @@ import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Search from '../../../pages/Search';
-import SecondarySearch from '../../../pages/SecondarySearch';
 import { styledModal } from './styles';
 
 function CHICHUModal({

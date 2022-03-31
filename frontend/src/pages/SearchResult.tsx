@@ -13,7 +13,6 @@ import { PlanFilteredList } from '../recoil/PlanFilteredList';
 import { PlanListType, ProductType } from '../types/types';
 import { UserPeriod } from '../recoil/UserPeriod';
 import BasicTable from '../components/PlanDetail/Modal/CompanyIndexModal/BasicTable';
-import SecondarySearch from './SecondarySearch';
 import AddAlarmIcon from '@mui/icons-material/AddAlarm';
 import SecondarySearchModal from '../components/SearchResult/SecondarySearchModal';
 
