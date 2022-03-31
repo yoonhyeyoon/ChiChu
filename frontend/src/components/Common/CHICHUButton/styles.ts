@@ -1,22 +1,14 @@
-import ButtonUnstyled, {
-  buttonUnstyledClasses,
-  ButtonUnstyledProps,
-} from '@mui/base/ButtonUnstyled';
+import { buttonUnstyledClasses } from '@mui/base/ButtonUnstyled';
 import { styled } from '@mui/system';
-
-const blue = {
-  500: '#007FFF',
-  600: '#0072E5',
-  700: '#0059B2',
-};
+import { blue } from '../../../styles/Colors';
 
 export const CustomButtonRoot = styled('button')`
-  font-family: IBM Plex Sans, sans-serif;
+  font-family: NotoSansKRBold;
   font-weight: bold;
-  font-size: 0.875rem;
+  font-size: 1.2rem;
   background-color: ${blue[500]};
   padding: 13px 25px;
-  border-radius: 8px;
+  border-radius: 100px;
   color: white;
   transition: all 150ms ease;
   cursor: pointer;

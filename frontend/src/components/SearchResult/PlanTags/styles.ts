@@ -1,36 +1,15 @@
 import { styled } from '@mui/system';
+import { blue } from '../../../styles/Colors';
 
 type props = {
   istag: string | null;
 };
 
-const blue = {
-  100: '#DAECFF',
-  200: '#99CCF3',
-  400: '#3399FF',
-  500: '#007FFF',
-  600: '#0072E5',
-  900: '#003A75',
-};
-
-const grey = {
-  100: '#E7EBF0',
-  200: '#E0E3E7',
-  300: '#CDD2D7',
-  400: '#B2BAC2',
-  500: '#A0AAB4',
-  600: '#6F7E8C',
-  700: '#3E5060',
-  800: '#2D3843',
-  900: '#1A2027',
-};
-
 export const PlanTagButton = styled('button')<props>`
-  font-family: IBM Plex Sans, sans-serif;
-  // font-weight: bold;
-  font-size: 0.82rem;
+  font-family: NotoSansKRRegular;
+  font-size: 0.9rem;
   background-color: ${props => (props.istag ? blue[400] : blue[200])};
-  opacity: ${props => (props.istag ? 1 : 0.8)};
+  opacity: ${props => (props.istag ? 1 : 0.9)};
   padding: 10px 10px;
   border-radius: 0.9rem;
   color: white;

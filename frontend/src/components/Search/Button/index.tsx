@@ -24,12 +24,9 @@ function Button() {
     // 납입기간 초기화
     planListSelector();
     navigate('result', { replace: false });
-    // navigate.
-    // location.href = 'http://localhost:3000/search/result';
   };
   return (
-    <Stack spacing={2} direction="row">
-      {/* <CustomButton>Button</CustomButton> */}
+    <Stack spacing={2} direction="row" sx={{ marginTop: 3 }}>
       <CustomButton
         disabled={userAge && userGender != null ? false : true}
         onClick={handleClick}

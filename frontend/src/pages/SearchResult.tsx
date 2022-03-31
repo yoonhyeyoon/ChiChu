@@ -11,10 +11,19 @@ import SortButton from '../components/SearchResult/SortButton';
 import { PlanFilteredList } from '../recoil/PlanFilteredList';
 import { UserPeriod } from '../recoil/UserPeriod';
 import { ProductType } from '../types/types';
+import Header from '../components/Common/Header';
+import { ModalTitle } from '../components/SearchResult/SecondarySearchModal/styles';
+import { UserGender } from '../recoil/UserGender';
+import { UserAge } from '../recoil/UserAge';
 
 function SearchResult(): JSX.Element {
   // as 를 쓰면 타입을 강제로 선언할 수 있음.
+  const gender = useRecoilValue(UserGender);
+  const age = useRecoilValue(UserAge);
+  const planFilteredList = useRecoilValue(PlanFilteredList);
+
   const planList = useRecoilValue(PlanFilteredList)?.popular as ProductType[];
+  console.log(planList);
   const [showMore, setShowMore] = useState(false);
   const userPeriod = useRecoilValue(UserPeriod);
   console.log(userPeriod);
@@ -22,11 +31,12 @@ function SearchResult(): JSX.Element {
   return (
     <>
       {/* Suspense는 같은 컴포넌트에서 써도 효과 있음 */}
+      <Header />
       <Suspense fallback={<div>Loading...</div>}>
         <Container>
           <Box
             sx={{
-              marginTop: 8,
+              paddingTop: 15,
               display: 'flex',
               flexDirection: 'column',
               // alignItems: 'center',
@@ -36,6 +46,10 @@ function SearchResult(): JSX.Element {
               icon={<AddAlarmIcon />}
               element={<SecondarySearch />}
             /> */}
+            <ModalTitle>
+              {age}세 {gender == 1 ? '남성' : '여성'}기준 검색결과, 총{' '}
+              {planFilteredList?.chichu.length}개의 상품을 찾았어요!
+            </ModalTitle>
             <SecondarySearchModal />
             <PlanTags />
             <PlanRateRange />

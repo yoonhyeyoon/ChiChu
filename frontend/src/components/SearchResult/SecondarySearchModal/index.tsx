@@ -4,9 +4,10 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import Button from '@mui/material/Button';
-import { styledModal } from './styles';
+import { ModalTitle, styledModal } from './styles';
 import ButtonUnstyled, { ButtonUnstyledProps } from '@mui/base/ButtonUnstyled';
 import { CustomButtonRoot } from '../../Common/CHICHUButton/styles';
+import ZoomInIcon from '@mui/icons-material/ZoomIn';
 import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
 import Gender from '../../Search/Gender/Index';
@@ -15,6 +16,7 @@ import Period from '../../Search/Period';
 import { useRecoilValue } from 'recoil';
 import { UserGender } from '../../../recoil/UserGender';
 import { UserAge } from '../../../recoil/UserAge';
+import { PlanFilteredList } from '../../../recoil/PlanFilteredList';
 
 function CustomButton(props: ButtonUnstyledProps) {
   return <ButtonUnstyled {...props} component={CustomButtonRoot} />;
@@ -23,14 +25,17 @@ function CustomButton(props: ButtonUnstyledProps) {
 function SecondarySearchModal() {
   const gender = useRecoilValue(UserGender);
   const age = useRecoilValue(UserAge);
+  // const planList = useRecoilValue(PlanFilteredList);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   console.log(gender, age);
+  // console.log(planList?.chichu.length);
   return (
     <div>
       <Button onClick={handleOpen}>
-        {age}세 {gender == 1 ? '남성' : '여성'}
+        납입, 보험기간
+        <ZoomInIcon />
       </Button>
       <Modal
         open={open}
@@ -46,7 +51,7 @@ function SecondarySearchModal() {
             {/* 모달 시작 */}
             <Container>
               <div>
-                <h2>기본정보수정</h2>
+                <ModalTitle>조금만 더 구체적으로 찾아볼게요!</ModalTitle>
               </div>
               <Box
                 sx={{
@@ -58,22 +63,18 @@ function SecondarySearchModal() {
               >
                 <Stack spacing={5} direction="row">
                   <Box>
-                    <span>성별</span>
                     <Gender />
                   </Box>
                   <Box>
-                    <span>생년월일</span>
                     <BirthDate />
                   </Box>
                 </Stack>
                 <Stack spacing={5} direction="row">
                   <Box>
-                    <span>납입기간</span>
-                    <Period />
+                    <Period label="납입기간" />
                   </Box>
                   <Box>
-                    <span>보험기간</span>
-                    <Period />
+                    <Period label="보험기간" />
                   </Box>
                 </Stack>
 

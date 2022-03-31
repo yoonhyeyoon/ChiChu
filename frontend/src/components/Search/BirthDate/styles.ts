@@ -1,34 +1,14 @@
 import { styled } from '@mui/system';
-
-// const blue = {
-//   100: '#DAECFF',
-//   200: '#99CCF3',
-//   400: '#3399FF',
-//   500: '#007FFF',
-//   600: '#0072E5',
-//   900: '#003A75',
-// };
-
-const grey = {
-  100: '#E7EBF0',
-  200: '#E0E3E7',
-  300: '#CDD2D7',
-  400: '#B2BAC2',
-  500: '#A0AAB4',
-  600: '#6F7E8C',
-  700: '#3E5060',
-  800: '#2D3843',
-  900: '#1A2027',
-};
+import { grey } from '../../../styles/Colors';
 
 export const StyledInput = styled('input')(
   ({ theme }) => `
   // position: absolute;
-  font-family: IBM Plex Sans, sans-serif;
-  font-size: 0.875rem;
+  font-family: NotoSansKRRegular;
+  font-size: 1.1rem;
   box-sizing: border-box;
-  min-height: calc(1.5em + 22px);
-  min-width: 320px;
+  min-height: calc(2em + 22px);
+  min-width: 330px;
   background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
   border: 1px solid ${theme.palette.mode === 'dark' ? grey[800] : grey[300]};
   border-radius: 0.75em;
@@ -60,3 +40,11 @@ export const InsuranceDate = styled('span')(
   color: gray;
   `,
 );
+
+export const BirthDateMessage = styled('span')`
+  font-family: NotoSansKRLight;
+  font-size: 1.1rem;
+  &&& {
+    margin: 0 20px;
+  }
+`;

@@ -3,10 +3,10 @@ import styled from 'styled-components';
 export const BOX_RIGHT = styled.div`
   display: inline-block;
   position: sticky;
-  top: 300px;
+  top: 200px;
   bottom: 500px;
   text-align: center;
-  width: 180px;
+  width: 230px;
   height: 300px;
   margin-right: 60px;
 `;

@@ -8,31 +8,36 @@ import Stack from '@mui/material/Stack';
 import DefaultInfo from '../components/Search/DefaultInfo';
 import Button from '../components/Search/Button';
 import PlanTags from '../components/SearchResult/PlanTags';
+import Header from '../components/Common/Header';
 
 function Search() {
   return (
-    <Container>
-      <Box
-        sx={{
-          marginTop: 8,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}
-      >
-        <Stack spacing={5} direction="row">
-          <Box>
-            <Gender />
-          </Box>
-          <Box>
-            <BirthDate />
-          </Box>
-        </Stack>
-        <DefaultInfo />
-        <Button />
-        {/* <PlanTags /> */}
-      </Box>
-    </Container>
+    <>
+      <Header />
+      <Container>
+        <Box
+          sx={{
+            // marginTop: 8,
+            paddingTop: 15,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <Stack spacing={5} direction="row" sx={{ marginBottom: 2 }}>
+            <Box>
+              <Gender />
+            </Box>
+            <Box>
+              <BirthDate />
+            </Box>
+          </Stack>
+          <DefaultInfo />
+          <Button />
+          {/* <PlanTags /> */}
+        </Box>
+      </Container>
+    </>
   );
 }
 

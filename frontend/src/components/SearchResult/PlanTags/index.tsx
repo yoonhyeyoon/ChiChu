@@ -4,8 +4,9 @@ import sample from './sample.json';
 import { PlanTagButton } from './styles';
 
 import Stack from '@mui/material/Stack';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { PlanListSelector } from '../../../recoil/PlanListSelector';
+import { PlanFilteredList } from '../../../recoil/PlanFilteredList';
 
 type toggleList = string[];
 type PlanTagButtonType = {
@@ -21,7 +22,7 @@ const Button = ({ plan_tag, toggleList, setToggleList }: PlanTagButtonType) => {
   // atom으로 따로 불러와야함
   // const plans = useRecoilValue(PlanFilteredList);
   // const plans: PlanListType = planList;
-  // console.log(plans?.cheap);
+  // console.log(plans);
   const onChangeColor = () => {
     if (toggleList.includes(plan_tag)) {
       // 없으면

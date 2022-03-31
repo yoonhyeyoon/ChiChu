@@ -2,6 +2,7 @@ import React from 'react';
 import { useRecoilState } from 'recoil';
 import { UserGender } from '../../../recoil/UserGender';
 import {
+  InputLabel,
   StyledButton,
   StyledListbox,
   StyledOption,
@@ -44,14 +45,17 @@ function Gender() {
     //   <StyledOption value={1}>남성</StyledOption>
     //   <StyledOption value={2}>여성</StyledOption>
     // </CustomSelect>
-    <CustomSelect
-      value={userGender}
-      renderValue={renderValue}
-      onChange={handleChange}
-    >
-      <StyledOption value={1}>남성</StyledOption>
-      <StyledOption value={2}>여성</StyledOption>
-    </CustomSelect>
+    <>
+      <InputLabel>성별</InputLabel>
+      <CustomSelect
+        value={userGender}
+        renderValue={renderValue}
+        onChange={handleChange}
+      >
+        <StyledOption value={1}>남성</StyledOption>
+        <StyledOption value={2}>여성</StyledOption>
+      </CustomSelect>
+    </>
   );
 }
 export default Gender;

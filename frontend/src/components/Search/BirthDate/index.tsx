@@ -2,23 +2,27 @@ import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { UserAge, UserBirthDate } from '../../../recoil/UserAge';
 // import useInput from '../../../hooks/useInput';
-import { StyledInput } from './styles';
+import { BirthDateMessage, StyledInput } from './styles';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import { styled } from '@mui/material/styles';
 import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
+import { DefaultIntro } from '../DefaultInfo/styles';
+import { InputLabel } from '../Gender/styles';
 
 const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
   <Tooltip {...props} classes={{ popper: className }} />
 ))(({ theme }) => ({
   [`& .${tooltipClasses.tooltip}`]: {
-    backgroundColor: '#f5f5f9',
+    backgroundColor: '#DAECFF',
     color: 'rgba(0, 0, 0, 0.87)',
-    maxWidth: 220,
-    fontSize: theme.typography.pxToRem(12),
+    maxWidth: 300,
+    fontFamily: 'NotoSansKRRegular',
+    fontSize: theme.typography.pxToRem(15),
     border: '1px solid #dadde9',
+    borderRadius: '10px',
   },
 }));
 
@@ -53,7 +57,7 @@ function BirthDate() {
     setBirthDate(birthDateCrt);
 
     if (!birthDateRegex.test(birthDateCrt)) {
-      setBirthDateMessage('19970405 형식으로 입력해주세요!');
+      setBirthDateMessage('19870605 형식으로 입력해주세요!');
       setIsBirthDate(false);
       setUserAge(null);
     } else {
@@ -66,40 +70,42 @@ function BirthDate() {
 
   return (
     <>
+      <InputLabel>
+        보험나이 {userAge ? userAge + '세' : null}{' '}
+        <HtmlTooltip
+          placement="right"
+          title={
+            <React.Fragment>
+              <Typography color="inherit">
+                <b>보험나이란?</b>
+              </Typography>
+              {'걱정마세요, 치츄가 계산해줄게요! '}
+              <b>{'주민등록상 생일'}</b>
+              {'을 기준으로 '}
+              <b>{'6개월'}</b>
+              {' 되는 날 부터 한 살 더 올라가요. '}
+              {'보험나이에 따라 사망, 사고등의 위험률이 변경되어 '}
+              <b>{'보험료도 변경'}</b>
+              {'될 수 있어요.'}
+            </React.Fragment>
+          }
+        >
+          <HelpOutlineIcon
+            color="primary"
+            sx={{ fontSize: 20, cursor: 'pointer' }}
+          />
+        </HtmlTooltip>
+      </InputLabel>
       <Stack spacing={2}>
         <Box>
           <StyledInput
-            placeholder="생년월일 (Ex. 19970405)"
+            placeholder="생년월일 (ex. 19870605)"
             value={birthDate || ''}
             onChange={onChangeBirthDate}
             maxLength={8}
           />
-          {isBirthDate ? (
-            <span>
-              {'(보험나이 만 ' + userAge + '세)'}
-              <HtmlTooltip
-                title={
-                  <React.Fragment>
-                    <Typography color="inherit">
-                      <b>보험나이란?</b>
-                    </Typography>
-                    {'보험나이는 '}
-                    <b>{'주민등록상 생일'}</b>
-                    {'을 기준으로 '}
-                    <b>{'6개월'}</b>
-                    {' 되는 날 부터 한 살 더 올라가요. '}
-                    {'보험나이에 따라 사망, 사고등의 위험률이 변경되어 '}
-                    <b>{'보험료도 변경'}</b>
-                    {'될 수 있어요.'}
-                  </React.Fragment>
-                }
-              >
-                <HelpOutlineIcon color="primary" sx={{ cursor: 'pointer' }} />
-              </HtmlTooltip>
-            </span>
-          ) : null}
         </Box>
-        {birthDateMessage}
+        <BirthDateMessage>{birthDateMessage}</BirthDateMessage>
       </Stack>
     </>
   );

@@ -21,7 +21,7 @@ export const ChiChu = styled.img`
   position: absolute;
   width: 65%;
   right: -11%;
-
+  margin-top: 5rem;
   // left: 2%
   filter: drop-shadow(1px 1px 0 white) drop-shadow(-1px 1px 0 white);
 `;
@@ -91,6 +91,9 @@ export const ContentDiv = styled.div`
 export const Title = styled.b`
   font-size: 7rem;
   color: #fff;
+  color: ${blue[100]};
+  // text-shadow: -1px 0 ${blue[400]}, 0 1px ${blue[400]}, 1px 0 ${blue[400]},
+  //   0 -1px ${blue[400]};
   font-family: WendyOneRegular;
   animation: ${focus} 0.4s cubic-bezier(0.55, 0.85, 0.68, 0.53) both;
 `;
@@ -102,6 +105,13 @@ export const Content = styled.p`
   margin: 0;
   animation: ${focus} 0.3s cubic-bezier(0.55, 0.85, 0.68, 0.53) both;
   animation-delay: 0.7s;
+`;
+
+export const ChichuColor = styled.span`
+  color: ${blue[100]};
+  font-family: NotoSansKRBold;
+  text-shadow: -1px 0 ${blue[400]}, 0 1px ${blue[400]}, 1px 0 ${blue[400]},
+    0 -1px ${blue[400]};
 `;
 
 export const CustomButtonRoot = styled('button')`

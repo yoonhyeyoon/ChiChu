@@ -1,12 +1,11 @@
 import React from 'react';
-import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import Stack from '@mui/material/Stack';
 import ButtonUnstyled, { ButtonUnstyledProps } from '@mui/base/ButtonUnstyled';
 import {
   Background,
   ChiChu,
   ChiChuAnimation,
+  ChichuColor,
   Content,
   ContentDiv,
   CustomButtonRoot,
@@ -29,9 +28,8 @@ function Banner() {
         </ChiChuAnimation>
         <ContentDiv>
           <Title>CHI CHU</Title>
-          <Content>치아보험? 치츄가 찾아줄게요</Content>
-          <Content>빅데이터 추천 서비스</Content>
-
+          <Content>치츄가 찾아줄게요!</Content>
+          <Content>빅데이터 치아보험 추천 서비스</Content>
           <CustomButton onClick={() => navigate('search')}>
             치츄 시작하기
           </CustomButton>

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { DefaultBold, DefaultBox } from './styles';
+import { DefaultBold, DefaultBox, DefaultIntro } from './styles';
 import Stack from '@mui/material/Stack';
 import Divider from '@mui/material/Divider';
 import Box from '@mui/material/Box';
@@ -12,7 +12,7 @@ function DefaultInfo() {
   useEffect(() => setUserPeriod(10), []);
   return (
     <div>
-      <p>치아보험, 우선 이 조건으로 찾아볼게요!</p>
+      <DefaultIntro>치아보험, 우선 이 조건으로 찾아볼게요!</DefaultIntro>
       <DefaultBox>
         <Stack
           direction="row"

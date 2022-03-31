@@ -12,3 +12,9 @@ export const styledModal = {
   boxShadow: 24,
   p: 4,
 };
+
+export const ModalTitle = styled('span')`
+  font-family: NotoSansKRMedium;
+  font-size: 1.3rem;
+  margin: 5px 8px;
+`;
