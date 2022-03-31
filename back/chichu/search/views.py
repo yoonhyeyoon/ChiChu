@@ -102,6 +102,7 @@ def default(request, age, gender):
         ANY_VALUE(D.COMPANY_NAME) as company_name,
         ANY_VALUE(C.SUBTYPE_CODE) as subtype_code,
         ANY_VALUE(B.RATE) as rate,
+        ANY_VALUE(B.TOTAL_INDEX) as total_index,
         ANY_VALUE(B.PY) as py,
         ANY_VALUE(A.OPTION_CODE) as option_code,
         ANY_VALUE(A.OPTION_NAME) as option_name
@@ -613,6 +614,7 @@ def compare(request, age, gender, codes):
     # 가져와야할 목록
     # 1. 회사, 치츄 목록 : product_code, company_name, company_code, total_index
     company_list = []
+    list0 = []
     list1 = []
     list2 = []
     list3 = []
@@ -624,9 +626,9 @@ def compare(request, age, gender, codes):
     if len(codes) == 18:
         company_sql = f"""
         SELECT DISTINCT A.PRODUCT_CODE AS product_code,
+        B.PRODUCT_NAME AS product_name,
         C.COMPANY_CODE as company_code,
-        C.COMPANY_NAME as company_name,
-        A.TOTAL_INDEX AS total_index 
+        C.COMPANY_NAME as company_name
         
         FROM PRODUCT_RATE A, 
         PRODUCT B,
@@ -639,10 +641,25 @@ def compare(request, age, gender, codes):
         AND A.PRODUCT_CODE IN ('{p1}', '{p2}', '{p3}')
         """
 
+        list0_sql = f"""
+        SELECT DISTINCT A.PRODUCT_CODE AS product_code,
+        A.TOTAL_INDEX AS total_index 
+        
+        FROM PRODUCT_RATE A, 
+        PRODUCT B
+        WHERE AGE = {age}
+        AND GENDER = {gender}
+        AND A.PRODUCT_CODE = B.PRODUCT_CODE
+        AND A.PRODUCT_CODE IN ('{p1}', '{p2}', '{p3}')
+        """
+
         
         # 2. 치아보철치료비(OPTION_GROUP_CODE : A9509) > PRODUCT_CODE, OPTION_NAME, COVERAGE 
         list1_sql = f"""
-        SELECT E.OPTION_CODE as option_code, E.OPTION_NAME as option_name, GROUP_CONCAT(E.PRODUCT_CODE) as product_code, GROUP_CONCAT(E.COVERAGE) as coverage 
+        SELECT E.OPTION_CODE as option_code, 
+        E.OPTION_NAME as option_name, 
+        GROUP_CONCAT(E.PRODUCT_CODE) as product_code, 
+        GROUP_CONCAT(E.COVERAGE) as coverage 
         FROM (SELECT D.OPTION_CODE, D.OPTION_NAME, D.PRODUCT_CODE, SUM(D.COVERAGE) AS COVERAGE
         FROM (SELECT A.PRODUCT_CODE, C.OPTION_NAME, B.OPTION_CODE, B.COVERAGE 
         FROM PRODUCT_RATE A, PRODUCT_OPTION B, DB_OPTION C
@@ -693,6 +710,11 @@ def compare(request, age, gender, codes):
         for row in curs:
             company_list.append(row)
 
+
+        curs.execute(list0_sql)
+        for row in curs:
+            list0.append(row)
+
         curs.execute(list1_sql)
         for row in curs:
             row['product_code'] = row['product_code'].split(',')
@@ -718,6 +740,7 @@ def compare(request, age, gender, codes):
 
         data = {
             'company': company_list,
+            '치츄지수' : list0,
             '치아보철치료' : list1,
             '치아보전치료' : list2,
             '치수치료': list3
@@ -728,9 +751,9 @@ def compare(request, age, gender, codes):
         # 회사, 치츄 지수 
         company_sql = f"""
         SELECT DISTINCT A.PRODUCT_CODE AS product_code,
+        B.PRODUCT_NAME AS product_name,
         C.COMPANY_CODE as company_code,
-        C.COMPANY_NAME as company_name,
-        A.TOTAL_INDEX AS total_index 
+        C.COMPANY_NAME as company_name
         
         FROM PRODUCT_RATE A, 
         PRODUCT B,
@@ -740,6 +763,18 @@ def compare(request, age, gender, codes):
         AND GENDER = {gender}
         AND A.PRODUCT_CODE = B.PRODUCT_CODE
         AND B.COMPANY_CODE = C.COMPANY_CODE 
+        AND A.PRODUCT_CODE IN ('{p1}', '{p2}')
+        """
+
+        list0_sql = f"""
+        SELECT DISTINCT A.PRODUCT_CODE AS product_code,
+        A.TOTAL_INDEX AS total_index 
+        
+        FROM PRODUCT_RATE A, 
+        PRODUCT B
+        WHERE AGE = {age}
+        AND GENDER = {gender}
+        AND A.PRODUCT_CODE = B.PRODUCT_CODE
         AND A.PRODUCT_CODE IN ('{p1}', '{p2}')
         """
 
@@ -796,6 +831,10 @@ def compare(request, age, gender, codes):
         for row in curs:
             company_list.append(row)
 
+        curs.execute(list0_sql)
+        for row in curs:
+            list0.append(row)
+
         curs.execute(list1_sql)
         for row in curs:
             row['product_code'] = row['product_code'].split(',')
@@ -821,6 +860,7 @@ def compare(request, age, gender, codes):
 
         data = {
             'company': company_list,
+            '치츄지수' : list0,
             '치아보철치료' : list1,
             '치아보전치료' : list2,
             '치수치료': list3
