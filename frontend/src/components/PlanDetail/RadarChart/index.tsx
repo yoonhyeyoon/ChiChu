@@ -37,7 +37,7 @@ export function RadarChart(props: PropType) {
     data_arr.push(item['RATE']);
   }
   // 담보 값 없으면 분기처리
-  if (values.length < 3) {
+  if (values[0].length < 3) {
     if (!label_arr.includes('치아보존치료비')) {
       label_arr.push('치아보존치료비');
       data_arr.push(0);
