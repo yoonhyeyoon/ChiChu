@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import React from 'react';
+import { useRecoilState } from 'recoil';
 import { UserGender } from '../../../recoil/UserGender';
 import {
   StyledButton,

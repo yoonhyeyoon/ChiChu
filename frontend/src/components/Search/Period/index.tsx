@@ -1,17 +1,13 @@
 import React from 'react';
-import SelectUnstyled, {
-  SelectUnstyledProps,
-  SelectOption,
-} from '@mui/base/SelectUnstyled';
+import SelectUnstyled, { SelectUnstyledProps } from '@mui/base/SelectUnstyled';
 import {
   StyledButton,
   StyledListbox,
   StyledOption,
   StyledPopper,
 } from '../Gender/styles';
-import { useRecoilState, useResetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { UserPeriod } from '../../../recoil/UserPeriod';
-import { PlanListSelector } from '../../../recoil/PlanListSelector';
 
 function CustomSelect(props: SelectUnstyledProps<number>) {
   const components: SelectUnstyledProps<number>['components'] = {
@@ -26,7 +22,6 @@ function CustomSelect(props: SelectUnstyledProps<number>) {
 
 function Period() {
   const [userPeriod, setUserPeriod] = useRecoilState(UserPeriod);
-  const planListSelector = useResetRecoilState(PlanListSelector);
 
   const handleChange = (e: number | null) => {
     setUserPeriod(e);

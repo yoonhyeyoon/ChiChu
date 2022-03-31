@@ -1,19 +1,13 @@
 import { Suspense, useState } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { Box, Button, Container } from '@mui/material';
-import AddAlarmIcon from '@mui/icons-material/AddAlarm';
-
-import BasicTable from '../components/PlanDetail/Modal/CompanyIndexModal/BasicTable';
 import PlanBarList from '../components/SearchResult/PlanBarList/index';
 import PlanCardList from '../components/SearchResult/PlanCardList/index';
 import PlanRateRange from '../components/SearchResult/PlanRateRange';
 import PlanTags from '../components/SearchResult/PlanTags';
 import RelatedPlanList from '../components/SearchResult/RelatedPlanList/RelatedPlanList';
-import CHICHUModal from '../components/Common/CHICHUModal';
-import SecondarySearch from './SecondarySearch';
 import SecondarySearchModal from '../components/SearchResult/SecondarySearchModal';
 import SortButton from '../components/SearchResult/SortButton';
-
 import { PlanFilteredList } from '../recoil/PlanFilteredList';
 import { UserPeriod } from '../recoil/UserPeriod';
 import { ProductType } from '../types/types';
@@ -22,7 +16,7 @@ function SearchResult(): JSX.Element {
   // as 를 쓰면 타입을 강제로 선언할 수 있음.
   const planList = useRecoilValue(PlanFilteredList)?.popular as ProductType[];
   const [showMore, setShowMore] = useState(false);
-  const [userPeriod, setUserPeriod] = useRecoilState(UserPeriod);
+  const userPeriod = useRecoilValue(UserPeriod);
   console.log(userPeriod);
 
   return (

@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { PlanListType, PlanTagType } from '../../../types/types';
 import sample from './sample.json';
-import planList from './list.json';
 import { PlanTagButton } from './styles';
 
 import Stack from '@mui/material/Stack';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { PlanListSelector } from '../../../recoil/PlanListSelector';
-import { PlanFilteredList } from '../../../recoil/PlanFilteredList';
 
 type toggleList = string[];
 type PlanTagButtonType = {

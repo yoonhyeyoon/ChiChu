@@ -1,11 +1,7 @@
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
-import ButtonUnstyled, {
-  buttonUnstyledClasses,
-  ButtonUnstyledProps,
-} from '@mui/base/ButtonUnstyled';
-import { styled } from '@mui/system';
+import ButtonUnstyled, { ButtonUnstyledProps } from '@mui/base/ButtonUnstyled';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { UserGender } from '../../../recoil/UserGender';
 import { UserAge } from '../../../recoil/UserAge';
