@@ -10,6 +10,7 @@ import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { UserGender } from '../../../recoil/UserGender';
 import { UserAge } from '../../../recoil/UserAge';
 import { CustomButtonRoot } from '../../Common/CHICHUButton/styles';
+import { PlanListSelector } from '../../../recoil/PlanListSelector';
 
 function CustomButton(props: ButtonUnstyledProps) {
   return <ButtonUnstyled {...props} component={CustomButtonRoot} />;
@@ -21,9 +22,14 @@ function Button() {
   const userGender = useRecoilValue(UserGender);
   console.log(userAge, userGender);
 
+  const planListSelector = useResetRecoilState(PlanListSelector);
+
   const handleClick = () => {
-    // navigate('result', { replace: false });
-    location.href = 'http://localhost:3000/search/result';
+    // 납입기간 초기화
+    planListSelector();
+    navigate('result', { replace: false });
+    // navigate.
+    // location.href = 'http://localhost:3000/search/result';
   };
   return (
     <Stack spacing={2} direction="row">

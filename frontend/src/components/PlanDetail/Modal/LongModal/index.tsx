@@ -4,12 +4,9 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import IconButton from '@mui/material/IconButton';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Search from '../../../pages/Search';
 import { styledModal } from './styles';
 
-function CHICHUModal({
+export default function LongModal({
   icon,
   element,
 }: {
@@ -41,5 +38,3 @@ function CHICHUModal({
     </div>
   );
 }
-
-export default CHICHUModal;

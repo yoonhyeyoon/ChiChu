@@ -13,8 +13,8 @@ import { PlanFilteredList } from '../recoil/PlanFilteredList';
 import { PlanListType, ProductType } from '../types/types';
 import { UserPeriod } from '../recoil/UserPeriod';
 import BasicTable from '../components/PlanDetail/Modal/CompanyIndexModal/BasicTable';
-import SecondarySearch from './SecondarySearch';
 import AddAlarmIcon from '@mui/icons-material/AddAlarm';
+import SecondarySearchModal from '../components/SearchResult/SecondarySearchModal';
 
 function SearchResult(): JSX.Element {
   // as 를 쓰면 타입을 강제로 선언할 수 있음.
@@ -35,11 +35,11 @@ function SearchResult(): JSX.Element {
               // alignItems: 'center',
             }}
           >
-            <CHICHUModal
+            {/* <CHICHUModal
               icon={<AddAlarmIcon />}
               element={<SecondarySearch />}
-            />
-            {/* <SecondarySearchModal /> */}
+            /> */}
+            <SecondarySearchModal />
             <PlanTags />
             <PlanRateRange />
             <SortButton />

@@ -1,5 +1,11 @@
 import * as React from 'react';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import LongModal from '../Modal/LongModal';
+import { BochulText } from './OptionGuides/BochulText';
 import { DD_RIGHT, DD_LEFT } from './styles';
+import { BozonText } from './OptionGuides/BozonText';
+import { SingyeongText } from './OptionGuides/SingyeongText';
+import { ETC } from './OptionGuides/ETC';
 
 type PropType = {
   option: {
@@ -57,6 +63,10 @@ export function OptionBoard(props: PropType) {
     <div>
       <dl>
         <dt>치아보철치료</dt>
+        <LongModal
+          element={<BochulText />}
+          icon={<HelpOutlineIcon sx={{ cursor: 'pointer' }} />}
+        />
         <dd>
           <DD_LEFT>임플란트</DD_LEFT>
           <DD_RIGHT>{implant ? implant : '0원'}</DD_RIGHT>
@@ -72,6 +82,10 @@ export function OptionBoard(props: PropType) {
       </dl>
       <dl>
         <dt>치아보존치료</dt>
+        <LongModal
+          element={<BozonText />}
+          icon={<HelpOutlineIcon sx={{ cursor: 'pointer' }} />}
+        />
         <dd>
           <DD_LEFT>크라운</DD_LEFT>
           <DD_RIGHT>{crown ? crown : '0원'}</DD_RIGHT>
@@ -87,6 +101,10 @@ export function OptionBoard(props: PropType) {
       </dl>
       <dl>
         <dt>신경치료</dt>
+        <LongModal
+          element={<SingyeongText />}
+          icon={<HelpOutlineIcon sx={{ cursor: 'pointer' }} />}
+        />
         <dd>
           <DD_LEFT>신경치료</DD_LEFT>
           <DD_RIGHT>{singyeong ? singyeong : '0원'}</DD_RIGHT>
@@ -94,6 +112,10 @@ export function OptionBoard(props: PropType) {
       </dl>
       <dl>
         <dt>기타</dt>
+        <LongModal
+          element={<ETC />}
+          icon={<HelpOutlineIcon sx={{ cursor: 'pointer' }} />}
+        />
         <dd>
           <DD_LEFT>잇몸질환</DD_LEFT>
           <DD_RIGHT>{itmom ? itmom : '0원'}</DD_RIGHT>
