@@ -1,10 +1,11 @@
 import React from 'react';
-import PauseOnHover from '../components/PlanTip/PostCarousel';
+import PostCarousel from '../components/PlanTip/PostCarousel';
+import { postList } from '../components/PlanTip/PostCarousel/postList';
 
 const PlanTip = (): JSX.Element => {
   return (
     <div>
-      <PauseOnHover />
+      <PostCarousel postList={postList} />
     </div>
   );
 };
