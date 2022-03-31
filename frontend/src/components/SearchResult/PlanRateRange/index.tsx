@@ -1,8 +1,6 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Slider from '@mui/material/Slider';
-import { PlanFilteredList } from '../../../recoil/PlanFilteredList';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { PlanListSelector } from '../../../recoil/PlanListSelector';
 import { PlanRateRangeSlider } from './styles';
 import { PlanListType } from '../../../types/types';
@@ -14,7 +12,6 @@ function valuetext(value: number) {
 export default function PlanRateRange() {
   const [planFilteredList, setPlanFilteredList] =
     useRecoilState(PlanListSelector);
-  const plans = useRecoilValue(PlanFilteredList);
   // console.log(plans);
   const [planRate, setPlanRate] = React.useState([0, 0]);
   const [maxRate, setMaxRate] = React.useState(0);
@@ -33,11 +30,11 @@ export default function PlanRateRange() {
 
   // 납입금액별 필터
   React.useEffect(() => {
-    function checkRanged(rate: number) {
-      if (rate >= planRate[0] && rate <= planRate[1]) {
-        return true;
-      }
-    }
+    // function checkRanged(rate: number) {
+    //   if (rate >= planRate[0] && rate <= planRate[1]) {
+    //     return true;
+    //   }
+    // }
 
     if (planFilteredList) {
       const newDict: PlanListType = { ...planFilteredList };

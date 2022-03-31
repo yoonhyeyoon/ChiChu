@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { UserAge, UserBirthDate } from '../../../recoil/UserAge';
 // import useInput from '../../../hooks/useInput';
-import { InsuranceDate, StyledInput } from './styles';
+import { StyledInput } from './styles';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import { styled } from '@mui/material/styles';
 import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
-import ClickAwayListener from '@mui/material/ClickAwayListener';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -29,8 +28,6 @@ function BirthDate() {
   const [birthDateMessage, setBirthDateMessage] = useState('');
   const [userAge, setUserAge] = useRecoilState(UserAge);
   const [isBirthDate, setIsBirthDate] = useState(false);
-
-  const [open, setOpen] = React.useState(false);
 
   // 보험나이계산
   const calculateUserAge = (birthDateCrt: string) => {
@@ -90,10 +87,10 @@ function BirthDate() {
                     <b>{'주민등록상 생일'}</b>
                     {'을 기준으로 '}
                     <b>{'6개월'}</b>
-                    {' 되는 날 부터 한 살 더 올라갑니다.'}
+                    {' 되는 날 부터 한 살 더 올라가요. '}
                     {'보험나이에 따라 사망, 사고등의 위험률이 변경되어 '}
                     <b>{'보험료도 변경'}</b>
-                    {'될 수 있습니다.'}
+                    {'될 수 있어요.'}
                   </React.Fragment>
                 }
               >

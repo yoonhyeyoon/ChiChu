@@ -3,10 +3,7 @@ import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
-import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Search from '../../../pages/Search';
 import { styledModal } from './styles';
 import ButtonUnstyled, { ButtonUnstyledProps } from '@mui/base/ButtonUnstyled';
 import { CustomButtonRoot } from '../../Common/CHICHUButton/styles';
@@ -18,7 +15,6 @@ import Period from '../../Search/Period';
 import { useRecoilValue } from 'recoil';
 import { UserGender } from '../../../recoil/UserGender';
 import { UserAge } from '../../../recoil/UserAge';
-import { UserPeriod } from '../../../recoil/UserPeriod';
 
 function CustomButton(props: ButtonUnstyledProps) {
   return <ButtonUnstyled {...props} component={CustomButtonRoot} />;

@@ -41,3 +41,29 @@
     transform: rotate(360deg);
   }
 }
+
+/* 폰트 불러오기 */
+@font-face {
+  font-family: WendyOneRegular;
+  src: url('/public/fonts/WendyOne-Regular.ttf');
+}
+
+@font-face {
+  font-family: NotoSansKRBold;
+  src: url('/public/fonts/NotoSansKR-Bold.otf');
+}
+
+@font-face {
+  font-family: NotoSansKRMedium;
+  src: url('/public/fonts/NotoSansKR-Medium.otf');
+}
+
+@font-face {
+  font-family: NotoSansKRRegular;
+  src: url('/public/fonts/NotoSansKR-Regular.otf');
+}
+
+@font-face {
+  font-family: NotoSansKRLight;
+  src: url('/public/fonts/NotoSansKR-Light.otf');
+}
