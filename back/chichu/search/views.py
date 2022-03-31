@@ -164,7 +164,6 @@ def default(request, age, gender):
         ) G
     GROUP BY chichu.G.TOTAL_INDEX
     ORDER BY chichu.G.TOTAL_INDEX DESC 
-    LIMIT 6;
     """
     
     # (4) 보험료 낮은 순 [성별, 나이, py 10, 일반형]
@@ -202,7 +201,6 @@ def default(request, age, gender):
         ) G
     GROUP BY chichu.G.RATE
     ORDER BY chichu.G.RATE 
-    LIMIT 6;
     """
 
     # (5) 보장금액 높은 순
@@ -408,7 +406,6 @@ def detail(request, gender, age, py):
         ) G
     GROUP BY chichu.G.TOTAL_INDEX
     ORDER BY chichu.G.TOTAL_INDEX DESC 
-    LIMIT 6;
     """
     
     # (2) 보험료 낮은 순 [성별, 나이, py 10, 일반형]
@@ -446,7 +443,6 @@ def detail(request, gender, age, py):
         ) G
     GROUP BY chichu.G.RATE
     ORDER BY chichu.G.RATE 
-    LIMIT 6;
     """
 
     # (3) 보장금액 높은 순
