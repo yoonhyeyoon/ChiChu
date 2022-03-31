@@ -8,6 +8,24 @@ export type PlanPreviewType = {
   moving?: boolean;
 };
 
+export type ComparisonTableRowType = {
+  option_name: string;
+  coverage: string[];
+};
+
+export type ComparisonTableCompanyType = {
+  product_code: string;
+  company_code: string;
+  company_name: string;
+  total_index: number;
+};
+
+export type ComparisonTableType = {
+  치아보철치료비?: ComparisonTableRowType[];
+  치아보존치료비?: ComparisonTableRowType[];
+  치수치료비?: ComparisonTableRowType[];
+};
+
 export type ProgressBarWithNumberType = {
   plan_score: number;
   plan_average: number;
