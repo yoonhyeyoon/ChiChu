@@ -8,7 +8,7 @@ import PlanBarList from '../components/SearchResult/PlanBarList/index';
 import PlanCardList from '../components/SearchResult/PlanCardList/index';
 import PlanRateRange from '../components/SearchResult/PlanRateRange';
 import PlanTags from '../components/SearchResult/PlanTags';
-import RelatedPlanList from '../components/SearchResult/RelatedPlanList/RelatedPlanList';
+import RelatedPlanList from '../components/SearchResult/RelatedPlanList';
 import CHICHUModal from '../components/Common/CHICHUModal';
 import SecondarySearchModal from '../components/SearchResult/SecondarySearchModal';
 import SortButton from '../components/SearchResult/SortButton';
