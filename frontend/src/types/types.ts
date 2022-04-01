@@ -20,6 +20,13 @@ export type ComparisonTableCompanyType = {
   total_index: number;
 };
 
+export type PlanPickerType = {
+  product_name: string;
+  product_code: string;
+  company_code: string;
+  company_name: string;
+};
+
 export type ComparisonTableType = {
   치아보철치료비?: ComparisonTableRowType[];
   치아보존치료비?: ComparisonTableRowType[];
@@ -41,7 +48,7 @@ export interface PlanTagType {
 export type ProductType = {
   product_code: string;
   product_name: string;
-  company_code: number;
+  company_code: string;
   company_name: string;
   subtype_code: number;
   rate: number;

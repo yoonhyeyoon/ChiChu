@@ -12,10 +12,13 @@ import {
 
 // import ProgressBarWithNumber from '../../Common/ProgressBarWithNumber';
 import { checkedPlanListState } from '../../../recoil/planComparisonState';
-import { ProductType } from '../../../types/types';
+import { ProductType, PlanPickerType } from '../../../types/types';
 import { isEmpty } from '../../../utils/arrayFunctions';
 
 function PlanCard({ content }: { content: ProductType }) {
+  const planInfo: PlanPickerType = {
+    ...content,
+  };
   const [checkedPlanList, setCheckedPlanList] =
     useRecoilState(checkedPlanListState);
   const [checked, setChecked] = useState(false);
@@ -27,11 +30,13 @@ function PlanCard({ content }: { content: ProductType }) {
     e.preventDefault();
     if (checked === false) {
       // 체크가 안 된 상태였을 경우, 목록에 추가
-      setCheckedPlanList(checkedPlanList.concat(content.product_code));
+      setCheckedPlanList(checkedPlanList.concat(planInfo));
     } else {
       // 체크된 상태였을 경우, 목록에서 제거
       setCheckedPlanList(
-        checkedPlanList.filter(plan => plan !== content.product_code),
+        checkedPlanList.filter(
+          plan => plan.product_code !== planInfo.product_code,
+        ),
       );
     }
     // 체크 상태 변경
