@@ -438,12 +438,20 @@ def product(request, product_code, age, gender, py):
     age = change_age(age)
 
     conn = pymysql.connect(host= host, user = user, password = pw, db = db, charset=charset)
-    curs = conn.cursor(pymysql.cursors.DictCursor) 
 
+    curs_proc = conn.cursor()
     age_init = str(age)[0]
     age1 = int(age_init + '0')
     age2 = int(age_init + '5')
-    curs.callproc('UPDATE_HIT', (product_code, age, gender, py, age1, age2))
+    SQL = f"CALL UPDATE_HIT('{product_code}', {age}, {gender}, {py}, {age1}, {age2})"
+    try:
+        curs_proc.execute(SQL)
+        conn.commit()
+    except:
+        conn.rollback()
+    curs_proc.close()
+
+    curs = conn.cursor(pymysql.cursors.DictCursor) 
 
     SQL1 = f"SELECT C.PRODUCT_CODE, PRODUCT_NAME, COMPANY_CODE, COMPANY_NAME, SUBTYPE_CODE, PRODUCT_LINK, AGE, GENDER, PY, RATE, COMPANY_INDEX, PRODUCT_INDEX, USER_INDEX, TOTAL_INDEX FROM (SELECT A.PRODUCT_CODE AS PRODUCT_CODE, PRODUCT_NAME, A.COMPANY_CODE AS COMPANY_CODE, COMPANY_NAME, SUBTYPE_CODE, PRODUCT_LINK FROM PRODUCT AS A JOIN COMPANY AS B ON A.COMPANY_CODE = B.COMPANY_CODE) AS C JOIN PRODUCT_RATE AS D ON C.PRODUCT_CODE = D.PRODUCT_CODE WHERE C.PRODUCT_CODE = '{product_code}' AND AGE = {age} AND GENDER = {gender} AND PY = {py}"
     SQL2 = f"SELECT PRODUCT_OPTION AS NAME, CONCAT(COVERAGE*10000, '원') AS COVERAGE FROM PRODUCT_OPTION WHERE PRODUCT_CODE='{product_code}'"
