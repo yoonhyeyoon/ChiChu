@@ -8,9 +8,11 @@ export type PlanPreviewType = {
   moving?: boolean;
 };
 
-export type ComparisonTableRowType = {
-  option_name: string;
-  coverage: string[];
+export type PlanPickerType = {
+  product_name: string;
+  product_code: string;
+  company_code: string;
+  company_name: string;
 };
 
 export type ComparisonTableCompanyType = {
@@ -20,17 +22,19 @@ export type ComparisonTableCompanyType = {
   total_index: number;
 };
 
-export type PlanPickerType = {
-  product_name: string;
-  product_code: string;
-  company_code: string;
-  company_name: string;
+export type ComparisonTableRowType = {
+  option_code: string;
+  option_name: string;
+  product_code: string[];
+  coverage: string[];
 };
 
 export type ComparisonTableType = {
-  치아보철치료비?: ComparisonTableRowType[];
-  치아보존치료비?: ComparisonTableRowType[];
-  치수치료비?: ComparisonTableRowType[];
+  company: PlanPickerType[];
+  치츄지수: { product_code: string; total_index: number }[];
+  치아보철치료: ComparisonTableRowType[];
+  치아보전치료: ComparisonTableRowType[];
+  치수치료: ComparisonTableRowType[];
 };
 
 export type ProgressBarWithNumberType = {

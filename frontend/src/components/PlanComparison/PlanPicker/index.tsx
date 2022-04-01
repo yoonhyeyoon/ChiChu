@@ -55,8 +55,12 @@ function PlanPicker({ list }: { list: PlanPickerType[] }) {
         ))}
         <RemainingPlans maxNum={maxNum} list={list} />
       </Grid>
-      <Button>
-        <Link to={`/compare/${userAge}/${userGender}/${getCodes(list)}`}>
+      <Button variant="contained">
+        <Link
+          to="/compare"
+          state={{ age: userAge, gender: userGender, codes: getCodes(list) }}
+          style={{ textDecoration: 'none', color: 'white' }}
+        >
           원스톱 보험비교
         </Link>
       </Button>

@@ -6,10 +6,10 @@
 import { TableCell, TableRow } from '@mui/material';
 
 import CompanyProfile from '../../PlanDetail/CompanyProfile';
-import { ComparisonTableCompanyType } from '../../../types/types';
+import { PlanPickerType } from '../../../types/types';
 
 type TableHeaderType = {
-  companies: ComparisonTableCompanyType[];
+  companies: PlanPickerType[];
 };
 
 function TableHeader({ companies }: TableHeaderType) {
@@ -21,7 +21,7 @@ function TableHeader({ companies }: TableHeaderType) {
           {/* 회사들 프로필 부분 */}
           <CompanyProfile
             company_name={company.company_name}
-            product_name={company.product_code}
+            product_name={company.product_name}
           />
         </TableCell>
       ))}
