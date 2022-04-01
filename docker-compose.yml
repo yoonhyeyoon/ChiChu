@@ -9,7 +9,7 @@ services:
     depends_on:
       - front
       - back
-    volume:
+    volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
     networks:
