@@ -1,14 +1,14 @@
 export const postList = [
   {
     name: '하나',
-    img: '',
+    image: '',
   },
   {
     name: '둘',
-    img: '',
+    image: '',
   },
   {
     name: '셋',
-    img: '',
+    image: '',
   },
 ];
