@@ -2,6 +2,7 @@ import { Suspense, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { Box, Button, Container } from '@mui/material';
 
+import Header from '../components/Common/Header';
 import PlanBarList from '../components/SearchResult/PlanBarList/index';
 import PlanCardList from '../components/SearchResult/PlanCardList/index';
 import PlanPicker from '../components/PlanComparison/PlanPicker';
@@ -11,16 +12,17 @@ import RelatedPlanList from '../components/SearchResult/RelatedPlanList';
 import CHICHUModal from '../components/Common/CHICHUModal';
 import SecondarySearchModal from '../components/SearchResult/SecondarySearchModal';
 import SortButton from '../components/SearchResult/SortButton';
+import Transition from '../components/Common/Transition';
 
 import { checkedPlanListState } from '../recoil/planComparisonState';
 import { PlanFilteredList } from '../recoil/PlanFilteredList';
 import { planListState } from '../recoil/searchResultState';
 import { UserPeriod } from '../recoil/UserPeriod';
-import { ProductType } from '../types/types';
-import Header from '../components/Common/Header';
-import { ModalTitle } from '../components/SearchResult/SecondarySearchModal/styles';
 import { UserGender } from '../recoil/UserGender';
 import { UserAge } from '../recoil/UserAge';
+import { isEmpty } from '../utils/arrayFunctions';
+import { ModalTitle } from '../components/SearchResult/SecondarySearchModal/styles';
+import { ProductType } from '../types/types';
 
 function SearchResult(): JSX.Element {
   const containerRef = useRef(null);
@@ -69,9 +71,6 @@ function SearchResult(): JSX.Element {
             <PlanRateRange />
             <SortButton />
 
-            {/* {checkedPlanList} */}
-            <PlanPicker list={checkedPlanList} />
-
             {/* 오류 회피를 위해, planList가 있을 때만 렌더링 */}
             {planList && (
               <>
@@ -95,6 +94,12 @@ function SearchResult(): JSX.Element {
             )}
           </Box>
         </Container>
+        {/* 슬라이딩 애니메이션 창 */}
+        <Transition
+          checked={!isEmpty(checkedPlanList)}
+          component={<PlanPicker list={checkedPlanList} />}
+          containerRef={containerRef}
+        />
       </Suspense>
     </>
   );

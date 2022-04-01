@@ -1,10 +1,21 @@
 import { Link } from 'react-router-dom';
-import { Container, Grid, Paper, Typography } from '@mui/material';
+import { useRecoilValue } from 'recoil';
+import { Button, Grid, Paper, Typography } from '@mui/material';
 
 import CompanyProfile from '../../PlanDetail/CompanyProfile';
+import { UserAge } from '../../../recoil/UserAge';
+import { UserGender } from '../../../recoil/UserGender';
 import { PlanPickerType } from '../../../types/types';
 
 const maxNum = 3;
+
+const getCodes = (list: PlanPickerType[]) => {
+  let codes = '';
+  list.forEach(item => {
+    codes += item.product_code;
+  });
+  return codes;
+};
 
 function RemainingPlans<T>({
   maxNum,
@@ -28,6 +39,9 @@ function RemainingPlans<T>({
 }
 
 function PlanPicker({ list }: { list: PlanPickerType[] }) {
+  const userAge = useRecoilValue(UserAge);
+  const userGender = useRecoilValue(UserGender);
+
   return (
     <>
       <Grid container spacing={2}>
@@ -41,9 +55,11 @@ function PlanPicker({ list }: { list: PlanPickerType[] }) {
         ))}
         <RemainingPlans maxNum={maxNum} list={list} />
       </Grid>
-      <Container>
-        <Link to="/compare">원스톱 보험비교</Link>
-      </Container>
+      <Button>
+        <Link to={`/compare/${userAge}/${userGender}/${getCodes(list)}`}>
+          원스톱 보험비교
+        </Link>
+      </Button>
     </>
   );
 }
