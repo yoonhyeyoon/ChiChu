@@ -51,10 +51,10 @@ type InfoType = {
   };
   option: {
     NAME: string;
-    COVERAGE: string;
+    COVERAGE: number;
   }[];
   option_column: { ID: string; OPTION_NAME: string }[];
-  option_detail: { NAME: string; COVERAGE: string }[];
+  option_detail: { NAME: string; COVERAGE: number }[];
   option_group: { NAME: string; COVERAGE: number; RATE: number }[];
 };
 
@@ -73,7 +73,7 @@ function PlanDetail() {
       age: userAge,
       gender: userGender,
       product_code: state.product_code,
-      py: userPeriod,
+      py: state.py,
     };
     axios
       .get(

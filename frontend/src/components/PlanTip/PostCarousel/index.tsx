@@ -1,49 +1,71 @@
-import React, { Component } from 'react';
+// 참고: https://www.npmjs.com/package/react-multi-carousel
 
-import {
-  SlideTitle,
-  Container,
-  StyledSlider,
-  CardBox,
-  CardImg,
-  CardText,
-} from './styles';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+import { useState } from 'react';
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
+import NeedCard from './Cards/NeedCard';
+import PickCard from './Cards/PickCard';
+import SelfCard from './Cards/SelfCard';
 
-type PropType = {
-  postList: {
-    name: string;
-    img: string;
-  }[];
+const responsiveStyle = {
+  superLargeDesktop: {
+    // the naming can be any, depends on you.
+    breakpoint: { max: 4000, min: 3000 },
+    items: 5,
+  },
+  desktop: {
+    breakpoint: { max: 3000, min: 800 },
+    items: 3,
+  },
+  tablet: {
+    breakpoint: { max: 800, min: 500 },
+    items: 2,
+  },
+  mobile: {
+    breakpoint: { max: 500, min: 0 },
+    items: 1,
+  },
 };
 
-function PostCarousel(props: PropType) {
-  const settings = {
-    dots: true,
-    infinite: true,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 2000,
-    pauseOnHover: true,
-  };
-  console.log(props);
+function PostCarousel() {
+  const [playing, setPlaying] = useState(true);
+  const [moving, setMoving] = useState(false);
 
   return (
-    <Container>
-      <SlideTitle>포스트</SlideTitle>
-      <StyledSlider {...settings}>
-        {/* {props.map((name, img) => {
-          return (
-            <CardBox>
-              <CardImg alt="서비스이미지" src={img} />
-              <CardText>{name}</CardText>
-            </CardBox>
-          );
-        })} */}
-      </StyledSlider>
-    </Container>
+    <div
+      onMouseEnter={() => {
+        setPlaying(false);
+      }}
+      onMouseLeave={() => {
+        setPlaying(true);
+      }}
+    >
+      <Carousel
+        responsive={responsiveStyle}
+        // 슬라이딩 효과
+        infinite={true}
+        autoPlay={playing}
+        autoPlaySpeed={4000}
+        shouldResetAutoplay={true}
+        transitionDuration={500}
+        // 드래그나 스와이프 가능
+        draggable={true}
+        swipeable={true}
+        // 움직일 때는 클릭 불가능하게
+        beforeChange={() => setMoving(true)}
+        afterChange={() => setMoving(false)}
+        // 디자인에 관한 속성들
+        arrows={true}
+        showDots={true}
+        containerClass="carousel-container"
+        dotListClass="custom-dot-list-style"
+        itemClass="carousel-item-padding-40-px"
+      >
+        <NeedCard />
+        <PickCard />
+        <SelfCard />
+      </Carousel>
+    </div>
   );
 }
 

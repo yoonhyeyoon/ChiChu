@@ -4,7 +4,7 @@ import { DD_RIGHT, DD_LEFT } from './styles';
 type PropType = {
   option_detail: {
     NAME: string;
-    COVERAGE: string;
+    COVERAGE: number;
   }[];
 };
 
@@ -16,7 +16,7 @@ export function OptionDetailBoard(props: PropType) {
         return (
           <div>
             <DD_LEFT>{item['NAME']}</DD_LEFT>
-            <DD_RIGHT>{item['COVERAGE']}</DD_RIGHT>
+            <DD_RIGHT>{item['COVERAGE'].toLocaleString()}원</DD_RIGHT>
           </div>
         );
       })}

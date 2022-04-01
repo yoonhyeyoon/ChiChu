@@ -1,5 +1,4 @@
 import { atom, selector } from 'recoil';
-import customAxios from '../utils/customAxios';
 import { UserAge } from './UserAge';
 import { UserGender } from './UserGender';
 import axios from 'axios';

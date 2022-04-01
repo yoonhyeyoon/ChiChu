@@ -6,7 +6,12 @@ import PlanBarList from '../components/SearchResult/PlanBarList/index';
 import PlanCardList from '../components/SearchResult/PlanCardList/index';
 import PlanRateRange from '../components/SearchResult/PlanRateRange';
 import PlanTags from '../components/SearchResult/PlanTags';
+<<<<<<< HEAD
 import RelatedPlanList from '../components/SearchResult/RelatedPlanList';
+=======
+import RelatedPlanList from '../components/SearchResult/RelatedPlanList/RelatedPlanList';
+import CHICHUModal from '../components/Common/CHICHUModal';
+>>>>>>> feature/FE/detail
 import SecondarySearchModal from '../components/SearchResult/SecondarySearchModal';
 import SortButton from '../components/SearchResult/SortButton';
 

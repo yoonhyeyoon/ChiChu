@@ -5,10 +5,8 @@ import {
   CardContent,
   CardHeader,
 } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom';
 import { ProductType } from '../../../types/types';
-import ProgressBarWithNumber from '../../Common/ProgressBarWithNumber';
 
 function PlanCard({ content }: { content: ProductType }) {
   const navigate = useNavigate();
