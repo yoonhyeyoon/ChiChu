@@ -61,6 +61,7 @@ def default(request, age, gender):
         G.COMPANY_CODE AS company_code,
         G.COMPANY_NAME AS company_name,
         G.SUBTYPE_CODE as subtype_code,
+        G.SUBTYPE_NAME as subtype_name,
         G.RATE AS rate,
         G.PY AS py,
         GROUP_CONCAT(G.option_code) AS option_code, 
@@ -70,6 +71,7 @@ def default(request, age, gender):
             ANY_VALUE(D.COMPANY_CODE) as company_code,
             ANY_VALUE(D.COMPANY_NAME) as company_name,
             ANY_VALUE(C.SUBTYPE_CODE) as subtype_code,
+            ANY_VALUE(F.SUBTYPE_NAME) as subtype_name,
             ANY_VALUE(B.RATE) as rate,
             ANY_VALUE(B.PY) as py,
             ANY_VALUE(E.OPTION_CODE) as option_code,
@@ -81,11 +83,13 @@ def default(request, age, gender):
             PRODUCT_RATE B,
             PRODUCT C,
             COMPANY D,
-            DB_OPTION E
+            DB_OPTION E,
+            PRODUCT_SUBTYPE F
             WHERE A.PRODUCT_CODE = B.PRODUCT_CODE 
             AND B.PRODUCT_CODE = C.PRODUCT_CODE
             AND C.COMPANY_CODE = D.COMPANY_CODE
             AND A.OPTION_CODE = E.OPTION_CODE
+            AND C.SUBTYPE_CODE = F.SUBTYPE_CODE
             AND AGE = {age}
             AND GENDER = {gender}
         ) G
@@ -103,6 +107,7 @@ def default(request, age, gender):
         ANY_VALUE(D.COMPANY_CODE) as company_code,
         ANY_VALUE(D.COMPANY_NAME) as company_name,
         ANY_VALUE(C.SUBTYPE_CODE) as subtype_code,
+        ANY_VALUE(E.SUBTYPE_NAME) as subtype_name,
         ANY_VALUE(B.RATE) as rate,
         ANY_VALUE(B.TOTAL_INDEX) as total_index,
         ANY_VALUE(B.PY) as py,
@@ -118,10 +123,12 @@ def default(request, age, gender):
         PRODUCT_OPTION GROUP BY PRODUCT_CODE) A, 
         PRODUCT_RATE B,
         PRODUCT C,
-        COMPANY D
+        COMPANY D,
+        PRODUCT_SUBTYPE E
         WHERE A.PRODUCT_CODE = B.PRODUCT_CODE 
         AND B.PRODUCT_CODE = C.PRODUCT_CODE
         AND C.COMPANY_CODE = D.COMPANY_CODE
+        AND C.SUBTYPE_CODE = E.SUBTYPE_CODE
         AND AGE = {age}
         AND GENDER = {gender}
         ORDER BY reasonable DESC
@@ -138,6 +145,8 @@ def default(request, age, gender):
         G.COMPANY_CODE AS company_code,
         G.COMPANY_NAME AS company_name,
         G.SUBTYPE_CODE as subtype_code,
+        G.SUBTYPE_NAME as subtype_name,
+        G.PY AS py,
         G.RATE AS rate,
         GROUP_CONCAT(G.option_code) AS option_code, 
         GROUP_CONCAT(G.option_name) AS option_name
@@ -146,7 +155,9 @@ def default(request, age, gender):
             ANY_VALUE(D.COMPANY_CODE) as company_code,
             ANY_VALUE(D.COMPANY_NAME) as company_name,
             ANY_VALUE(C.SUBTYPE_CODE) as subtype_code,
+            ANY_VALUE(F.SUBTYPE_NAME) as subtype_name,
             ANY_VALUE(B.RATE) as rate,
+            ANY_VALUE(B.PY) as py,
             ANY_VALUE(E.OPTION_CODE) as option_code,
             ANY_VALUE(E.OPTION_NAME) as option_name,
             ANY_VALUE(B.TOTAL_INDEX) as total_index
@@ -155,11 +166,13 @@ def default(request, age, gender):
             PRODUCT_RATE B,
             PRODUCT C,
             COMPANY D,
-            DB_OPTION E
+            DB_OPTION E,
+            PRODUCT_SUBTYPE F
             WHERE A.PRODUCT_CODE = B.PRODUCT_CODE 
             AND B.PRODUCT_CODE = C.PRODUCT_CODE
             AND C.COMPANY_CODE = D.COMPANY_CODE
             AND A.OPTION_CODE = E.OPTION_CODE
+            AND C.SUBTYPE_CODE = F.SUBTYPE_CODE
             AND AGE = {age}
             AND GENDER = {gender}
             AND PY = 10
@@ -176,8 +189,10 @@ def default(request, age, gender):
         G.COMPANY_CODE AS company_code,
         G.COMPANY_NAME AS company_name,
         G.SUBTYPE_CODE as subtype_code,
+        G.SUBTYPE_NAME as subtype_name,
         G.RATE AS rate,
         G.TOTAL_INDEX AS total_index,
+        G.PY AS py,
         GROUP_CONCAT(G.option_code) AS option_code, 
         GROUP_CONCAT(G.option_name) AS option_name
         FROM ( SELECT DISTINCT ANY_VALUE(A.PRODUCT_CODE) AS product_code, 
@@ -185,7 +200,9 @@ def default(request, age, gender):
             ANY_VALUE(D.COMPANY_CODE) as company_code,
             ANY_VALUE(D.COMPANY_NAME) as company_name,
             ANY_VALUE(C.SUBTYPE_CODE) as subtype_code,
+            ANY_VALUE(F.SUBTYPE_NAME) as subtype_name,
             ANY_VALUE(B.RATE) as rate,
+            ANY_VALUE(B.PY) as py,
             ANY_VALUE(B.TOTAL_INDEX) as total_index,
             ANY_VALUE(E.OPTION_CODE) as option_code,
             ANY_VALUE(E.OPTION_NAME) as option_name
@@ -194,11 +211,13 @@ def default(request, age, gender):
             PRODUCT_RATE B,
             PRODUCT C,
             COMPANY D,
-            DB_OPTION E
+            DB_OPTION E,
+            PRODUCT_SUBTYPE F
             WHERE A.PRODUCT_CODE = B.PRODUCT_CODE 
             AND B.PRODUCT_CODE = C.PRODUCT_CODE
             AND C.COMPANY_CODE = D.COMPANY_CODE
             AND A.OPTION_CODE = E.OPTION_CODE
+            AND C.SUBTYPE_CODE = F.SUBTYPE_CODE
             AND AGE = {age}
             AND GENDER = {gender}
             AND PY = 10
@@ -215,7 +234,9 @@ def default(request, age, gender):
         ANY_VALUE(D.COMPANY_CODE) as company_code,
         ANY_VALUE(D.COMPANY_NAME) as company_name,
         ANY_VALUE(C.SUBTYPE_CODE) as subtype_code,
+        ANY_VALUE(E.SUBTYPE_NAME) as subtype_name,
         ANY_VALUE(B.RATE) as rate,
+        ANY_VALUE(B.PY) as py,
         ANY_VALUE(B.TOTAL_INDEX) as total_index,
         ANY_VALUE(A.OPTION_CODE) as option_code,
         ANY_VALUE(A.OPTION_NAME) as option_name
@@ -229,10 +250,12 @@ def default(request, age, gender):
         PRODUCT_OPTION GROUP BY PRODUCT_CODE) A, 
         PRODUCT_RATE B,
         PRODUCT C,
-        COMPANY D
+        COMPANY D,
+        PRODUCT_SUBTYPE E
         WHERE A.PRODUCT_CODE = B.PRODUCT_CODE 
         AND B.PRODUCT_CODE = C.PRODUCT_CODE
         AND C.COMPANY_CODE = D.COMPANY_CODE
+        AND C.SUBTYPE_CODE = E.SUBTYPE_CODE
         AND AGE = {age}
         AND GENDER = {gender}
         AND PY = 10
@@ -315,6 +338,7 @@ def detail(request, gender, age, py):
         G.COMPANY_CODE AS company_code,
         G.COMPANY_NAME AS company_name,
         G.SUBTYPE_CODE as subtype_code,
+        G.SUBTYPE_NAME as subtype_name,
         G.RATE AS rate,
         G.PY AS py,
         GROUP_CONCAT(G.option_code) AS option_code, 
@@ -324,22 +348,25 @@ def detail(request, gender, age, py):
             ANY_VALUE(D.COMPANY_CODE) as company_code,
             ANY_VALUE(D.COMPANY_NAME) as company_name,
             ANY_VALUE(C.SUBTYPE_CODE) as subtype_code,
+            ANY_VALUE(F.SUBTYPE_NAME) as subtype_name,
             ANY_VALUE(B.RATE) as rate,
-            ANY_VALUE(B.TOTAL_INDEX) as total_index,
             ANY_VALUE(B.PY) as py,
             ANY_VALUE(E.OPTION_CODE) as option_code,
             ANY_VALUE(E.OPTION_NAME) as option_name,
-            ANY_VALUE(B.USER_INDEX) as user_index
+            ANY_VALUE(B.USER_INDEX) as user_index,
+            ANY_VALUE(B.TOTAL_INDEX) as total_index
             FROM
             PRODUCT_OPTION A, 
             PRODUCT_RATE B,
             PRODUCT C,
             COMPANY D,
-            DB_OPTION E
+            DB_OPTION E,
+            PRODUCT_SUBTYPE F
             WHERE A.PRODUCT_CODE = B.PRODUCT_CODE 
             AND B.PRODUCT_CODE = C.PRODUCT_CODE
             AND C.COMPANY_CODE = D.COMPANY_CODE
             AND A.OPTION_CODE = E.OPTION_CODE
+            AND C.SUBTYPE_CODE = F.SUBTYPE_CODE
             AND AGE = {age}
             AND GENDER = {gender}
         ) G
@@ -357,6 +384,7 @@ def detail(request, gender, age, py):
         ANY_VALUE(D.COMPANY_CODE) as company_code,
         ANY_VALUE(D.COMPANY_NAME) as company_name,
         ANY_VALUE(C.SUBTYPE_CODE) as subtype_code,
+        ANY_VALUE(E.SUBTYPE_NAME) as subtype_name,
         ANY_VALUE(B.RATE) as rate,
         ANY_VALUE(B.TOTAL_INDEX) as total_index,
         ANY_VALUE(B.PY) as py,
@@ -372,10 +400,12 @@ def detail(request, gender, age, py):
         PRODUCT_OPTION GROUP BY PRODUCT_CODE) A, 
         PRODUCT_RATE B,
         PRODUCT C,
-        COMPANY D
+        COMPANY D,
+        PRODUCT_SUBTYPE E
         WHERE A.PRODUCT_CODE = B.PRODUCT_CODE 
         AND B.PRODUCT_CODE = C.PRODUCT_CODE
         AND C.COMPANY_CODE = D.COMPANY_CODE
+        AND C.SUBTYPE_CODE = E.SUBTYPE_CODE
         AND AGE = {age}
         AND GENDER = {gender}
         ORDER BY reasonable DESC
@@ -384,13 +414,15 @@ def detail(request, gender, age, py):
 
     # (1) 치츄 지수 높은 순
     high_ci_sql = f"""
-        SELECT 
+SELECT 
         G.PRODUCT_CODE AS product_code,
         G.PRODUCT_NAME as product_name, 
         G.TOTAL_INDEX as total_index,
         G.COMPANY_CODE AS company_code,
         G.COMPANY_NAME AS company_name,
         G.SUBTYPE_CODE as subtype_code,
+        G.SUBTYPE_NAME as subtype_name,
+        G.PY AS py,
         G.RATE AS rate,
         GROUP_CONCAT(G.option_code) AS option_code, 
         GROUP_CONCAT(G.option_name) AS option_name
@@ -399,20 +431,24 @@ def detail(request, gender, age, py):
             ANY_VALUE(D.COMPANY_CODE) as company_code,
             ANY_VALUE(D.COMPANY_NAME) as company_name,
             ANY_VALUE(C.SUBTYPE_CODE) as subtype_code,
+            ANY_VALUE(F.SUBTYPE_NAME) as subtype_name,
             ANY_VALUE(B.RATE) as rate,
-            ANY_VALUE(B.TOTAL_INDEX) as total_index,
+            ANY_VALUE(B.PY) as py,
             ANY_VALUE(E.OPTION_CODE) as option_code,
-            ANY_VALUE(E.OPTION_NAME) as option_name
+            ANY_VALUE(E.OPTION_NAME) as option_name,
+            ANY_VALUE(B.TOTAL_INDEX) as total_index
             FROM
             PRODUCT_OPTION A, 
             PRODUCT_RATE B,
             PRODUCT C,
             COMPANY D,
-            DB_OPTION E
+            DB_OPTION E,
+            PRODUCT_SUBTYPE F
             WHERE A.PRODUCT_CODE = B.PRODUCT_CODE 
             AND B.PRODUCT_CODE = C.PRODUCT_CODE
             AND C.COMPANY_CODE = D.COMPANY_CODE
             AND A.OPTION_CODE = E.OPTION_CODE
+            AND C.SUBTYPE_CODE = F.SUBTYPE_CODE
             AND AGE = {age}
             AND GENDER = {gender}
             AND PY = {py}
@@ -429,8 +465,10 @@ def detail(request, gender, age, py):
         G.COMPANY_CODE AS company_code,
         G.COMPANY_NAME AS company_name,
         G.SUBTYPE_CODE as subtype_code,
+        G.SUBTYPE_NAME as subtype_name,
         G.RATE AS rate,
         G.TOTAL_INDEX AS total_index,
+        G.PY AS py,
         GROUP_CONCAT(G.option_code) AS option_code, 
         GROUP_CONCAT(G.option_name) AS option_name
         FROM ( SELECT DISTINCT ANY_VALUE(A.PRODUCT_CODE) AS product_code, 
@@ -438,7 +476,9 @@ def detail(request, gender, age, py):
             ANY_VALUE(D.COMPANY_CODE) as company_code,
             ANY_VALUE(D.COMPANY_NAME) as company_name,
             ANY_VALUE(C.SUBTYPE_CODE) as subtype_code,
+            ANY_VALUE(F.SUBTYPE_NAME) as subtype_name,
             ANY_VALUE(B.RATE) as rate,
+            ANY_VALUE(B.PY) as py,
             ANY_VALUE(B.TOTAL_INDEX) as total_index,
             ANY_VALUE(E.OPTION_CODE) as option_code,
             ANY_VALUE(E.OPTION_NAME) as option_name
@@ -447,11 +487,13 @@ def detail(request, gender, age, py):
             PRODUCT_RATE B,
             PRODUCT C,
             COMPANY D,
-            DB_OPTION E
+            DB_OPTION E,
+            PRODUCT_SUBTYPE F
             WHERE A.PRODUCT_CODE = B.PRODUCT_CODE 
             AND B.PRODUCT_CODE = C.PRODUCT_CODE
             AND C.COMPANY_CODE = D.COMPANY_CODE
             AND A.OPTION_CODE = E.OPTION_CODE
+            AND C.SUBTYPE_CODE = F.SUBTYPE_CODE
             AND AGE = {age}
             AND GENDER = {gender}
             AND PY = {py}
@@ -462,13 +504,15 @@ def detail(request, gender, age, py):
 
     # (3) 보장금액 높은 순
     high_coverage_sql = f"""
-    SELECT DISTINCT ANY_VALUE(A.PRODUCT_CODE) AS product_code, 
+SELECT DISTINCT ANY_VALUE(A.PRODUCT_CODE) AS product_code, 
         ANY_VALUE(A.COVERAGE) as coverage,
         ANY_VALUE(C.PRODUCT_NAME) as product_name,
         ANY_VALUE(D.COMPANY_CODE) as company_code,
         ANY_VALUE(D.COMPANY_NAME) as company_name,
         ANY_VALUE(C.SUBTYPE_CODE) as subtype_code,
+        ANY_VALUE(E.SUBTYPE_NAME) as subtype_name,
         ANY_VALUE(B.RATE) as rate,
+        ANY_VALUE(B.PY) as py,
         ANY_VALUE(B.TOTAL_INDEX) as total_index,
         ANY_VALUE(A.OPTION_CODE) as option_code,
         ANY_VALUE(A.OPTION_NAME) as option_name
@@ -482,10 +526,12 @@ def detail(request, gender, age, py):
         PRODUCT_OPTION GROUP BY PRODUCT_CODE) A, 
         PRODUCT_RATE B,
         PRODUCT C,
-        COMPANY D
+        COMPANY D,
+        PRODUCT_SUBTYPE E
         WHERE A.PRODUCT_CODE = B.PRODUCT_CODE 
         AND B.PRODUCT_CODE = C.PRODUCT_CODE
         AND C.COMPANY_CODE = D.COMPANY_CODE
+        AND C.SUBTYPE_CODE = E.SUBTYPE_CODE
         AND AGE = {age}
         AND GENDER = {gender}
         AND PY = {py}
