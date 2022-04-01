@@ -11,6 +11,7 @@ import CHICHUModal from '../components/Common/CHICHUModal';
 import SecondarySearchModal from '../components/SearchResult/SecondarySearchModal';
 import SortButton from '../components/SearchResult/SortButton';
 
+import { checkedPlanListState } from '../recoil/planComparisonState';
 import { PlanFilteredList } from '../recoil/PlanFilteredList';
 import { planListState } from '../recoil/searchResultState';
 import { UserPeriod } from '../recoil/UserPeriod';
@@ -31,6 +32,7 @@ function SearchResult(): JSX.Element {
     ?.popular as ProductType[];
   const reasonableList = useRecoilValue(PlanFilteredList)
     ?.reasonable as ProductType[];
+  const checkedPlanList = useRecoilValue(checkedPlanListState);
 
   const [showMore, setShowMore] = useState(false);
   const userPeriod = useRecoilValue(UserPeriod);
@@ -62,6 +64,7 @@ function SearchResult(): JSX.Element {
             <PlanTags />
             <PlanRateRange />
             <SortButton />
+            {checkedPlanList}
 
             {/* 오류 회피를 위해, planList가 있을 때만 렌더링 */}
             {planList && (
