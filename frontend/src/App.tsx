@@ -14,19 +14,21 @@ import PlanTipPost from './pages/PlanTipPost';
 
 function App() {
   return (
-    <RecoilRoot>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route path="/search" element={<Search />} />
-          <Route path="/search/result" element={<SearchResult />} />
-          <Route path="/search/result/:id" element={<PlanDetail />} />
-          <Route path="/compare" element={<PlanComparison />} />
-          <Route path="/tip" element={<PlanTip />} />
-          <Route path="/tip/:id" element={<PlanTipPost />} />
-        </Routes>
-      </BrowserRouter>
-    </RecoilRoot>
+    <React.Suspense fallback={<div>LOADING!!!</div>}>
+      <RecoilRoot>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Landing />} />
+            <Route path="/search" element={<Search />} />
+            <Route path="/search/result" element={<SearchResult />} />
+            <Route path="/search/result/:id" element={<PlanDetail />} />
+            <Route path="/compare" element={<PlanComparison />} />
+            <Route path="/tip" element={<PlanTip />} />
+            <Route path="/tip/:id" element={<PlanTipPost />} />
+          </Routes>
+        </BrowserRouter>
+      </RecoilRoot>
+    </React.Suspense>
   );
 }
 

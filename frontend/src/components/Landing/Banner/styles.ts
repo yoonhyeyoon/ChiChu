@@ -19,11 +19,11 @@ export const Background = styled.img`
 export const ChiChu = styled.img`
   // z-index: 2;
   position: absolute;
-  width: 65%;
-  right: -11%;
-  margin-top: 5rem;
+  width: 75%;
+  right: -15%;
+  margin-top: 4.2rem;
   // left: 2%
-  filter: drop-shadow(1px 1px 0 white) drop-shadow(-1px 1px 0 white);
+  // filter: drop-shadow(1px 1px 0 white) drop-shadow(-1px 1px 0 white);
 `;
 
 const float = keyframes`
@@ -86,6 +86,7 @@ export const ChiChuAnimation = styled.div`
 export const ContentDiv = styled.div`
   position: absolute;
   top: 30%;
+  left: 8%;
 `;
 
 export const Title = styled.b`
@@ -114,7 +115,7 @@ export const ChichuColor = styled.span`
     0 -1px ${blue[400]};
 `;
 
-export const CustomButtonRoot = styled('button')`
+export const CustomBannerButtonRoot = styled('button')`
   animation: ${jello} 0.9s both;
   animation-delay: 1.5s;
   margin: 20px 10px;

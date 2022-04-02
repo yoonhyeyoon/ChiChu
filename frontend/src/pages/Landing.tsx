@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import Header from '../components/Common/Header';
 import Banner from '../components/Landing/Banner';
-import LandingFirst from '../components/Landing/LandingFirst';
+import LandingFirst from '../components/Landing/Landing-1';
+import LandingSecond from '../components/Landing/Landing-2';
+import LandingThird from '../components/Landing/Landing-3';
+import LandingFourth from '../components/Landing/Landing-4';
 
 function Landing() {
   const [isScroll, setIsScroll] = useState(false);
@@ -32,6 +35,9 @@ function Landing() {
       />
       <Banner />
       <LandingFirst />
+      <LandingSecond />
+      <LandingThird />
+      <LandingFourth />
     </div>
   );
 }
