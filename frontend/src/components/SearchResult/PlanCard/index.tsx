@@ -1,33 +1,63 @@
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
 import {
   Avatar,
   Card,
   CardActionArea,
   CardContent,
   CardHeader,
+  Checkbox,
 } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
 
-import { ProductType } from '../../../types/types';
-import ProgressBarWithNumber from '../../Common/ProgressBarWithNumber';
+// import ProgressBarWithNumber from '../../Common/ProgressBarWithNumber';
+import { checkedPlanListState } from '../../../recoil/planComparisonState';
+import { ProductType, PlanPickerType } from '../../../types/types';
+import { isEmpty } from '../../../utils/arrayFunctions';
 
 function PlanCard({ content }: { content: ProductType }) {
-  const navigate = useNavigate();
+  const planInfo: PlanPickerType = {
+    ...content,
+  };
+  const [checkedPlanList, setCheckedPlanList] =
+    useRecoilState(checkedPlanListState);
+  const [checked, setChecked] = useState(false);
+
+  /** 현재 체크한 상품들의 목록을 업데이트하는 함수 */
+  const updateCheckedPlanList = (
+    e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement, MouseEvent>,
+  ) => {
+    e.preventDefault();
+    if (checked === false) {
+      // 체크가 안 된 상태였을 경우, 목록에 추가
+      setCheckedPlanList(checkedPlanList.concat(planInfo));
+    } else {
+      // 체크된 상태였을 경우, 목록에서 제거
+      setCheckedPlanList(
+        checkedPlanList.filter(
+          plan => plan.product_code !== planInfo.product_code,
+        ),
+      );
+    }
+    // 체크 상태 변경
+    setChecked(!checked);
+  };
 
   return (
     <Card>
       <CardActionArea>
-        <a
-          href=""
-          style={{ textDecoration: 'none' }}
+        <Link
+          to={`./${content.product_code}`}
+          state={{ product_code: content.product_code, py: content.py }}
           onClick={e => {
             if (content.moving) {
               e.preventDefault();
-            } else {
-              navigate(`./${content.product_code}`, {
-                state: { product_code: content.product_code, py: content.py },
-              });
+            }
+            if (!isEmpty(checkedPlanList)) {
+              updateCheckedPlanList(e);
             }
           }}
+          style={{ textDecoration: 'none' }}
         >
           <CardHeader
             avatar={
@@ -39,6 +69,9 @@ function PlanCard({ content }: { content: ProductType }) {
             }
             title={content.company_name}
             subheader={content.product_name}
+            action={
+              <Checkbox checked={checked} onClick={updateCheckedPlanList} />
+            }
           />
           <CardContent>
             <span>설계 유형</span>
@@ -47,7 +80,7 @@ function PlanCard({ content }: { content: ProductType }) {
             <h3>{content.rate}</h3>
             {/* <ProgressBarWithNumber plan_score={content.rate} /> */}
           </CardContent>
-        </a>
+        </Link>
       </CardActionArea>
     </Card>
   );

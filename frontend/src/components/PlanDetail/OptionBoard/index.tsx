@@ -10,26 +10,26 @@ import { ETC } from './OptionGuides/ETC';
 type PropType = {
   option: {
     NAME: string;
-    COVERAGE: string;
+    COVERAGE: number;
   }[];
 };
 
 export function OptionBoard(props: PropType) {
-  let implant = '';
-  let teulni = '';
-  let bridge = '';
+  let implant = 0;
+  let teulni = 0;
+  let bridge = 0;
 
-  let legin = '';
-  let crown = '';
-  let amalgam = '';
+  let legin = 0;
+  let crown = 0;
+  let amalgam = 0;
 
-  let singyeong = '';
+  let singyeong = 0;
 
-  let itmom = '';
-  let chizogol = '';
-  let scaling = '';
-  let goljeol = '';
-  let x_ray = '';
+  let itmom = 0;
+  let chizogol = 0;
+  let scaling = 0;
+  let goljeol = 0;
+  let x_ray = 0;
 
   for (const item of props.option) {
     if (item['NAME'] == '레진') {
@@ -69,15 +69,17 @@ export function OptionBoard(props: PropType) {
         />
         <dd>
           <DD_LEFT>임플란트</DD_LEFT>
-          <DD_RIGHT>{implant ? implant : '0원'}</DD_RIGHT>
+          <DD_RIGHT>
+            {implant ? `${implant.toLocaleString()}원` : '0원'}
+          </DD_RIGHT>
         </dd>
         <dd>
           <DD_LEFT>틀니</DD_LEFT>
-          <DD_RIGHT>{teulni ? teulni : '0원'}</DD_RIGHT>
+          <DD_RIGHT>{teulni ? `${teulni.toLocaleString()}원` : '0원'}</DD_RIGHT>
         </dd>
         <dd>
           <DD_LEFT>브릿지</DD_LEFT>
-          <DD_RIGHT>{bridge ? bridge : '0원'}</DD_RIGHT>
+          <DD_RIGHT>{bridge ? `${bridge.toLocaleString()}원` : '0원'}</DD_RIGHT>
         </dd>
       </dl>
       <dl>
@@ -88,15 +90,17 @@ export function OptionBoard(props: PropType) {
         />
         <dd>
           <DD_LEFT>크라운</DD_LEFT>
-          <DD_RIGHT>{crown ? crown : '0원'}</DD_RIGHT>
+          <DD_RIGHT>{crown ? `${crown.toLocaleString()}원` : '0원'}</DD_RIGHT>
         </dd>
         <dd>
           <DD_LEFT>아말감</DD_LEFT>
-          <DD_RIGHT>{amalgam ? amalgam : '0원'}</DD_RIGHT>
+          <DD_RIGHT>
+            {amalgam ? `${amalgam.toLocaleString()}원` : '0원'}
+          </DD_RIGHT>
         </dd>
         <dd>
           <DD_LEFT>레진</DD_LEFT>
-          <DD_RIGHT>{legin ? legin : '0원'}</DD_RIGHT>
+          <DD_RIGHT>{legin ? `${legin.toLocaleString()}원` : '0원'}</DD_RIGHT>
         </dd>
       </dl>
       <dl>
@@ -107,7 +111,9 @@ export function OptionBoard(props: PropType) {
         />
         <dd>
           <DD_LEFT>신경치료</DD_LEFT>
-          <DD_RIGHT>{singyeong ? singyeong : '0원'}</DD_RIGHT>
+          <DD_RIGHT>
+            {singyeong ? `${singyeong.toLocaleString()}원` : '0원'}
+          </DD_RIGHT>
         </dd>
       </dl>
       <dl>
@@ -118,23 +124,29 @@ export function OptionBoard(props: PropType) {
         />
         <dd>
           <DD_LEFT>잇몸질환</DD_LEFT>
-          <DD_RIGHT>{itmom ? itmom : '0원'}</DD_RIGHT>
+          <DD_RIGHT>{itmom ? `${itmom.toLocaleString()}원` : '0원'}</DD_RIGHT>
         </dd>
         <dd>
           <DD_LEFT>치조골 이식수술</DD_LEFT>
-          <DD_RIGHT>{chizogol ? chizogol : '0원'}</DD_RIGHT>
+          <DD_RIGHT>
+            {chizogol ? `${chizogol.toLocaleString()}원` : '0원'}
+          </DD_RIGHT>
         </dd>
         <dd>
           <DD_LEFT>스케일링</DD_LEFT>
-          <DD_RIGHT>{scaling ? scaling : '0원'}</DD_RIGHT>
+          <DD_RIGHT>
+            {scaling ? `${scaling.toLocaleString()}원` : '0원'}
+          </DD_RIGHT>
         </dd>
         <dd>
           <DD_LEFT>치아골절 진단비</DD_LEFT>
-          <DD_RIGHT>{goljeol ? goljeol : '0원'}</DD_RIGHT>
+          <DD_RIGHT>
+            {goljeol ? `${goljeol.toLocaleString()}원` : '0원'}
+          </DD_RIGHT>
         </dd>
         <dd>
           <DD_LEFT>X-RAY 촬영</DD_LEFT>
-          <DD_RIGHT>{x_ray ? x_ray : '0원'}</DD_RIGHT>
+          <DD_RIGHT>{x_ray ? `${x_ray.toLocaleString()}원` : '0원'}</DD_RIGHT>
         </dd>
       </dl>
     </div>

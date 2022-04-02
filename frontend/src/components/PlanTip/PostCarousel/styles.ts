@@ -29,6 +29,7 @@ export const StyledSlider = styled(Slider)`
 `;
 
 export const CardBox = styled.div`
+  background-color: green;
   cursor: pointer;
 `;
 
