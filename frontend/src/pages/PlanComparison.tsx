@@ -12,6 +12,7 @@ import {
 
 import TableHeader from '../components/PlanComparison/TableHeader';
 import TableRowGroup from '../components/PlanComparison/TableRowGroup';
+import VerticalBar from '../components/Common/VerticalBar';
 import { planComparisonInfoState } from '../recoil/planComparisonState';
 
 type inputType = {
@@ -30,18 +31,24 @@ function PlanComparison() {
       {info && (
         <TableContainer component={Paper}>
           <Table stickyHeader sx={{ minWidth: 650 }} aria-label="simple table">
+            {/* 회사 & 상품 프로필 */}
             <TableHead>
               <TableHeader companies={info.company} />
             </TableHead>
             <TableBody>
+              {/* 치츄 지수 그래프 */}
               <TableRow>
                 <TableCell>치츄지수 (?)</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell></TableCell>
-                <TableCell>수직 그래프</TableCell>
-                <TableCell>수직 그래프</TableCell>
+                {info['치츄지수'].map(item => (
+                  <TableCell align="center" key={item.product_code}>
+                    <VerticalBar value={item.total_index} />
+                  </TableCell>
+                ))}
               </TableRow>
+
               {/* 각 담보 그룹들을 출력 */}
               {['치아보철치료', '치아보전치료', '치수치료'].map(
                 optionGroupName => (
