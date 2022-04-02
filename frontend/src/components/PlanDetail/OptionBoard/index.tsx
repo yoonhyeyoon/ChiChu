@@ -69,17 +69,15 @@ export function OptionBoard(props: PropType) {
         />
         <dd>
           <DD_LEFT>임플란트</DD_LEFT>
-          <DD_RIGHT>
-            {implant ? `${implant.toLocaleString()}원` : '0원'}
-          </DD_RIGHT>
+          <DD_RIGHT>{implant ? `${implant.toLocaleString()}원` : '-'}</DD_RIGHT>
         </dd>
         <dd>
           <DD_LEFT>틀니</DD_LEFT>
-          <DD_RIGHT>{teulni ? `${teulni.toLocaleString()}원` : '0원'}</DD_RIGHT>
+          <DD_RIGHT>{teulni ? `${teulni.toLocaleString()}원` : '-'}</DD_RIGHT>
         </dd>
         <dd>
           <DD_LEFT>브릿지</DD_LEFT>
-          <DD_RIGHT>{bridge ? `${bridge.toLocaleString()}원` : '0원'}</DD_RIGHT>
+          <DD_RIGHT>{bridge ? `${bridge.toLocaleString()}원` : '-'}</DD_RIGHT>
         </dd>
       </dl>
       <dl>
@@ -90,17 +88,15 @@ export function OptionBoard(props: PropType) {
         />
         <dd>
           <DD_LEFT>크라운</DD_LEFT>
-          <DD_RIGHT>{crown ? `${crown.toLocaleString()}원` : '0원'}</DD_RIGHT>
+          <DD_RIGHT>{crown ? `${crown.toLocaleString()}원` : '-'}</DD_RIGHT>
         </dd>
         <dd>
           <DD_LEFT>아말감</DD_LEFT>
-          <DD_RIGHT>
-            {amalgam ? `${amalgam.toLocaleString()}원` : '0원'}
-          </DD_RIGHT>
+          <DD_RIGHT>{amalgam ? `${amalgam.toLocaleString()}원` : '-'}</DD_RIGHT>
         </dd>
         <dd>
           <DD_LEFT>레진</DD_LEFT>
-          <DD_RIGHT>{legin ? `${legin.toLocaleString()}원` : '0원'}</DD_RIGHT>
+          <DD_RIGHT>{legin ? `${legin.toLocaleString()}원` : '-'}</DD_RIGHT>
         </dd>
       </dl>
       <dl>
@@ -112,7 +108,7 @@ export function OptionBoard(props: PropType) {
         <dd>
           <DD_LEFT>신경치료</DD_LEFT>
           <DD_RIGHT>
-            {singyeong ? `${singyeong.toLocaleString()}원` : '0원'}
+            {singyeong ? `${singyeong.toLocaleString()}원` : '-'}
           </DD_RIGHT>
         </dd>
       </dl>
@@ -124,29 +120,25 @@ export function OptionBoard(props: PropType) {
         />
         <dd>
           <DD_LEFT>잇몸질환</DD_LEFT>
-          <DD_RIGHT>{itmom ? `${itmom.toLocaleString()}원` : '0원'}</DD_RIGHT>
+          <DD_RIGHT>{itmom ? `${itmom.toLocaleString()}원` : '-'}</DD_RIGHT>
         </dd>
         <dd>
           <DD_LEFT>치조골 이식수술</DD_LEFT>
           <DD_RIGHT>
-            {chizogol ? `${chizogol.toLocaleString()}원` : '0원'}
+            {chizogol ? `${chizogol.toLocaleString()}원` : '-'}
           </DD_RIGHT>
         </dd>
         <dd>
           <DD_LEFT>스케일링</DD_LEFT>
-          <DD_RIGHT>
-            {scaling ? `${scaling.toLocaleString()}원` : '0원'}
-          </DD_RIGHT>
+          <DD_RIGHT>{scaling ? `${scaling.toLocaleString()}원` : '-'}</DD_RIGHT>
         </dd>
         <dd>
           <DD_LEFT>치아골절 진단비</DD_LEFT>
-          <DD_RIGHT>
-            {goljeol ? `${goljeol.toLocaleString()}원` : '0원'}
-          </DD_RIGHT>
+          <DD_RIGHT>{goljeol ? `${goljeol.toLocaleString()}원` : '-'}</DD_RIGHT>
         </dd>
         <dd>
           <DD_LEFT>X-RAY 촬영</DD_LEFT>
-          <DD_RIGHT>{x_ray ? `${x_ray.toLocaleString()}원` : '0원'}</DD_RIGHT>
+          <DD_RIGHT>{x_ray ? `${x_ray.toLocaleString()}원` : '-'}</DD_RIGHT>
         </dd>
       </dl>
     </div>

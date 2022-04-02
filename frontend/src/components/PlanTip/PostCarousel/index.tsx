@@ -1,11 +1,7 @@
-// 참고: https://www.npmjs.com/package/react-multi-carousel
-
 import { useState } from 'react';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
-import NeedCard from './Cards/NeedCard';
-import PickCard from './Cards/PickCard';
-import SelfCard from './Cards/SelfCard';
+import CarouselCard from './Card';
 
 const responsiveStyle = {
   superLargeDesktop: {
@@ -61,9 +57,24 @@ function PostCarousel() {
         dotListClass="custom-dot-list-style"
         itemClass="carousel-item-padding-40-px"
       >
-        <NeedCard />
-        <PickCard />
-        <SelfCard />
+        <CarouselCard
+          text1="치아보험"
+          text2="왜 들어야만 할까?"
+          img="/images/tip/Post/Carousel/One.jpg"
+          articlenum={1}
+        />
+        <CarouselCard
+          text1="치아보험"
+          text2="잘 고르는 법!"
+          img="/images/tip/Post/Carousel/Two.jpg"
+          articlenum={2}
+        />
+        <CarouselCard
+          text1="치아질병"
+          text2="예방 팁!"
+          img="/images/tip/Post/Carousel/Three.jpg"
+          articlenum={3}
+        />
       </Carousel>
     </div>
   );
