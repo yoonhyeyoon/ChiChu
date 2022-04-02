@@ -17,12 +17,18 @@ type PlanTagButtonType = {
 
 const Button = ({ plan_tag, toggleList, setToggleList }: PlanTagButtonType) => {
   const [toggle, setToggle] = useState(false);
+
   const [planFilteredList, setPlanFilteredList] =
     useRecoilState(PlanListSelector);
   // atom으로 따로 불러와야함
   // const plans = useRecoilValue(PlanFilteredList);
   // const plans: PlanListType = planList;
   // console.log(plans);
+
+  // useEffect(() => {
+  //   setToggleList(['아말감']);
+  // }, []);
+
   const onChangeColor = () => {
     if (toggleList.includes(plan_tag)) {
       // 없으면
@@ -93,6 +99,7 @@ function PlanTags() {
   const tagList: PlanTagType[] = sample;
 
   const [toggleList, setToggleList] = useState<toggleList>([]);
+
   return (
     <>
       <Stack spacing={2} direction="row">

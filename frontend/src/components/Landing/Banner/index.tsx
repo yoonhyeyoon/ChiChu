@@ -8,13 +8,13 @@ import {
   ChichuColor,
   Content,
   ContentDiv,
-  CustomButtonRoot,
+  CustomBannerButtonRoot,
   Title,
 } from './styles';
 import { useNavigate } from 'react-router-dom';
 
 function CustomButton(props: ButtonUnstyledProps) {
-  return <ButtonUnstyled {...props} component={CustomButtonRoot} />;
+  return <ButtonUnstyled {...props} component={CustomBannerButtonRoot} />;
 }
 
 function Banner() {
