@@ -1,47 +1,20 @@
-import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
 import {
   Avatar,
   Card,
   CardActionArea,
   CardContent,
   CardHeader,
-  Checkbox,
 } from '@mui/material';
 
 // import ProgressBarWithNumber from '../../Common/ProgressBarWithNumber';
-import { checkedPlanListState } from '../../../recoil/planComparisonState';
+import useCheckBoxLinked from '../../../hooks/useCheckList';
 import { ProductType, PlanPickerType } from '../../../types/types';
-import { isEmpty } from '../../../utils/arrayFunctions';
 
 function PlanCard({ content }: { content: ProductType }) {
-  const planInfo: PlanPickerType = {
-    ...content,
-  };
-  const [checkedPlanList, setCheckedPlanList] =
-    useRecoilState(checkedPlanListState);
-  const [checked, setChecked] = useState(false);
-
-  /** 현재 체크한 상품들의 목록을 업데이트하는 함수 */
-  const updateCheckedPlanList = (
-    e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement, MouseEvent>,
-  ) => {
-    e.preventDefault();
-    if (checked === false) {
-      // 체크가 안 된 상태였을 경우, 목록에 추가
-      setCheckedPlanList(checkedPlanList.concat(planInfo));
-    } else {
-      // 체크된 상태였을 경우, 목록에서 제거
-      setCheckedPlanList(
-        checkedPlanList.filter(
-          plan => plan.product_code !== planInfo.product_code,
-        ),
-      );
-    }
-    // 체크 상태 변경
-    setChecked(!checked);
-  };
+  const planInfo: PlanPickerType = { ...content };
+  const { CheckBoxLinked, updateCheckedPlanList, isEmptyList } =
+    useCheckBoxLinked(planInfo);
 
   return (
     <Card>
@@ -53,7 +26,7 @@ function PlanCard({ content }: { content: ProductType }) {
             if (content.moving) {
               e.preventDefault();
             }
-            if (!isEmpty(checkedPlanList)) {
+            if (!isEmptyList) {
               updateCheckedPlanList(e);
             }
           }}
@@ -69,9 +42,7 @@ function PlanCard({ content }: { content: ProductType }) {
             }
             title={content.company_name}
             subheader={content.product_name}
-            action={
-              <Checkbox checked={checked} onClick={updateCheckedPlanList} />
-            }
+            action={<CheckBoxLinked />}
           />
           <CardContent>
             <span>설계 유형</span>
