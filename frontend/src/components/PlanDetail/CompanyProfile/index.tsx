@@ -1,5 +1,6 @@
 import React from 'react';
-import { Avatar } from '@mui/material';
+import { Box, Button, Avatar } from '@mui/material';
+
 import {
   Container,
   Profile,

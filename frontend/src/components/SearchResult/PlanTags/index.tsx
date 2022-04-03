@@ -9,7 +9,17 @@ import { PlanListSelector } from '../../../recoil/PlanListSelector';
 import { PlanFilteredList } from '../../../recoil/PlanFilteredList';
 
 type PropType = {
-  optionState?: {
+  state?: {
+    optionName?: string | null | undefined;
+    Name_2?: string | null | undefined;
+  };
+};
+
+type ButtonPropType = {
+  plan_tag: string;
+  toggleList: toggleList;
+  setToggleList: React.Dispatch<React.SetStateAction<toggleList>>;
+  state?: {
     optionName?: string | null | undefined;
     Name_2?: string | null | undefined;
   };
@@ -32,10 +42,6 @@ const Button = ({ plan_tag, toggleList, setToggleList }: PlanTagButtonType) => {
   // const plans: PlanListType = planList;
   // console.log(plans);
 
-  // useEffect(() => {
-  //   setToggleList(['아말감']);
-  // }, []);
-
   const onChangeColor = () => {
     if (toggleList.includes(plan_tag)) {
       // 없으면
@@ -52,6 +58,7 @@ const Button = ({ plan_tag, toggleList, setToggleList }: PlanTagButtonType) => {
     // console.log(toggleList);
     // toggleList에 있는 tag만 포함된 planTaggedList로 filtering 반환
     let toggledListCopy = toggleList;
+    console.log('useEffect 실행중');
     function checkTagged(option: string) {
       // console.log(option);
       if (toggledListCopy.includes(option)) {
@@ -102,10 +109,18 @@ const Button = ({ plan_tag, toggleList, setToggleList }: PlanTagButtonType) => {
   );
 };
 
-function PlanTags({ optionState }: PropType) {
+function PlanTags({ state }: PropType) {
   const tagList: PlanTagType[] = sample;
-
   const [toggleList, setToggleList] = useState<toggleList>([]);
+  useEffect(() => {
+    if (state?.optionName) {
+      setToggleList([...toggleList, state?.optionName]);
+      if (state?.Name_2) {
+        setToggleList([...toggleList, state?.optionName, state?.Name_2]);
+      }
+      console.log('Toggle리스트에 넣어줬다!!');
+    }
+  }, []);
 
   return (
     <>

@@ -3,6 +3,7 @@ import { styled } from '@mui/material/styles';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
+import { ChiChuText } from '../styles';
 
 const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -19,11 +20,11 @@ const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
 export default function QuestionTooltip() {
   return (
     <>
-      <span>
+      <ChiChuText style={{ display: 'inline-block' }}>
         이 보험의 치츄지수는
         <br />
         보험 상품 중 상위권이예요!
-      </span>
+      </ChiChuText>
       <HtmlTooltip
         title={
           <React.Fragment>
