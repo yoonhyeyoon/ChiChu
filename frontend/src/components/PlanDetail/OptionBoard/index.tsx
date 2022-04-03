@@ -2,7 +2,7 @@ import * as React from 'react';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import LongModal from '../Modal/LongModal';
 import { BochulText } from './OptionGuides/BochulText';
-import { DD_RIGHT, DD_LEFT } from './styles';
+import { DD_RIGHT, DD_LEFT, StyledModal } from './styles';
 import { BozonText } from './OptionGuides/BozonText';
 import { SingyeongText } from './OptionGuides/SingyeongText';
 import { ETC } from './OptionGuides/ETC';
@@ -60,13 +60,14 @@ export function OptionBoard(props: PropType) {
   }
 
   return (
-    <div>
+    <>
       <dl>
-        <dt>치아보철치료</dt>
+        <span>치아보철치료</span>
         <LongModal
           element={<BochulText />}
           icon={<HelpOutlineIcon sx={{ cursor: 'pointer' }} />}
         />
+
         <dd>
           <DD_LEFT>임플란트</DD_LEFT>
           <DD_RIGHT>{implant ? `${implant.toLocaleString()}원` : '-'}</DD_RIGHT>
@@ -81,11 +82,12 @@ export function OptionBoard(props: PropType) {
         </dd>
       </dl>
       <dl>
-        <dt>치아보존치료</dt>
+        <span>치아보존치료</span>
         <LongModal
           element={<BozonText />}
           icon={<HelpOutlineIcon sx={{ cursor: 'pointer' }} />}
         />
+
         <dd>
           <DD_LEFT>크라운</DD_LEFT>
           <DD_RIGHT>{crown ? `${crown.toLocaleString()}원` : '-'}</DD_RIGHT>
@@ -100,11 +102,12 @@ export function OptionBoard(props: PropType) {
         </dd>
       </dl>
       <dl>
-        <dt>신경치료</dt>
+        <span>신경치료</span>
         <LongModal
           element={<SingyeongText />}
           icon={<HelpOutlineIcon sx={{ cursor: 'pointer' }} />}
         />
+
         <dd>
           <DD_LEFT>신경치료</DD_LEFT>
           <DD_RIGHT>
@@ -113,11 +116,12 @@ export function OptionBoard(props: PropType) {
         </dd>
       </dl>
       <dl>
-        <dt>기타</dt>
+        <span>기타</span>
         <LongModal
           element={<ETC />}
           icon={<HelpOutlineIcon sx={{ cursor: 'pointer' }} />}
         />
+
         <dd>
           <DD_LEFT>잇몸질환</DD_LEFT>
           <DD_RIGHT>{itmom ? `${itmom.toLocaleString()}원` : '-'}</DD_RIGHT>
@@ -141,6 +145,6 @@ export function OptionBoard(props: PropType) {
           <DD_RIGHT>{x_ray ? `${x_ray.toLocaleString()}원` : '-'}</DD_RIGHT>
         </dd>
       </dl>
-    </div>
+    </>
   );
 }

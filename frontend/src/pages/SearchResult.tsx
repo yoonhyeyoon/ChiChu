@@ -2,6 +2,8 @@ import { Suspense, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { Box, Button, Container } from '@mui/material';
 
+import { useLocation } from 'react-router-dom';
+
 import Header from '../components/Common/Header';
 import PlanBarList from '../components/SearchResult/PlanBarList/index';
 import PlanCardList from '../components/SearchResult/PlanCardList/index';
@@ -24,6 +26,14 @@ import { isEmpty } from '../utils/arrayFunctions';
 import { ModalTitle } from '../components/SearchResult/SecondarySearchModal/styles';
 import { ProductType } from '../types/types';
 
+// 명성 코드
+interface CustomState {
+  state?: {
+    optionName?: string | null | undefined;
+    Name_2?: string | null | undefined;
+  };
+}
+
 function SearchResult(): JSX.Element {
   const containerRef = useRef(null);
 
@@ -42,6 +52,11 @@ function SearchResult(): JSX.Element {
   const [showMore, setShowMore] = useState(false);
   const userPeriod = useRecoilValue(UserPeriod);
   console.log(userPeriod);
+
+  // 명성 코드
+  const location = useLocation();
+  const optionState = location.state as CustomState;
+  console.log(optionState);
 
   return (
     <>
@@ -67,7 +82,10 @@ function SearchResult(): JSX.Element {
               {planFilteredList?.chichu.length}개의 상품을 찾았어요!
             </ModalTitle>
             <SecondarySearchModal />
+            {/* 명성 코드 */}
+            {/* <PlanTags optionState={optionState} /> */}
             <PlanTags />
+
             <PlanRateRange />
             <SortButton />
 

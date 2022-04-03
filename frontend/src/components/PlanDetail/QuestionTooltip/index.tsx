@@ -16,14 +16,14 @@ const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
   },
 }));
 
-export type QuestionTooltipType = {
-  title: string;
-};
-
-export default function QuestionTooltip(props: QuestionTooltipType) {
+export default function QuestionTooltip() {
   return (
-    <div>
-      <span>{props.title}</span>
+    <>
+      <span>
+        이 보험의 치츄지수는
+        <br />
+        보험 상품 중 상위권이예요!
+      </span>
       <HtmlTooltip
         title={
           <React.Fragment>
@@ -36,6 +36,6 @@ export default function QuestionTooltip(props: QuestionTooltipType) {
       >
         <HelpOutlineIcon color="primary" sx={{ cursor: 'pointer' }} />
       </HtmlTooltip>
-    </div>
+    </>
   );
 }

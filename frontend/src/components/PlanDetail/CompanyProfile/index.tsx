@@ -15,13 +15,13 @@ export type CompanyProfileType = {
 };
 
 function CompanyProfile(props: CompanyProfileType) {
-  console.log(props);
+  console.log(props.company_name);
   return (
     <Container>
       <Profile>
         <AvatarDiv>
           <Avatar
-            src={`../${props.company_name}.jpg`}
+            src={`/images/CompanyLogo/${props.company_name}.png`}
             alt={props.company_name}
             variant="rounded"
             sx={{ width: 56, height: 56 }}

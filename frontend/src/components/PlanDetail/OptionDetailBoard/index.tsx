@@ -16,7 +16,11 @@ export function OptionDetailBoard(props: PropType) {
         return (
           <div>
             <DD_LEFT>{item['NAME']}</DD_LEFT>
-            <DD_RIGHT>{item['COVERAGE'].toLocaleString()}원</DD_RIGHT>
+            <DD_RIGHT>
+              {item['COVERAGE'] === 0
+                ? '-'
+                : `${item['COVERAGE'].toLocaleString()}원`}
+            </DD_RIGHT>
           </div>
         );
       })}

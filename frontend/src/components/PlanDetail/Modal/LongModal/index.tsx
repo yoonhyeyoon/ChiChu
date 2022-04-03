@@ -18,7 +18,7 @@ export default function LongModal({
   const handleClose = () => setOpen(false);
 
   return (
-    <div>
+    <>
       <IconButton onClick={handleOpen}>{icon}</IconButton>
       <Modal
         aria-labelledby="transition-modal-title"
@@ -35,6 +35,6 @@ export default function LongModal({
           <Box sx={styledModal}>{element}</Box>
         </Fade>
       </Modal>
-    </div>
+    </>
   );
 }

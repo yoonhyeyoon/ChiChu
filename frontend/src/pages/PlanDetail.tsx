@@ -4,7 +4,6 @@ import Container from '@mui/material/Container';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { UserGender } from '../recoil/UserGender';
 import { UserAge } from '../recoil/UserAge';
-import { UserPeriod } from '../recoil/UserPeriod';
 import ProgressBarWithNumber from '../components/Common/ProgressBarWithNumber';
 import CompanyIndexModal from '../components/PlanDetail/Modal/CompanyIndexModal/index';
 import ProductIndexModal from '../components/PlanDetail/Modal/ProductIndexModal/index';
@@ -63,7 +62,6 @@ function PlanDetail() {
   const state = location.state as CustomState;
   const userAge = useRecoilValue(UserAge);
   const userGender = useRecoilValue(UserGender);
-  const userPeriod = useRecoilValue(UserPeriod);
 
   const [showMore, setShowMore] = useState(false);
   const [info, setInfo] = useState<InfoType | null>(null);
@@ -89,7 +87,7 @@ function PlanDetail() {
   };
 
   useEffect(() => {
-    console.log(userAge, userGender, userPeriod, state.product_code);
+    console.log(userAge, userGender, state.py, state.product_code);
     getProductInfo();
   }, []);
 
@@ -121,7 +119,7 @@ function PlanDetail() {
               </Box>
               <Box sx={{ textAlign: 'left', maxWidth: '70vw' }}>
                 <hr />
-                <QuestionTooltip title="치츄지수" />
+                <QuestionTooltip />
                 <ProgressBarWithNumber
                   plan_score={info.base[0]['TOTAL_INDEX']}
                   plan_average={69.24}

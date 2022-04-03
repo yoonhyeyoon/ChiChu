@@ -1,5 +1,6 @@
 import React from 'react';
 import CardContent from '@mui/material/CardContent';
+import { Symptom } from './styles';
 
 type PropType = {
   symptom: string;
@@ -11,7 +12,7 @@ function CardFront({ symptom, image }: PropType) {
     <>
       <CardContent>
         <img src={image} />
-        <h1>{symptom}</h1>
+        <Symptom>{symptom}</Symptom>
       </CardContent>
     </>
   );

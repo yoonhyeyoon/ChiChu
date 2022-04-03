@@ -21,9 +21,12 @@ export const ProfileName = styled.div`
 `;
 
 export const CompanyName = styled.h3`
+  font-family: NotoSansKRBold;
+  font-size: 22px;
   margin: 0;
   word-wrap: break-word;
 `;
 export const ProductName = styled.h3`
+  font-family: NotoSansKRRegular;
   margin: 0;
 `;

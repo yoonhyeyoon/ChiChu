@@ -8,6 +8,13 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { PlanListSelector } from '../../../recoil/PlanListSelector';
 import { PlanFilteredList } from '../../../recoil/PlanFilteredList';
 
+type PropType = {
+  optionState?: {
+    optionName?: string | null | undefined;
+    Name_2?: string | null | undefined;
+  };
+};
+
 type toggleList = string[];
 type PlanTagButtonType = {
   plan_tag: string;
@@ -95,7 +102,7 @@ const Button = ({ plan_tag, toggleList, setToggleList }: PlanTagButtonType) => {
   );
 };
 
-function PlanTags() {
+function PlanTags({ optionState }: PropType) {
   const tagList: PlanTagType[] = sample;
 
   const [toggleList, setToggleList] = useState<toggleList>([]);
