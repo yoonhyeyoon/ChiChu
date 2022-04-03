@@ -1,25 +1,11 @@
-export type PlanPreviewType = {
-  logo_img: string;
-  brand_name: string;
-  plan_name: string;
-  plan_type: string;
-  plan_cost: string;
-  plan_score: number;
-  moving?: boolean;
-};
+import React from 'react';
 
 export type PlanPickerType = {
   product_name: string;
   product_code: string;
   company_code: string;
   company_name: string;
-};
-
-export type ComparisonTableCompanyType = {
-  product_code: string;
-  company_code: string;
-  company_name: string;
-  total_index: number;
+  setChecked?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export type ComparisonTableRowType = {

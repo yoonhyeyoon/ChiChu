@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { Button, Grid, Paper, Typography } from '@mui/material';
+import { Button, Checkbox, Grid, Paper, Typography } from '@mui/material';
 
 import CompanyProfile from '../../PlanDetail/CompanyProfile';
+import useCheckBoxLinked from '../../../hooks/useCheckList';
 import { UserAge } from '../../../recoil/UserAge';
 import { UserGender } from '../../../recoil/UserGender';
 import { PlanPickerType } from '../../../types/types';
@@ -16,6 +17,48 @@ const getCodes = (list: PlanPickerType[]) => {
   });
   return codes;
 };
+
+function PlanPicker({ list }: { list: PlanPickerType[] }) {
+  const { removePlan } = useCheckBoxLinked();
+  const userAge = useRecoilValue(UserAge);
+  const userGender = useRecoilValue(UserGender);
+
+  return (
+    <>
+      <Grid container spacing={2}>
+        {list.map(item => (
+          <Grid item sm={4} key={item.product_code}>
+            {/* 누르면 비교 목록에서 삭제 */}
+            <Button
+              onClick={() => {
+                if (item.setChecked) {
+                  item.setChecked(false);
+                  removePlan(item.product_code);
+                }
+              }}
+            >
+              X
+            </Button>
+            <CompanyProfile
+              company_name={item.company_name}
+              product_name={item.product_name}
+            />
+          </Grid>
+        ))}
+        <RemainingPlans maxNum={maxNum} list={list} />
+      </Grid>
+      <Button variant="contained" disabled={list.length === 1}>
+        <Link
+          to="/compare"
+          state={{ age: userAge, gender: userGender, codes: getCodes(list) }}
+          style={{ textDecoration: 'none', color: 'white' }}
+        >
+          원스톱 보험비교
+        </Link>
+      </Button>
+    </>
+  );
+}
 
 function RemainingPlans<T>({
   maxNum,
@@ -34,36 +77,6 @@ function RemainingPlans<T>({
           </Typography>
         </Paper>
       ))}
-    </>
-  );
-}
-
-function PlanPicker({ list }: { list: PlanPickerType[] }) {
-  const userAge = useRecoilValue(UserAge);
-  const userGender = useRecoilValue(UserGender);
-
-  return (
-    <>
-      <Grid container spacing={2}>
-        {list.map(item => (
-          <Grid item sm={4} key={item.product_code}>
-            <CompanyProfile
-              company_name={item.company_name}
-              product_name={item.product_name}
-            />
-          </Grid>
-        ))}
-        <RemainingPlans maxNum={maxNum} list={list} />
-      </Grid>
-      <Button variant="contained">
-        <Link
-          to="/compare"
-          state={{ age: userAge, gender: userGender, codes: getCodes(list) }}
-          style={{ textDecoration: 'none', color: 'white' }}
-        >
-          원스톱 보험비교
-        </Link>
-      </Button>
     </>
   );
 }

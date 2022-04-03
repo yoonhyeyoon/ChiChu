@@ -8,10 +8,11 @@ import { PlanPickerType } from '../types/types';
 
 const listLimit = 3;
 
-function useCheckBoxLinked(planInfo: PlanPickerType) {
+function useCheckBoxLinked() {
+  const [checked, setChecked] = useState(false);
+
   const [checkedPlanList, setCheckedPlanList] =
     useRecoilState(checkedPlanListState);
-  const [checked, setChecked] = useState(false);
 
   const isEmptyList = useCallback(
     () => isEmpty(checkedPlanList),
@@ -22,10 +23,22 @@ function useCheckBoxLinked(planInfo: PlanPickerType) {
     return checkedPlanList.length === listLimit;
   };
 
+  const removePlan = useCallback(
+    (product_code_to_delete: string) => {
+      setCheckedPlanList(
+        checkedPlanList.filter(
+          plan => plan.product_code !== product_code_to_delete,
+        ),
+      );
+    },
+    [checkedPlanList],
+  );
+
   /** 현재 체크한 상품들의 목록을 업데이트하는 함수 */
   const updateCheckedPlanList = useCallback(
     (
       e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement, MouseEvent>,
+      planInfo: PlanPickerType,
     ) => {
       e.preventDefault();
       if (checked === false) {
@@ -34,14 +47,10 @@ function useCheckBoxLinked(planInfo: PlanPickerType) {
           return;
         }
         // 체크가 안 된 상태였을 경우, 목록에 추가
-        setCheckedPlanList(checkedPlanList.concat(planInfo));
+        setCheckedPlanList(checkedPlanList.concat({ ...planInfo, setChecked }));
       } else {
         // 체크된 상태였을 경우, 목록에서 제거
-        setCheckedPlanList(
-          checkedPlanList.filter(
-            plan => plan.product_code !== planInfo.product_code,
-          ),
-        );
+        removePlan(planInfo.product_code);
       }
       // 체크 상태 변경
       setChecked(!checked);
@@ -49,17 +58,24 @@ function useCheckBoxLinked(planInfo: PlanPickerType) {
     [checked, checkedPlanList],
   );
 
-  function CheckBoxLinked() {
+  function CheckBoxLinked({ prop }: { prop: PlanPickerType }) {
     return (
       <Checkbox
         checked={checked}
-        onClick={updateCheckedPlanList}
+        onClick={e => {
+          updateCheckedPlanList(e, { ...prop });
+        }}
         disabled={isFullList()}
       />
     );
   }
 
-  return { CheckBoxLinked, updateCheckedPlanList, isEmptyList };
+  return {
+    CheckBoxLinked,
+    updateCheckedPlanList,
+    removePlan,
+    isEmptyList,
+  };
 }
 
 export default useCheckBoxLinked;
