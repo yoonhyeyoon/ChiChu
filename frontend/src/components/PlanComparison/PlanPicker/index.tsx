@@ -19,12 +19,28 @@ const getCodes = (list: PlanPickerType[]) => {
 };
 
 function PlanPicker({ list }: { list: PlanPickerType[] }) {
-  const { removePlan } = useCheckBoxLinked();
   const userAge = useRecoilValue(UserAge);
   const userGender = useRecoilValue(UserGender);
 
+  const { removePlan, resetPlanList } = useCheckBoxLinked();
+  const deselectAndResetPlanList = (list: PlanPickerType[]) => {
+    list.forEach(item => {
+      if (item.setChecked) {
+        item.setChecked(false);
+      }
+    });
+    resetPlanList();
+  };
+
   return (
     <>
+      <Button
+        onClick={() => {
+          deselectAndResetPlanList(list);
+        }}
+      >
+        목록 초기화
+      </Button>
       <Grid container spacing={2}>
         {list.map(item => (
           <Grid item sm={4} key={item.product_code}>
@@ -51,6 +67,9 @@ function PlanPicker({ list }: { list: PlanPickerType[] }) {
         <Link
           to="/compare"
           state={{ age: userAge, gender: userGender, codes: getCodes(list) }}
+          onClick={() => {
+            deselectAndResetPlanList(list);
+          }}
           style={{ textDecoration: 'none', color: 'white' }}
         >
           원스톱 보험비교
