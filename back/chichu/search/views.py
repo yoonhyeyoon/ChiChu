@@ -653,6 +653,8 @@ def product(request, product_code, age, gender, py):
 # 4 - 보험비교
 @api_view(['GET'])
 def compare(request, age, gender, codes):
+    age = change_age(age)  
+    
     # 비교할 상품의 갯수 (2개, 3개)
     if len(codes) == 12:
         p1 = codes[:6]
