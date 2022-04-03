@@ -8,6 +8,9 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { PlanListSelector } from '../../../recoil/PlanListSelector';
 import { PlanFilteredList } from '../../../recoil/PlanFilteredList';
 
+import Box from '@mui/material/Box';
+import { PlanRateRangeSlider } from '../PlanRateRange/styles';
+
 type PropType = {
   optionState?: {
     optionName?: string | null | undefined;
@@ -20,9 +23,15 @@ type PlanTagButtonType = {
   plan_tag: string;
   toggleList: toggleList;
   setToggleList: React.Dispatch<React.SetStateAction<toggleList>>;
+  planRate: number[];
 };
 
-const Button = ({ plan_tag, toggleList, setToggleList }: PlanTagButtonType) => {
+const Button = ({
+  plan_tag,
+  toggleList,
+  setToggleList,
+  planRate,
+}: PlanTagButtonType) => {
   const [toggle, setToggle] = useState(false);
 
   const [planFilteredList, setPlanFilteredList] =
@@ -54,34 +63,43 @@ const Button = ({ plan_tag, toggleList, setToggleList }: PlanTagButtonType) => {
     let toggledListCopy = toggleList;
     function checkTagged(option: string) {
       // console.log(option);
+      if (toggledListCopy.length == 0) {
+        // console.log(option, '성공인디');
+        toggledListCopy = toggleList;
+        return true;
+      }
       if (toggledListCopy.includes(option)) {
         toggledListCopy = toggledListCopy.filter(element => element !== option);
         // console.log(option, toggledListCopy);
-        if (toggledListCopy.length == 0) {
-          // console.log(option, '성공인디');
-          toggledListCopy = toggleList;
-          return true;
-        }
       }
     }
 
-    if (planFilteredList && toggleList.length) {
-      console.log(toggleList);
+    if (planFilteredList) {
+      // console.log(toggleList);
       const newDict: PlanListType = { ...planFilteredList };
-      newDict['cheap'] = planFilteredList.cheap.filter(product =>
-        product.option_name.some(checkTagged),
+      newDict['cheap'] = planFilteredList.cheap.filter(
+        product =>
+          product.option_name.some(checkTagged) &&
+          product.rate >= planRate[0] &&
+          product.rate <= planRate[1],
       );
       // const newList = planFilteredList.cheap.filter(product =>
       //   product.option_name.some(checkTagged),
       // );
-      newDict['chichu'] = planFilteredList.chichu.filter(product =>
-        product.option_name.some(checkTagged),
+      newDict['chichu'] = planFilteredList.chichu.filter(
+        product =>
+          product.option_name.some(checkTagged) &&
+          product.rate >= planRate[0] &&
+          product.rate <= planRate[1],
       );
       // newDict['popular'] = planFilteredList.popular.filter(product =>
       //   product.option_name.some(checkTagged),
       // );
-      newDict['coverage'] = planFilteredList.coverage.filter(product =>
-        product.option_name.some(checkTagged),
+      newDict['coverage'] = planFilteredList.coverage.filter(
+        product =>
+          product.option_name.some(checkTagged) &&
+          product.rate >= planRate[0] &&
+          product.rate <= planRate[1],
       );
       // newDict['reasonable'] = planFilteredList.reasonable.filter(product =>
       //   product.option_name.some(checkTagged),
@@ -89,7 +107,7 @@ const Button = ({ plan_tag, toggleList, setToggleList }: PlanTagButtonType) => {
       console.log(planFilteredList, newDict);
       setPlanFilteredList(newDict);
     }
-  }, [toggleList]);
+  }, [toggleList, planRate]);
 
   return (
     <PlanTagButton
@@ -102,11 +120,29 @@ const Button = ({ plan_tag, toggleList, setToggleList }: PlanTagButtonType) => {
   );
 };
 
+function valuetext(value: number) {
+  return `${value}원`;
+}
+
 function PlanTags({ optionState }: PropType) {
   const tagList: PlanTagType[] = sample;
-
   const [toggleList, setToggleList] = useState<toggleList>([]);
+  const [planFilteredList, setPlanFilteredList] =
+    useRecoilState(PlanListSelector);
+  const [planRate, setPlanRate] = React.useState([0, 0]);
+  const [maxRate, setMaxRate] = React.useState(0);
+  const planRateLst: any = [];
+  useEffect(() => {
+    planFilteredList?.cheap.map(product => planRateLst.push(product.rate));
+    // console.log(planRateLst);
+    setPlanRate([0, Math.max(...planRateLst)]);
+    setMaxRate(Math.max(...planRateLst));
+    setToggleList([...toggleList, '틀니']);
+  }, []);
 
+  const handleChange = (event: Event, newValue: number | number[]) => {
+    setPlanRate(newValue as number[]);
+  };
   return (
     <>
       <Stack spacing={2} direction="row">
@@ -116,9 +152,30 @@ function PlanTags({ optionState }: PropType) {
             plan_tag={tag.plan_tag}
             toggleList={toggleList}
             setToggleList={setToggleList}
+            planRate={planRate}
           />
         ))}
       </Stack>
+      <Box
+        sx={{
+          width: 500,
+          margin: '0 auto',
+          paddingTop: 6.5,
+        }}
+      >
+        <PlanRateRangeSlider
+          getAriaLabel={() => 'Temperature range'}
+          value={planRate}
+          onChange={handleChange}
+          valueLabelDisplay="auto"
+          getAriaValueText={valuetext}
+          min={0}
+          max={maxRate}
+          step={1000}
+          marks
+          disableSwap
+        />
+      </Box>
     </>
   );
 }
