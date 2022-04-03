@@ -14,7 +14,7 @@ import { ProductType, PlanPickerType } from '../../../types/types';
 function PlanCard({ content }: { content: ProductType }) {
   const planInfo: PlanPickerType = { ...content };
   const { CheckBoxLinked, updateCheckedPlanList, isEmptyList } =
-    useCheckBoxLinked(planInfo);
+    useCheckBoxLinked();
 
   return (
     <Card>
@@ -27,7 +27,7 @@ function PlanCard({ content }: { content: ProductType }) {
               e.preventDefault();
             }
             if (!isEmptyList()) {
-              updateCheckedPlanList(e);
+              updateCheckedPlanList(e, planInfo);
             }
           }}
           style={{ textDecoration: 'none' }}
@@ -42,7 +42,7 @@ function PlanCard({ content }: { content: ProductType }) {
             }
             title={content.company_name}
             subheader={content.product_name}
-            action={<CheckBoxLinked />}
+            action={<CheckBoxLinked prop={planInfo} />}
           />
           <CardContent>
             <span>설계 유형</span>
