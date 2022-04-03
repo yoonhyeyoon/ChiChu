@@ -26,7 +26,7 @@ function PlanCard({ content }: { content: ProductType }) {
             if (content.moving) {
               e.preventDefault();
             }
-            if (!isEmptyList) {
+            if (!isEmptyList()) {
               updateCheckedPlanList(e);
             }
           }}
