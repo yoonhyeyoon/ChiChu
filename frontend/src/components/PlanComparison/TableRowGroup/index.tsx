@@ -1,25 +1,47 @@
-import { TableCell, TableRow } from '@mui/material';
+import { TableCell, TableRow, Typography } from '@mui/material';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 
+import LongModal from '../../PlanDetail/Modal/LongModal';
+import TableBlankCells from '../TableBlankCells';
+import { grey } from '../../../styles/Colors';
 import { ComparisonTableRowType } from '../../../types/types';
 
-function TableRowGroup({ options }: { options: ComparisonTableRowType[] }) {
+type TableRowGroupType = {
+  optionGroupName: string;
+  options: ComparisonTableRowType[];
+  helpContent: JSX.Element;
+};
+
+function TableRowGroup(props: TableRowGroupType) {
   return (
     <>
       {/* 그룹 담보명 */}
       <TableRow>
-        <TableCell>치아보존치료비 (?)</TableCell>
+        <TableCell>
+          <Typography noWrap fontSize="1.25rem" fontFamily="NotoSansKRBold">
+            {props.optionGroupName}
+            <LongModal
+              element={props.helpContent}
+              icon={<HelpOutlineIcon sx={{ cursor: 'pointer' }} />}
+            />
+          </Typography>
+        </TableCell>
+        <TableBlankCells num={props.options[0].option_code.length - 3} />
       </TableRow>
+
       {/* 세부 담보들 */}
-      {options.map(option => (
+      {props.options.map(option => (
         <TableRow key={option.option_name}>
           {/* 해당 담보명 */}
-          <TableCell component="th" scope="row">
+          <TableCell
+            sx={{ backgroundColor: `${grey[100]}`, paddingLeft: '30px' }}
+          >
             {option.option_name}
           </TableCell>
           {/* 해당 담보에 대한 각 보험 상품들 보장 목록 */}
           {option.coverage.map((value, col) => (
             <TableCell align="center" key={col}>
-              {value}
+              {value} 만원
             </TableCell>
           ))}
         </TableRow>
