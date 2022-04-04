@@ -86,7 +86,6 @@ function SearchResult(): JSX.Element {
             {/* <PlanTags optionState={optionState} /> */}
             <PlanTags />
 
-            <PlanRateRange />
             <SortButton />
 
             {/* 오류 회피를 위해, planList가 있을 때만 렌더링 */}

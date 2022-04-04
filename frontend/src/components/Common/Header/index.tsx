@@ -29,7 +29,7 @@ const Header = ({
         <HeaderRight>
           <Nav>
             <NavWrapper to="/search">보험검색</NavWrapper>
-            <NavWrapper to="/">보험TIP</NavWrapper>
+            <NavWrapper to="/tip">보험TIP</NavWrapper>
             <NavWrapper to="/">AboutUS</NavWrapper>
           </Nav>
         </HeaderRight>

@@ -144,12 +144,13 @@ function PlanDetail() {
                   {showMore && (
                     <OptionDetailBoard option_detail={info['option_detail']} />
                   )}
+                  <PieChart age_rate={info['age_rate']} />
+                  <br />
+                  <RadarChart option_group={info['option_group']} />
+                  <br />
+                  <br />
                 </StyledBox>
               </StylesProvider>
-              <br />
-              <PieChart age_rate={info['age_rate']} />
-              <br />
-              <RadarChart option_group={info['option_group']} />
             </Container>
             <div>
               <RightBox

@@ -3,6 +3,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Pie } from 'react-chartjs-2';
 import { Container } from './styles';
+import { GreyRegularText } from '../styles';
 
 type PropType = {
   age_rate: {
@@ -51,6 +52,11 @@ export function PieChart(props: PropType) {
 
   return (
     <Container>
+      <GreyRegularText
+        style={{ textAlign: 'left', marginTop: '10px', marginBottom: '10px' }}
+      >
+        보험 가입자 연령 분포
+      </GreyRegularText>
       <Pie data={data} plugins={[ChartDataLabels]} />
     </Container>
   );

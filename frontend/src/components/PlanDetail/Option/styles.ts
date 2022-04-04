@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const DL = styled.dl``;
 export const DT = styled.dt`
-  background-color: #cdd2d7;
+  background-color: #e7ebf0;
   padding: 0 10px;
   width: 100%;
   display: inline-block;
