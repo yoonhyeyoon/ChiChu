@@ -77,16 +77,16 @@ function SearchResult(): JSX.Element {
               icon={<AddAlarmIcon />}
               element={<SecondarySearch />}
             /> */}
-            <ModalTitle>
+            {/* <ModalTitle>
               {age}세 {gender == 1 ? '남성' : '여성'}기준 검색결과, 총{' '}
               {planFilteredList?.chichu.length}개의 상품을 찾았어요!
-            </ModalTitle>
+            </ModalTitle> */}
             <SecondarySearchModal />
             {/* 명성 코드 */}
             {/* <PlanTags optionState={optionState} /> */}
             <PlanTags />
 
-            <PlanRateRange />
+            {/* <PlanRateRange /> */}
             <SortButton />
 
             {/* 오류 회피를 위해, planList가 있을 때만 렌더링 */}

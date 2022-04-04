@@ -6,7 +6,7 @@
  */
 
 import * as React from 'react';
-import { Box, Slide } from '@mui/material';
+import { Box, Paper, Slide } from '@mui/material';
 
 type TransitionType = {
   component: JSX.Element;
@@ -19,16 +19,17 @@ function Transition({ component, checked, containerRef }: TransitionType) {
     <Box
       style={{
         position: 'fixed',
-        bottom: '200px',
-        left: '100px',
+        left: '50%',
+        transform: 'translate(-50%, 0)',
+        bottom: '10vh',
         zIndex: 1,
         textAlign: 'center',
       }}
     >
       <Slide direction="up" in={checked} container={containerRef.current}>
-        {/* 내용물이 비어있으면 완전히 사라지는 것처럼 보임. 
-            옆에 aaa 같은 더미를 붙이면 사라지는 게 제대로 보임 */}
-        <Box>{component}</Box>
+        {/* 내용물이 비어있으면 순식간에 사라지는 것처럼 보임. 
+            옆에 aaa 같은 더미를 붙이면 사라지는 효과가 제대로 보임 */}
+        <Paper>{component}</Paper>
       </Slide>
     </Box>
   );

@@ -46,7 +46,13 @@ function PlanCard({ content }: { content: ProductType }) {
           />
           <CardContent>
             <span>설계 유형</span>
-            <h3>{content.subtype_code}</h3>
+            <h3>
+              {content.subtype_code == 1
+                ? '실속형'
+                : content.subtype_code == 2
+                ? '표준형'
+                : '고급형'}
+            </h3>
             <span>보험료</span>
             <h3>{content.rate}</h3>
             {/* <ProgressBarWithNumber plan_score={content.rate} /> */}
