@@ -729,6 +729,83 @@ def compare(request, age, gender, codes):
         GROUP BY E.OPTION_CODE
         """
         
+        # list1_sql = f"""
+        # SELECT PRODUCT_CODE, GROUP_CONCAT(OPTION_NAME ORDER BY OPTION_NAME) AS OPTION_NAME, GROUP_CONCAT(COVERAGE ORDER BY OPTION_NAME) AS COVERAGE
+        # FROM(
+        # SELECT DISTINCT IFNULL(I.PRODUCT_CODE, 'E10001') AS PRODUCT_CODE, J.OPTION_NAME AS OPTION_NAME, IFNULL(SUM(I.COVERAGE) OVER(PARTITION BY I.OPTION_CODE), 0) AS COVERAGE
+        # FROM
+        # (SELECT G.PRODUCT_CODE, H.OPTION_CODE AS OPTION_CODE, G.COVERAGE
+        # FROM
+        # (SELECT E.PRODUCT_CODE, F.COVERAGE, F.OPTION_CODE
+        #     FROM PRODUCT_RATE AS E
+        #     RIGHT JOIN PRODUCT_OPTION AS F
+        #     ON E.PRODUCT_CODE = F.PRODUCT_CODE
+        #     WHERE E.AGE = 20 AND E.GENDER = 1 AND E.PRODUCT_CODE = 'E10001') AS G
+        # RIGHT JOIN
+        # (SELECT DISTINCT C.OPTION_CODE, OPTION_NAME
+        # FROM (SELECT DISTINCT A.PRODUCT_CODE, A.OPTION_CODE, B.OPTION_NAME, A.COVERAGE
+        #     FROM PRODUCT_OPTION AS A
+        #     JOIN DB_OPTION AS B
+        #     ON A.OPTION_CODE = B.OPTION_CODE) AS C
+        # RIGHT JOIN PRODUCT_RATE AS D
+        # ON C.PRODUCT_CODE = D.PRODUCT_CODE
+        # WHERE D.AGE = 20 AND D.GENDER = 1 AND D.PRODUCT_CODE IN ('E10001', 'E10002', 'E10003')) AS H
+        # ON G.OPTION_CODE = H.OPTION_CODE) AS I
+        # JOIN DB_OPTION AS J
+        # ON I.OPTION_CODE = J.OPTION_CODE) AS K
+        # GROUP BY PRODUCT_CODE
+        # UNION
+        # SELECT PRODUCT_CODE, GROUP_CONCAT(OPTION_NAME ORDER BY OPTION_NAME), GROUP_CONCAT(COVERAGE ORDER BY OPTION_NAME)
+        # FROM(
+        # SELECT DISTINCT IFNULL(I.PRODUCT_CODE, 'E10002') AS PRODUCT_CODE, J.OPTION_NAME AS OPTION_NAME, IFNULL(SUM(I.COVERAGE) OVER(PARTITION BY I.OPTION_CODE), 0) AS COVERAGE
+        # FROM
+        # (SELECT G.PRODUCT_CODE, H.OPTION_CODE AS OPTION_CODE, G.COVERAGE
+        # FROM
+        # (SELECT E.PRODUCT_CODE, F.COVERAGE, F.OPTION_CODE
+        #     FROM PRODUCT_RATE AS E
+        #     RIGHT JOIN PRODUCT_OPTION AS F
+        #     ON E.PRODUCT_CODE = F.PRODUCT_CODE
+        #     WHERE E.AGE = 20 AND E.GENDER = 1 AND E.PRODUCT_CODE = 'E10002') AS G
+        # RIGHT JOIN
+        # (SELECT DISTINCT C.OPTION_CODE, OPTION_NAME
+        # FROM (SELECT DISTINCT A.PRODUCT_CODE, A.OPTION_CODE, B.OPTION_NAME, A.COVERAGE
+        #     FROM PRODUCT_OPTION AS A
+        #     JOIN DB_OPTION AS B
+        #     ON A.OPTION_CODE = B.OPTION_CODE) AS C
+        # RIGHT JOIN PRODUCT_RATE AS D
+        # ON C.PRODUCT_CODE = D.PRODUCT_CODE
+        # WHERE D.AGE = 20 AND D.GENDER = 1 AND D.PRODUCT_CODE IN ('E10001', 'E10002', 'E10003')) AS H
+        # ON G.OPTION_CODE = H.OPTION_CODE) AS I
+        # JOIN DB_OPTION AS J
+        # ON I.OPTION_CODE = J.OPTION_CODE) AS K
+        # GROUP BY PRODUCT_CODE
+        # UNION
+        # SELECT PRODUCT_CODE, GROUP_CONCAT(OPTION_NAME ORDER BY OPTION_NAME), GROUP_CONCAT(COVERAGE ORDER BY OPTION_NAME)
+        # FROM(
+        # SELECT DISTINCT IFNULL(I.PRODUCT_CODE, 'E10003') AS PRODUCT_CODE, J.OPTION_NAME AS OPTION_NAME, IFNULL(SUM(I.COVERAGE) OVER(PARTITION BY I.OPTION_CODE), 0) AS COVERAGE
+        # FROM
+        # (SELECT G.PRODUCT_CODE, H.OPTION_CODE AS OPTION_CODE, G.COVERAGE
+        # FROM
+        # (SELECT E.PRODUCT_CODE, F.COVERAGE, F.OPTION_CODE
+        #     FROM PRODUCT_RATE AS E
+        #     RIGHT JOIN PRODUCT_OPTION AS F
+        #     ON E.PRODUCT_CODE = F.PRODUCT_CODE
+        #     WHERE E.AGE = 20 AND E.GENDER = 1 AND E.PRODUCT_CODE = 'E10003') AS G
+        # RIGHT JOIN
+        # (SELECT DISTINCT C.OPTION_CODE, OPTION_NAME
+        # FROM (SELECT DISTINCT A.PRODUCT_CODE, A.OPTION_CODE, B.OPTION_NAME, A.COVERAGE
+        #     FROM PRODUCT_OPTION AS A
+        #     JOIN DB_OPTION AS B
+        #     ON A.OPTION_CODE = B.OPTION_CODE) AS C
+        # RIGHT JOIN PRODUCT_RATE AS D
+        # ON C.PRODUCT_CODE = D.PRODUCT_CODE
+        # WHERE D.AGE = 20 AND D.GENDER = 1 AND D.PRODUCT_CODE IN ('E10001', 'E10002', 'E10003')) AS H
+        # ON G.OPTION_CODE = H.OPTION_CODE) AS I
+        # JOIN DB_OPTION AS J
+        # ON I.OPTION_CODE = J.OPTION_CODE) AS K
+        # GROUP BY PRODUCT_CODE
+        # """
+
         # AND A.PRODUCT_CODE IN ('E10001', 'E10002', 'E10003')) D
         
         list2_sql = f"""
@@ -772,8 +849,8 @@ def compare(request, age, gender, codes):
 
         curs.execute(list1_sql)
         for row in curs:
-            row['product_code'] = row['product_code'].split(',')
-            row['coverage'] = row['coverage'].split(',')
+            row['OPTION_NAME'] = row['OPTION_NAME'].split(',')
+            row['COVERAGE'] = row['COVERAGE'].split(',')
             list1.append(row)
 
         curs.execute(list2_sql)
@@ -851,6 +928,8 @@ def compare(request, age, gender, codes):
         GROUP BY E.OPTION_CODE
         """
         
+        
+        
         list2_sql = f"""
         SELECT E.OPTION_CODE as option_code, E.OPTION_NAME as option_name, GROUP_CONCAT(E.PRODUCT_CODE) as product_code, GROUP_CONCAT(E.COVERAGE) as coverage 
         FROM (SELECT D.OPTION_CODE, D.OPTION_NAME, D.PRODUCT_CODE, SUM(D.COVERAGE) AS COVERAGE
@@ -917,7 +996,7 @@ def compare(request, age, gender, codes):
             'company': company_list,
             '치츄지수' : list0,
             '치아보철치료' : list1,
-            '치아보전치료' : list2,
+            '치아보존치료' : list2,
             '치수치료': list3
         }
 
