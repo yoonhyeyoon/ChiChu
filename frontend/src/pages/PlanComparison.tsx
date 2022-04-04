@@ -5,6 +5,7 @@ import {
   TableBody,
   TableContainer,
   TableHead,
+  Typography,
   Paper,
 } from '@mui/material';
 
@@ -44,6 +45,13 @@ function PlanComparison() {
 
   return (
     <>
+      <Typography textAlign="center" variant="h5" fontFamily="NotoSansKRBold">
+        치아보험 비교하기
+        <h5>
+          ({input.gender === 1 ? '남성' : '여성'} {input.age}세 기준)
+        </h5>
+      </Typography>
+
       {info && (
         <TableContainer component={Paper}>
           <Table stickyHeader sx={{ minWidth: 650 }} aria-label="simple table">
