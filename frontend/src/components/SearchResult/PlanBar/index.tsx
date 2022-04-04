@@ -10,15 +10,25 @@ import {
 import { Link } from 'react-router-dom';
 
 import ProgressBarWithNumber from '../../Common/ProgressBarWithNumber';
-import { ProductType } from '../../../types/types';
+import useCheckBoxLinked from '../../../hooks/useCheckList';
+import { PlanPickerType, ProductType } from '../../../types/types';
 
 function PlanBar({ content }: { content: ProductType }) {
+  const planInfo: PlanPickerType = { ...content };
+  const { CheckBoxLinked, updateCheckedPlanList, isEmptyList } =
+    useCheckBoxLinked();
+
   return (
     <Card>
       <CardActionArea>
         <Link
           to={`./${content.product_code}`}
           state={{ product_code: content.product_code, py: content.py }}
+          onClick={e => {
+            if (!isEmptyList()) {
+              updateCheckedPlanList(e, planInfo);
+            }
+          }}
           style={{ textDecoration: 'none' }}
         >
           <CardHeader
@@ -31,6 +41,7 @@ function PlanBar({ content }: { content: ProductType }) {
             }
             title={content.company_name}
             subheader={content.product_name}
+            action={<CheckBoxLinked prop={planInfo} />}
           />
           <CardContent>
             <Stack direction="row" justifyContent="space-between" paddingX={7}>
