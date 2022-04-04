@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { PlanListType, PlanTagType } from '../../../types/types';
 import sample from './sample.json';
-import { PlanTagButton } from './styles';
+import {
+  BoldLabel,
+  PlanTagButton,
+  RateLabel,
+  TagLabel,
+  TagRateContainer,
+} from './styles';
 
 import Stack from '@mui/material/Stack';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -9,7 +15,9 @@ import { PlanListSelector } from '../../../recoil/PlanListSelector';
 import { PlanFilteredList } from '../../../recoil/PlanFilteredList';
 
 import Box from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
 import { PlanRateRangeSlider } from '../PlanRateRange/styles';
+import Tooltip from '@mui/material/Tooltip';
 
 type PropType = {
   optionState?: {
@@ -120,10 +128,6 @@ const Button = ({
   );
 };
 
-function valuetext(value: number) {
-  return `${value}원`;
-}
-
 function PlanTags({ optionState }: PropType) {
   const tagList: PlanTagType[] = sample;
   const [toggleList, setToggleList] = useState<toggleList>([]);
@@ -132,51 +136,75 @@ function PlanTags({ optionState }: PropType) {
   const [planRate, setPlanRate] = React.useState([0, 0]);
   const [maxRate, setMaxRate] = React.useState(0);
   const planRateLst: any = [];
+
   useEffect(() => {
     planFilteredList?.cheap.map(product => planRateLst.push(product.rate));
     // console.log(planRateLst);
     setPlanRate([0, Math.max(...planRateLst)]);
     setMaxRate(Math.max(...planRateLst));
-    setToggleList([...toggleList, '틀니']);
+    // setToggleList([...toggleList, '틀니']);
+    // console.log(toggleList);
   }, []);
 
   const handleChange = (event: Event, newValue: number | number[]) => {
     setPlanRate(newValue as number[]);
   };
+
   return (
-    <>
-      <Stack spacing={2} direction="row">
-        {tagList.map(tag => (
-          <Button
-            key={tag.id}
-            plan_tag={tag.plan_tag}
-            toggleList={toggleList}
-            setToggleList={setToggleList}
-            planRate={planRate}
-          />
-        ))}
-      </Stack>
+    <TagRateContainer>
+      {/* <Divider /> */}
+      <Divider>
+        <RateLabel>
+          원하시는 <BoldLabel>월 납입금액</BoldLabel>의 범위를 지정해보세요
+        </RateLabel>
+      </Divider>
       <Box
         sx={{
-          width: 500,
+          width: 800,
           margin: '0 auto',
-          paddingTop: 6.5,
+          paddingTop: 3,
+          paddingBottom: 3,
         }}
       >
         <PlanRateRangeSlider
-          getAriaLabel={() => 'Temperature range'}
           value={planRate}
           onChange={handleChange}
-          valueLabelDisplay="auto"
-          getAriaValueText={valuetext}
+          // getAriaValueText={valuetext}
           min={0}
           max={maxRate}
           step={1000}
-          marks
           disableSwap
+          valueLabelDisplay="on"
         />
       </Box>
-    </>
+      {/* <Divider /> */}
+      <Divider>
+        <TagLabel>
+          보장받고 싶은 <BoldLabel>담보</BoldLabel>를 선택해보세요
+        </TagLabel>
+      </Divider>
+      <Box
+        sx={{
+          // width: 500,
+          // margin: '0 auto',
+          paddingTop: 3,
+          paddingBottom: 8,
+        }}
+      >
+        <Stack spacing={2} direction="row">
+          {tagList.map(tag => (
+            <Button
+              key={tag.id}
+              plan_tag={tag.plan_tag}
+              toggleList={toggleList}
+              setToggleList={setToggleList}
+              planRate={planRate}
+            />
+          ))}
+        </Stack>
+      </Box>
+      <Divider />
+    </TagRateContainer>
   );
 }
 

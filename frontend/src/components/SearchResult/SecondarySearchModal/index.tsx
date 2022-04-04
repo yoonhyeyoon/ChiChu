@@ -4,10 +4,11 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import Button from '@mui/material/Button';
-import { ModalTitle, styledModal } from './styles';
+import IconButton from '@mui/material/IconButton';
+import { ModalTitle, ModalTitleColor, styledModal } from './styles';
 import ButtonUnstyled, { ButtonUnstyledProps } from '@mui/base/ButtonUnstyled';
 import { CustomButtonRoot } from '../../Common/CHICHUButton/styles';
-import ZoomInIcon from '@mui/icons-material/ZoomIn';
+import EditRoadIcon from '@mui/icons-material/EditRoad';
 import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
 import Gender from '../../Search/Gender/Index';
@@ -17,6 +18,7 @@ import { useRecoilValue } from 'recoil';
 import { UserGender } from '../../../recoil/UserGender';
 import { UserAge } from '../../../recoil/UserAge';
 import { PlanFilteredList } from '../../../recoil/PlanFilteredList';
+import { blue } from '../../../styles/Colors';
 
 function CustomButton(props: ButtonUnstyledProps) {
   return <ButtonUnstyled {...props} component={CustomButtonRoot} />;
@@ -25,7 +27,7 @@ function CustomButton(props: ButtonUnstyledProps) {
 function SecondarySearchModal() {
   const gender = useRecoilValue(UserGender);
   const age = useRecoilValue(UserAge);
-  // const planList = useRecoilValue(PlanFilteredList);
+  const planList = useRecoilValue(PlanFilteredList);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -33,10 +35,17 @@ function SecondarySearchModal() {
   // console.log(planList?.chichu.length);
   return (
     <div>
-      <Button onClick={handleOpen}>
-        납입, 보험기간
-        <ZoomInIcon />
-      </Button>
+      <ModalTitle>
+        <ModalTitleColor>
+          {age}세 {gender == 1 ? '남성' : '여성'}
+        </ModalTitleColor>
+        기준, 아래조건으로{' '}
+        <ModalTitleColor>총 {planList?.chichu.length}개</ModalTitleColor>의
+        상품을 찾았어요
+      </ModalTitle>
+      <IconButton onClick={handleOpen} sx={{ padding: 1 }}>
+        <EditRoadIcon sx={{ paddingBottom: 1 }} />
+      </IconButton>
       <Modal
         open={open}
         onClose={handleClose}

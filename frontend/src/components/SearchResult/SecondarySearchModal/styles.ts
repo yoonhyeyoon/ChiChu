@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { blue } from '../../../styles/Colors';
 
 export const styledModal = {
   position: 'absolute',
@@ -16,5 +17,10 @@ export const styledModal = {
 export const ModalTitle = styled('span')`
   font-family: NotoSansKRMedium;
   font-size: 1.3rem;
-  margin: 5px 8px;
+  // margin: 8px 8px;
+`;
+
+export const ModalTitleColor = styled(ModalTitle)`
+  font-family: NotoSansKRBold;
+  color: ${blue[600]};
 `;
