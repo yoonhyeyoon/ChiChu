@@ -4,15 +4,15 @@ import { StyledModal } from './styles';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import CHICHUModal from '../../../Common/CHICHUModal';
 import { ProductIndexText } from './ProductIndexText';
+import ShortModal from '../ShortModal';
 
-export default function CompanyIndexModal() {
+export default function ProductIndexModal() {
   return (
-    <StyledModal>
-      <span>상품지수</span>
-      <CHICHUModal
+    <>
+      <ShortModal
         element={<ProductIndexText />}
         icon={<HelpOutlineIcon sx={{ cursor: 'pointer' }} />}
-      ></CHICHUModal>
-    </StyledModal>
+      ></ShortModal>
+    </>
   );
 }

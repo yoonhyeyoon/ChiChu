@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
 import { PlanListType, PlanTagType } from '../../../types/types';
+import React, { useState, useEffect } from 'react';
 import sample from './sample.json';
 import {
   BoldLabel,
@@ -10,21 +10,20 @@ import {
 } from './styles';
 
 import Stack from '@mui/material/Stack';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { PlanListSelector } from '../../../recoil/PlanListSelector';
-import { PlanFilteredList } from '../../../recoil/PlanFilteredList';
 
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import { PlanRateRangeSlider } from '../PlanRateRange/styles';
 import Tooltip from '@mui/material/Tooltip';
 
-type PropType = {
-  optionState?: {
-    optionName?: string | null | undefined;
-    Name_2?: string | null | undefined;
-  };
-};
+// type PropType = {
+//   state?: {
+//     optionName?: string | null | undefined;
+//     Name_2?: string | null | undefined;
+//   };
+// };
 
 type toggleList = string[];
 type PlanTagButtonType = {
@@ -128,7 +127,7 @@ const Button = ({
   );
 };
 
-function PlanTags({ optionState }: PropType) {
+function PlanTags() {
   const tagList: PlanTagType[] = sample;
   const [toggleList, setToggleList] = useState<toggleList>([]);
   const [planFilteredList, setPlanFilteredList] =
@@ -144,6 +143,11 @@ function PlanTags({ optionState }: PropType) {
     setMaxRate(Math.max(...planRateLst));
     // setToggleList([...toggleList, '틀니']);
     // console.log(toggleList);
+
+    // 1. 새로고침 했을 때 state 가 사라지게 하는 것.(원래 상태로 돌아오게 하는 것)
+    // setToggleList([...toggleList, '틀니']);
+
+    // 2. (원래 상태로 돌아오게 하는 것)
   }, []);
 
   const handleChange = (event: Event, newValue: number | number[]) => {

@@ -19,11 +19,6 @@ const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
 export default function QuestionTooltip() {
   return (
     <>
-      <span>
-        이 보험의 치츄지수는
-        <br />
-        보험 상품 중 상위권이예요!
-      </span>
       <HtmlTooltip
         title={
           <React.Fragment>

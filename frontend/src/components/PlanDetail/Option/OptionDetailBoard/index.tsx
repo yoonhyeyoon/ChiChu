@@ -1,5 +1,5 @@
 import React from 'react';
-import { DD_RIGHT, DD_LEFT } from './styles';
+import { DT, DD_RIGHT, DD_LEFT, JisuText } from '../styles';
 
 type PropType = {
   option_detail: {
@@ -11,19 +11,22 @@ type PropType = {
 export function OptionDetailBoard(props: PropType) {
   console.log(props.option_detail);
   return (
-    <div>
+    <>
+      <DT style={{ margin: '20px 0', padding: '10px 10px' }}>
+        <JisuText>상세보장내역</JisuText>
+      </DT>
       {props.option_detail.map(item => {
         return (
-          <div>
+          <dd>
             <DD_LEFT>{item['NAME']}</DD_LEFT>
             <DD_RIGHT>
               {item['COVERAGE'] === 0
                 ? '-'
                 : `${item['COVERAGE'].toLocaleString()}원`}
             </DD_RIGHT>
-          </div>
+          </dd>
         );
       })}
-    </div>
+    </>
   );
 }

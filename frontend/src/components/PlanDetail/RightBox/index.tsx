@@ -4,6 +4,7 @@ import { textAlign } from '@mui/system';
 import { BOX_RIGHT, DD_RIGHT, DD_LEFT } from './styles';
 import { CustomButtonRoot } from '../../Common/CHICHUButton/styles';
 import Link from '@mui/material/Link';
+import { NormalBoldText, NormalRegularText } from '../styles';
 
 type PropType = {
   gender: number;
@@ -26,9 +27,9 @@ function RightBox(props: PropType) {
 
   return (
     <BOX_RIGHT>
-      <p>
+      <NormalBoldText style={{ fontSize: '24px' }}>
         {gender_str}, {props.age}세 기준
-      </p>
+      </NormalBoldText>
       <hr />
       <div>
         <DD_LEFT>납입기간</DD_LEFT>

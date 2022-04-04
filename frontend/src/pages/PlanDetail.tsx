@@ -1,27 +1,34 @@
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Container from '@mui/material/Container';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { UserGender } from '../recoil/UserGender';
 import { UserAge } from '../recoil/UserAge';
-import ProgressBarWithNumber from '../components/Common/ProgressBarWithNumber';
+import { Box, Button } from '@mui/material';
 import CompanyIndexModal from '../components/PlanDetail/Modal/CompanyIndexModal/index';
 import ProductIndexModal from '../components/PlanDetail/Modal/ProductIndexModal/index';
 import UserIndexModal from '../components/PlanDetail/Modal/UserIndexModal/index';
-import { OptionBoard } from '../components/PlanDetail/OptionBoard/index';
-import { OptionDetailBoard } from '../components/PlanDetail/OptionDetailBoard/index';
+import { OptionBoard } from '../components/PlanDetail/Option/OptionBoard/index';
+import { OptionDetailBoard } from '../components/PlanDetail/Option/OptionDetailBoard/index';
 import CompanyProfile from '../components/PlanDetail/CompanyProfile';
 import QuestionTooltip from '../components/PlanDetail/QuestionTooltip';
 import DetailSample from '../components/PlanDetail/DetailSample.json';
 import { PieChart } from '../components/PlanDetail/PieChart/index';
 import { RadarChart } from '../components/PlanDetail/RadarChart/index';
-import { Box, Button } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import axios from 'axios';
 import RightBox from '../components/PlanDetail/RightBox';
-import { Board } from '../components/PlanDetail/DetailBackground/styles';
+import {
+  Board,
+  OptionBoxButton,
+  StyledBox,
+} from '../components/PlanDetail/styles';
 import Header from '../components/Common/Header';
+import ProgressBar from '../components/PlanDetail/ProgressBar';
+import IndexBox from '../components/PlanDetail/IndexBox';
+import { StylesProvider } from '@material-ui/core/styles';
+import { textAlign } from '@mui/system';
 
 // const info = DetailSample;
 
@@ -105,58 +112,40 @@ function PlanDetail() {
         <div>
           <Board>
             <Container maxWidth="md">
-              <Box
-                sx={{
-                  paddingTop: 15,
-                  textAlign: 'left',
-                  maxWidth: '70vw',
-                }}
-              >
-                <CompanyProfile
-                  company_name={info.base[0]['COMPANY_NAME']}
-                  product_name={info.base[0]['PRODUCT_NAME']}
-                />
-              </Box>
-              <Box sx={{ textAlign: 'left', maxWidth: '70vw' }}>
-                <hr />
-                <QuestionTooltip />
-                <ProgressBarWithNumber
-                  plan_score={info.base[0]['TOTAL_INDEX']}
-                  plan_average={69.24}
-                />
-              </Box>
-              <Box sx={{ textAlign: 'left', maxWidth: '50vw' }}>
-                <CompanyIndexModal />
-                <ProgressBarWithNumber
-                  plan_score={info.base[0]['COMPANY_INDEX']}
-                  plan_average={63.46}
-                />
-                <ProductIndexModal />
-                <ProgressBarWithNumber
-                  plan_score={info.base[0]['PRODUCT_INDEX']}
-                  plan_average={50.78}
-                />
-                <UserIndexModal />
-                <ProgressBarWithNumber
-                  plan_score={info.base[0]['USER_INDEX']}
-                  plan_average={9.59}
-                />
-              </Box>
+              <CompanyProfile
+                company_name={info.base[0]['COMPANY_NAME']}
+                product_name={info.base[0]['PRODUCT_NAME']}
+              />
+              <ProgressBar
+                plan_score={info.base[0]['TOTAL_INDEX']}
+                plan_average={69.24}
+              />
+              <IndexBox
+                CompanyIndex={info.base[0]['COMPANY_INDEX']}
+                ProductIndex={info.base[0]['PRODUCT_INDEX']}
+                UserIndex={info.base[0]['USER_INDEX']}
+              />
               <br />
-              <Box sx={{ maxWidth: '70vw' }}>
-                <OptionBoard option={info['option']} />
-                <Box>
-                  <Button onClick={() => setShowMore(cur => !cur)}>
+              <StylesProvider injectFirst>
+                <StyledBox>
+                  <OptionBoard option={info['option']} />
+
+                  <OptionBoxButton
+                    onClick={() => setShowMore(cur => !cur)}
+                    style={{
+                      marginTop: '3vh',
+                      marginBottom: '3vh',
+                    }}
+                  >
                     {showMore ? '접기' : '보장 자세히 보기'}
                     {showMore ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
-                  </Button>
-                </Box>
-                {showMore && (
-                  <>
+                  </OptionBoxButton>
+
+                  {showMore && (
                     <OptionDetailBoard option_detail={info['option_detail']} />
-                  </>
-                )}
-              </Box>
+                  )}
+                </StyledBox>
+              </StylesProvider>
               <br />
               <PieChart age_rate={info['age_rate']} />
               <br />
