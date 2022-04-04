@@ -29,7 +29,7 @@ function IndexBox(props: IndexType) {
           <StyledBox>
             <Title>회사지수</Title>
             <CompanyIndexModal />
-            <NumberText style={{ fontSize: '40px' }}>
+            <NumberText style={{ fontSize: '30px' }}>
               {props.CompanyIndex}
             </NumberText>
           </StyledBox>
@@ -37,7 +37,7 @@ function IndexBox(props: IndexType) {
           <StyledBox>
             <Title>상품지수</Title>
             <ProductIndexModal />
-            <NumberText style={{ fontSize: '40px' }}>
+            <NumberText style={{ fontSize: '30px' }}>
               {props.ProductIndex}
             </NumberText>
           </StyledBox>
@@ -45,7 +45,7 @@ function IndexBox(props: IndexType) {
           <StyledBox>
             <Title>유저지수</Title>
             <UserIndexModal />
-            <NumberText style={{ fontSize: '40px' }}>
+            <NumberText style={{ fontSize: '30px' }}>
               {props.UserIndex}
             </NumberText>
           </StyledBox>

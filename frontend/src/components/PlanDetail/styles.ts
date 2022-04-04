@@ -31,8 +31,27 @@ export const NormalLightText = styled('p')`
   font-family: NotoSansKRLight;
   font-size: 17px;
 `;
+export const NormalBoldSpan = styled('span')`
+  font-family: NotoSansKRBold;
+  font-size: 30px;
+`;
+
+export const NormalRegularSpan = styled('span')`
+  font-family: NotoSansKRRegular;
+  font-size: 16px;
+`;
+export const NormalLightSpan = styled('span')`
+  font-family: NotoSansKRLight;
+  font-size: 17px;
+`;
 
 export const GreyRegularText = styled('p')`
+  font-family: NotoSansKRRegular;
+  color: grey;
+  margin-bottom: 0px;
+  margin-top: 50px;
+`;
+export const GreyRegularSpan = styled('span')`
   font-family: NotoSansKRRegular;
   color: grey;
   margin-bottom: 0px;

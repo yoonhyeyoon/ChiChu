@@ -1,5 +1,6 @@
 import React from 'react';
 import { DT, DD_RIGHT, DD_LEFT, JisuText } from '../styles';
+import { Box } from '@mui/material';
 
 type PropType = {
   option_detail: {
@@ -11,7 +12,7 @@ type PropType = {
 export function OptionDetailBoard(props: PropType) {
   console.log(props.option_detail);
   return (
-    <>
+    <Box>
       <DT style={{ margin: '20px 0', padding: '10px 10px' }}>
         <JisuText>상세보장내역</JisuText>
       </DT>
@@ -27,6 +28,6 @@ export function OptionDetailBoard(props: PropType) {
           </dd>
         );
       })}
-    </>
+    </Box>
   );
 }

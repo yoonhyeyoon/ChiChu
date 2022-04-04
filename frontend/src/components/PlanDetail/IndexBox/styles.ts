@@ -6,11 +6,13 @@ export const VerticalLine = styled('div')`
 `;
 
 export const Title = styled('span')`
-  font-family: NotoSansKRRegular;
-  font-size: 20px;
+  font-family: NotoSansKRBold;
+  margin-left: 10px;
+  font-size: 18px;
 `;
 export const NumberText = styled('h1')`
-  font-family: NotoSansKRBold;
+  font-family: NotoSansKRRegular;
   margin: 10px;
   align-self: center;
+  color: #1a90ff;
 `;
