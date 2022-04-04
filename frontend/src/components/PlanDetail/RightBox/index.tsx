@@ -4,7 +4,7 @@ import { textAlign } from '@mui/system';
 import { BOX_RIGHT, DD_RIGHT, DD_LEFT } from './styles';
 import { CustomButtonRoot } from '../../Common/CHICHUButton/styles';
 import Link from '@mui/material/Link';
-import { NormalBoldText, NormalRegularText } from '../styles';
+import { NormalBoldText, NormalRegularText, HorizontalLine } from '../styles';
 
 type PropType = {
   gender: number;

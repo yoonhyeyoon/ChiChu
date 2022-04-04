@@ -7,7 +7,8 @@ import { BozonText } from './OptionGuides/BozonText';
 import { SingyeongText } from './OptionGuides/SingyeongText';
 import { ETC } from './OptionGuides/ETC';
 import { Box } from '@mui/material';
-import { NormalRegularText } from '../../styles';
+import { NormalRegularText, HorizontalLine } from '../../styles';
+import { borderBottom } from '@mui/system';
 
 type PropType = {
   option: {
@@ -74,106 +75,106 @@ export function OptionBoard(props: PropType) {
         >
           보험보장내역
         </NormalRegularText>
-        <dl>
-          <DT>
-            <JisuText>치아보철치료</JisuText>
-            <LongModal
-              element={<BochulText />}
-              icon={<HelpOutlineIcon sx={{ cursor: 'pointer' }} />}
-            />
-          </DT>
-
-          <dd>
+        <br />
+        <DT>
+          <JisuText>치아보철치료</JisuText>
+          <LongModal
+            element={<BochulText />}
+            icon={<HelpOutlineIcon sx={{ cursor: 'pointer' }} />}
+          />
+        </DT>
+        <table style={{ width: '100%' }}>
+          <tr style={{ borderBottom: '2px grey solid' }}>
             <DD_LEFT>임플란트</DD_LEFT>
             <DD_RIGHT>
               {implant ? `${implant.toLocaleString()}원` : '-'}
             </DD_RIGHT>
-          </dd>
-          <dd>
+          </tr>
+          <tr>
             <DD_LEFT>틀니</DD_LEFT>
             <DD_RIGHT>{teulni ? `${teulni.toLocaleString()}원` : '-'}</DD_RIGHT>
-          </dd>
-          <dd>
+          </tr>
+          <tr>
             <DD_LEFT>브릿지</DD_LEFT>
             <DD_RIGHT>{bridge ? `${bridge.toLocaleString()}원` : '-'}</DD_RIGHT>
-          </dd>
-        </dl>
-        <DL>
-          <DT>
-            <JisuText>치아보존치료</JisuText>
-            <LongModal
-              element={<BozonText />}
-              icon={<HelpOutlineIcon sx={{ cursor: 'pointer' }} />}
-            />
-          </DT>
+          </tr>
+        </table>
 
-          <dd>
+        <DT>
+          <JisuText>치아보존치료</JisuText>
+          <LongModal
+            element={<BozonText />}
+            icon={<HelpOutlineIcon sx={{ cursor: 'pointer' }} />}
+          />
+        </DT>
+        <table style={{ width: '100%', borderBottom: '1px grey' }}>
+          <tr>
             <DD_LEFT>크라운</DD_LEFT>
             <DD_RIGHT>{crown ? `${crown.toLocaleString()}원` : '-'}</DD_RIGHT>
-          </dd>
-          <dd>
+          </tr>
+          <tr>
             <DD_LEFT>아말감</DD_LEFT>
             <DD_RIGHT>
               {amalgam ? `${amalgam.toLocaleString()}원` : '-'}
             </DD_RIGHT>
-          </dd>
-          <dd>
+          </tr>
+          <tr>
             <DD_LEFT>레진</DD_LEFT>
             <DD_RIGHT>{legin ? `${legin.toLocaleString()}원` : '-'}</DD_RIGHT>
-          </dd>
-        </DL>
-        <dl>
-          <DT>
-            <JisuText>신경치료</JisuText>
-            <LongModal
-              element={<SingyeongText />}
-              icon={<HelpOutlineIcon sx={{ cursor: 'pointer' }} />}
-            />
-          </DT>
-
-          <dd>
+          </tr>
+        </table>
+        <DT>
+          <JisuText>신경치료</JisuText>
+          <LongModal
+            element={<SingyeongText />}
+            icon={<HelpOutlineIcon sx={{ cursor: 'pointer' }} />}
+          />
+        </DT>
+        <table style={{ width: '100%', borderBottom: '1px grey' }}>
+          <tr>
             <DD_LEFT>신경치료</DD_LEFT>
             <DD_RIGHT>
               {singyeong ? `${singyeong.toLocaleString()}원` : '-'}
             </DD_RIGHT>
-          </dd>
-        </dl>
-        <dl>
-          <DT>
-            <JisuText>기타</JisuText>
-            <LongModal
-              element={<ETC />}
-              icon={<HelpOutlineIcon sx={{ cursor: 'pointer' }} />}
-            />
-          </DT>
+          </tr>
+        </table>
 
-          <dd>
+        <DT>
+          <JisuText>기타</JisuText>
+          <LongModal
+            element={<ETC />}
+            icon={<HelpOutlineIcon sx={{ cursor: 'pointer' }} />}
+          />
+        </DT>
+
+        <table style={{ width: '100%', borderBottom: '1px grey' }}>
+          <tr>
             <DD_LEFT>잇몸질환</DD_LEFT>
             <DD_RIGHT>{itmom ? `${itmom.toLocaleString()}원` : '-'}</DD_RIGHT>
-          </dd>
-          <dd>
+          </tr>
+          <tr>
             <DD_LEFT>치조골 이식수술</DD_LEFT>
             <DD_RIGHT>
               {chizogol ? `${chizogol.toLocaleString()}원` : '-'}
             </DD_RIGHT>
-          </dd>
-          <dd>
+          </tr>
+          <tr>
             <DD_LEFT>스케일링</DD_LEFT>
             <DD_RIGHT>
               {scaling ? `${scaling.toLocaleString()}원` : '-'}
             </DD_RIGHT>
-          </dd>
-          <dd>
+          </tr>
+          <tr>
             <DD_LEFT>치아골절 진단비</DD_LEFT>
             <DD_RIGHT>
               {goljeol ? `${goljeol.toLocaleString()}원` : '-'}
             </DD_RIGHT>
-          </dd>
-          <dd>
+          </tr>
+          <tr>
             <DD_LEFT>X-RAY 촬영</DD_LEFT>
             <DD_RIGHT>{x_ray ? `${x_ray.toLocaleString()}원` : '-'}</DD_RIGHT>
-          </dd>
-        </dl>
+          </tr>
+        </table>
       </Box>
     </>
   );

@@ -13,13 +13,29 @@ type PropType = {
 };
 
 ChartJS.register(ArcElement, Tooltip);
+const options = {
+  plugins: {
+    datalabels: {
+      display: true,
+      formatter: (val: any, ctx: any) => {
+        return ctx.chart.data.labels[ctx.dataIndex];
+      },
+      font: {
+        size: 17,
+        family: 'NotoSansKRRegular',
+        color: 'blue',
+      },
+    },
+  },
+};
+
 export function PieChart(props: PropType) {
   const values = Object.values(props);
   const label_arr = [];
   const data_arr = [];
 
   for (const item of values[0]) {
-    label_arr.push(item['AGE_CAT']);
+    label_arr.push(`${item['AGE_CAT']}대`);
     data_arr.push(item['RATE']);
   }
 
@@ -51,13 +67,13 @@ export function PieChart(props: PropType) {
   };
 
   return (
-    <Container>
-      <GreyRegularText
-        style={{ textAlign: 'left', marginTop: '10px', marginBottom: '10px' }}
-      >
-        보험 가입자 연령 분포
-      </GreyRegularText>
-      <Pie data={data} plugins={[ChartDataLabels]} />
-    </Container>
+    <>
+      <Pie
+        data={data}
+        plugins={[ChartDataLabels]}
+        options={options}
+        style={{ marginLeft: '180px', maxWidth: '500px' }}
+      />
+    </>
   );
 }

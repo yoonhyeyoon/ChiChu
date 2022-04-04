@@ -1,4 +1,3 @@
-import { textAlign } from '@mui/system';
 import { styled } from '@mui/material/styles';
 import { Box, Button } from '@mui/material';
 import { CenterFocusStrong } from '@mui/icons-material';
@@ -56,4 +55,9 @@ export const GreyRegularSpan = styled('span')`
   color: grey;
   margin-bottom: 0px;
   margin-top: 50px;
+`;
+
+export const HorizontalLine = styled('div')`
+  border-bottom: 2px solid #cdd2d7;
+  width: '100%';
 `;

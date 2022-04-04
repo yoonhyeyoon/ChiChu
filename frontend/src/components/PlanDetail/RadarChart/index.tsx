@@ -68,11 +68,7 @@ export function RadarChart(props: PropType) {
 
   return (
     <Container>
-      <GreyRegularText style={{ textAlign: 'left', marginBottom: '10px' }}>
-        상대적 보장우위
-      </GreyRegularText>
-
-      <Radar data={data} />
+      <Radar data={data} style={{ marginLeft: '85px', maxHeight: '550px' }} />
     </Container>
   );
 }

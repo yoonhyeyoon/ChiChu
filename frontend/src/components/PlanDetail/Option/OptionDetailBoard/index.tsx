@@ -13,21 +13,23 @@ export function OptionDetailBoard(props: PropType) {
   console.log(props.option_detail);
   return (
     <Box>
-      <DT style={{ margin: '20px 0', padding: '10px 10px' }}>
+      <DT style={{ padding: '10px 0' }}>
         <JisuText>상세보장내역</JisuText>
       </DT>
-      {props.option_detail.map(item => {
-        return (
-          <dd>
-            <DD_LEFT>{item['NAME']}</DD_LEFT>
-            <DD_RIGHT>
-              {item['COVERAGE'] === 0
-                ? '-'
-                : `${item['COVERAGE'].toLocaleString()}원`}
-            </DD_RIGHT>
-          </dd>
-        );
-      })}
+      <table style={{ width: '100%' }}>
+        {props.option_detail.map(item => {
+          return (
+            <tr>
+              <DD_LEFT>{item['NAME']}</DD_LEFT>
+              <DD_RIGHT>
+                {item['COVERAGE'] === 0
+                  ? '-'
+                  : `${item['COVERAGE'].toLocaleString()}원`}
+              </DD_RIGHT>
+            </tr>
+          );
+        })}
+      </table>
     </Box>
   );
 }
