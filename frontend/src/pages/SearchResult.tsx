@@ -1,7 +1,9 @@
 import { Suspense, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { Box, Button, Container } from '@mui/material';
+
 import { useLocation } from 'react-router-dom';
+
 import Header from '../components/Common/Header';
 import PlanBarList from '../components/SearchResult/PlanBarList/index';
 import PlanCardList from '../components/SearchResult/PlanCardList/index';
@@ -13,6 +15,7 @@ import CHICHUModal from '../components/Common/CHICHUModal';
 import SecondarySearchModal from '../components/SearchResult/SecondarySearchModal';
 import SortButton from '../components/SearchResult/SortButton';
 import Transition from '../components/Common/Transition';
+
 import { checkedPlanListState } from '../recoil/planComparisonState';
 import { PlanFilteredList } from '../recoil/PlanFilteredList';
 import { planListState } from '../recoil/searchResultState';
@@ -24,10 +27,12 @@ import { ModalTitle } from '../components/SearchResult/SecondarySearchModal/styl
 import { ProductType } from '../types/types';
 
 // 명성 코드
-type CustomState = {
-  optionName?: string | null | undefined;
-  Name_2?: string | null | undefined;
-};
+interface CustomState {
+  state?: {
+    optionName?: string | null | undefined;
+    Name_2?: string | null | undefined;
+  };
+}
 
 function SearchResult(): JSX.Element {
   const containerRef = useRef(null);
@@ -50,9 +55,8 @@ function SearchResult(): JSX.Element {
 
   // 명성 코드
   const location = useLocation();
-  const state = location.state as CustomState;
-  console.log(`팁담보${state}`);
-  console.log(`리스트 안 개수 : ${planFilteredList?.cheap.length}`);
+  const optionState = location.state as CustomState;
+  console.log(optionState);
 
   return (
     <>
@@ -79,7 +83,9 @@ function SearchResult(): JSX.Element {
             </ModalTitle>
             <SecondarySearchModal />
             {/* 명성 코드 */}
-            <PlanTags state={state} />
+            {/* <PlanTags optionState={optionState} /> */}
+            <PlanTags />
+
             <PlanRateRange />
             <SortButton />
 

@@ -1,8 +1,13 @@
-import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import LinearProgress, {
   linearProgressClasses,
 } from '@mui/material/LinearProgress';
+
+export const ChiChuText = styled('span')`
+  font-family: NotoSansKRBold;
+  font-size: 30px;
+  color: #1a90ff;
+`;
 
 export const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   height: 10,
