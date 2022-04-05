@@ -27,9 +27,9 @@ const Header = ({
       >
         <LogoWrapper
           to="/"
-          isScrollBackground={isScrollBackground}
-          isScrollShadow={isScrollShadow}
-          isScrollTransition={isScrollTransition}
+          isscrollbackground={
+            isScrollBackground ? isScrollBackground.toString() : undefined
+          }
         >
           Chi Chu
         </LogoWrapper>

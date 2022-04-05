@@ -27,16 +27,14 @@ export const HeaderContainer = styled.div<{
 `;
 
 export const LogoWrapper = styled(Link)<{
-  isScrollBackground: boolean;
-  isScrollShadow: boolean;
-  isScrollTransition: boolean;
+  isscrollbackground: string | undefined;
 }>`
   margin-top: 4px;
   font-family: 'FredokaOneRegular';
   font-size: 26px;
   // color: #fff;
-  color: ${({ isScrollBackground }) =>
-    isScrollBackground ? blue[400] : blue[100]};
+  color: ${({ isscrollbackground }) =>
+    isscrollbackground ? blue[400] : blue[100]};
   text-decoration: none;
   // text-shadow: -1px 0 ${blue[400]}, 0 1px ${blue[400]}, 1px 0 ${blue[400]},
   // 0 -1px ${blue[400]};
