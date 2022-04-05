@@ -23,13 +23,16 @@ function LandingFourth() {
       <Container>
         <Stack spacing={10} direction="row" sx={{ padding: '10% 0px' }}>
           <Box>
-            <LandingTitleWhite>치츄만의 치아보험 선택 가이드</LandingTitleWhite>
+            <LandingTitleWhite>
+              치아보험에 대한 이해부터 시작해요
+            </LandingTitleWhite>
             <LandingSubContentColor>
-              복잡하고 어려운 치아보험이 낯선가요? 🤔 <br />
-              나에게 꼭 맞는 치아보험을 찾아보세요! <br />
-              국내 10여개의 보험사, 최대 60여개의 치아보험상품을 제공해요
+              보험이 복잡하고 어렵게만 느껴지시나요? <br />
+              쉽게 정리한 포스터부터 담보까지
+              <br />
+              치아보험의 모든 것을 치츄가 소개해드립니다!
             </LandingSubContentColor>
-            <CustomButton onClick={() => navigate('/')}>
+            <CustomButton onClick={() => navigate('/tip')}>
               보험TIP 바로가기
             </CustomButton>
           </Box>
