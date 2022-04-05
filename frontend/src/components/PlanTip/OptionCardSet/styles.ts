@@ -4,9 +4,9 @@ export const SceneCard = styled('div')`
 width: 200px;
 height: 260px;
 background-color:#3399ff;
-border: 1px solid #E0E3E7;
+border: 1px solid #DAECFF;
 cursor: pointer;
-box-shadow: 3px 3px 7px 1px #E0E3E7;
+box-shadow: 5px 5px 7px 5px #DAECFF;
 }
 `;
 

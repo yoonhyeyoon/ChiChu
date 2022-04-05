@@ -8,16 +8,23 @@ const PlanTip = (): JSX.Element => {
   return (
     <>
       <Header />
-      <Container>
+      <Container
+        sx={{
+          paddingTop: 9,
+          paddingBottom: 6,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
         <Box
           sx={{
-            paddingTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
+            width: '100vw',
+            paddingBottom: 13,
+            backgroundColor: '#f8f8f8',
           }}
         >
-          <Box style={{ width: '80vw' }}>
+          <Box sx={{ width: '80vw', marginLeft: '10vw' }}>
             <NormalBoldText
               style={{
                 alignSelf: 'start',
@@ -29,21 +36,21 @@ const PlanTip = (): JSX.Element => {
             </NormalBoldText>
             <PostCarousel />
           </Box>
-          <br />
-          <br />
-          <Box style={{ width: '80vw' }}>
-            <NormalBoldText
-              style={{
-                alignSelf: 'start',
-                marginTop: '30px',
-                marginBottom: '10px',
-              }}
-            >
-              이럴 때는 이런 보장!
-            </NormalBoldText>
-          </Box>
-          <OptionCards />
         </Box>
+        <br />
+        <br />
+        <Box style={{ width: '80vw' }}>
+          <NormalBoldText
+            style={{
+              alignSelf: 'start',
+              marginTop: '30px',
+              marginBottom: '10px',
+            }}
+          >
+            이럴 때는 이런 보장!
+          </NormalBoldText>
+        </Box>
+        <OptionCards />
       </Container>
     </>
   );

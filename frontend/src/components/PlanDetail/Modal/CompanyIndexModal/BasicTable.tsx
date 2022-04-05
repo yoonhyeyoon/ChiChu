@@ -174,7 +174,7 @@ export default function BasicTable() {
     <TableContainer
       component={Paper}
       sx={{
-        width: '800px',
+        width: '1200px',
         height: '300px',
       }}
     >

@@ -27,16 +27,16 @@ export function BozonText() {
       <NormalRegularText
         style={{ marginTop: '0px', fontSize: '18px', color: '#3e5060' }}
       >
-        {'치아질환이 있을 때,'}
-        <NormalBoldSpan style={{ color: '#3e5060', fontSize: '18px' }}>
-          {' 발치하지 않고 기존의 치아를 보존해'}
-        </NormalBoldSpan>
-        {' 본연의 기능을 유지할 수 있도록 도움을 주는 치료를 말해요.'}
         {' 보통 충치가 생겼을 때 '}
         <NormalBoldSpan style={{ color: '#3e5060', fontSize: '18px' }}>
           {`'이를 때우거나', '완전히 덮어씌우는'`}
         </NormalBoldSpan>
         {' 치료를 뜻해요.'}
+        {' 발치하지 않고 '}
+        <NormalBoldSpan style={{ color: '#3e5060', fontSize: '18px' }}>
+          {'기존의 치아를 보존해'}
+        </NormalBoldSpan>
+        {' 본연의 기능을 유지할 수 있도록 도움을 줘요.'}
         <br />
         <br />
         <NormalBoldSpan style={{ color: '#1a90ff', fontSize: '18px' }}>
@@ -72,9 +72,7 @@ export function BozonText() {
           color: '#3e5060',
         }}
       >
-        {
-          '치아가 크게 손상됐거나 충치나 잇몸질환 등의 이유로 신경치료를 받은 치아 등을'
-        }
+        {'크게 손상된 치아나 신경치료를 받은 치아 등을 '}
         <NormalBoldSpan style={{ color: '#3e5060', fontSize: '18px' }}>
           {' 전체적으로 덮어 씌워 주는'}
         </NormalBoldSpan>
@@ -121,20 +119,19 @@ export function BozonText() {
       <NormalRegularText
         style={{ marginTop: '0px', fontSize: '18px', color: '#3e5060' }}
       >
-        {'충치를 제거한 후에 치료 당일에 대개 즉시 '}
+        {'충치 치료 당일에 '}
         <NormalBoldSpan style={{ color: '#3e5060', fontSize: '18px' }}>
           {'치아색상으로 때우는 치료'}
         </NormalBoldSpan>
         {'에요.'}
-        {' 2018년 11월부터 '}
         <NormalBoldSpan style={{ color: '#3e5060', fontSize: '18px' }}>
-          {'만 12세 이하 어린이의 '}
+          {' 만 12세 이하 어린이'}
         </NormalBoldSpan>
-        {'영구치 레진 충전은'}
+        {'는 '}
         <NormalBoldSpan style={{ color: '#3e5060', fontSize: '18px' }}>
-          {' 건강보험이 적용되기 시작해'}
+          {'건강보험이 적용'}
         </NormalBoldSpan>
-        {' 본인부담금'}
+        {'되기 시작해'}
         <NormalBoldSpan style={{ color: '#3e5060', fontSize: '18px' }}>
           {' 3만원 내외로'}
         </NormalBoldSpan>

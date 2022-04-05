@@ -37,7 +37,7 @@ export function SingyeongText() {
         <NormalBoldSpan style={{ color: '#3e5060', fontSize: '18px' }}>
           {'신경치료는'}
         </NormalBoldSpan>
-        {'이러한 증상이 생기면 치아 내부에'}
+        {' 이러한 증상이 생기면 치아 내부에'}
         <NormalBoldSpan style={{ color: '#3e5060', fontSize: '18px' }}>
           {' 염증이 생긴 신경을 제거'}
         </NormalBoldSpan>

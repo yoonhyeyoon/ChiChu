@@ -27,14 +27,11 @@ export function BochulText() {
       <NormalRegularText
         style={{ marginTop: '0px', fontSize: '18px', color: '#3e5060' }}
       >
+        {'빠진 치아의 기능을 대신할 '}
         <NormalBoldSpan style={{ color: '#3e5060', fontSize: '18px' }}>
-          {'임플란트, 브릿지, 틀니 치료'}
+          {'인공 치아를 심는 치료'}
         </NormalBoldSpan>
-        {'를 포괄하는 것으로, 이를 한 개 이상 빼고, 빠진 치아를 대신할'}
-        <NormalBoldSpan style={{ color: '#3e5060', fontSize: '18px' }}>
-          {' 인공 치아를 박아'}
-        </NormalBoldSpan>
-        {' 치아의 기능을 회복시키는 치료에요.'}
+        {' 예요.'}
         <br />
         <br />
         <NormalBoldSpan style={{ color: '#1a90ff', fontSize: '18px' }}>
@@ -76,13 +73,11 @@ export function BochulText() {
         <NormalBoldSpan style={{ color: '#3e5060', fontSize: '18px' }}>
           {'임플란트'}
         </NormalBoldSpan>
-        {
-          '는 충치나 잇몸병으로 없어진 치아나, 사고 또는 종양 등으로 인해 뼈와 잇몸이 없는 부분에 대해서'
-        }
+        {'는 없어진 치아를 대신할 수 있도록'}
         <NormalBoldSpan style={{ color: '#3e5060', fontSize: '18px' }}>
           {' 철심을 박아 의치를 붙여 '}
         </NormalBoldSpan>
-        {'기능을 회복시키는 치료에요.'}
+        {'기능을 회복하는 치료에요.'}
       </NormalRegularText>
       <NormalBoldText
         style={{ color: '#1a90ff', fontSize: '18px', marginBottom: '7px' }}
@@ -92,7 +87,7 @@ export function BochulText() {
       <NormalRegularText
         style={{ marginTop: '0px', fontSize: '18px', color: '#3e5060' }}
       >
-        {'치아가 빠지거나 결손된 경우'}
+        {'없어진 치아를 대신해'}
         <NormalBoldSpan style={{ color: '#3e5060', fontSize: '18px' }}>
           {' 잇몸에 끼워서 '}
         </NormalBoldSpan>
