@@ -22,7 +22,9 @@ import RightBox from '../components/PlanDetail/RightBox';
 import {
   Board,
   OptionBoxButton,
-  StyledBox,
+  GreyRegularText,
+  NormalRegularText,
+  NormalBoldText,
 } from '../components/PlanDetail/styles';
 import Header from '../components/Common/Header';
 import ProgressBar from '../components/PlanDetail/ProgressBar';
@@ -126,30 +128,53 @@ function PlanDetail() {
                 UserIndex={info.base[0]['USER_INDEX']}
               />
               <br />
-              <StylesProvider injectFirst>
-                <StyledBox>
-                  <OptionBoard option={info['option']} />
 
-                  <OptionBoxButton
-                    onClick={() => setShowMore(cur => !cur)}
-                    style={{
-                      marginTop: '3vh',
-                      marginBottom: '3vh',
-                    }}
-                  >
-                    {showMore ? '접기' : '보장 자세히 보기'}
-                    {showMore ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
-                  </OptionBoxButton>
+              <OptionBoard option={info['option']} />
 
-                  {showMore && (
-                    <OptionDetailBoard option_detail={info['option_detail']} />
-                  )}
-                </StyledBox>
-              </StylesProvider>
+              <OptionBoxButton
+                onClick={() => setShowMore(cur => !cur)}
+                style={{
+                  padding: '0',
+                  marginLeft: '24vw',
+                  textAlign: 'center',
+                  color: '#1a90ff',
+                }}
+              >
+                {showMore ? (
+                  <NormalBoldText style={{ fontSize: '16px' }}>
+                    {'접기'}
+                  </NormalBoldText>
+                ) : (
+                  <NormalBoldText style={{ fontSize: '16px' }}>
+                    {'보장 자세히 보기'}
+                  </NormalBoldText>
+                )}
+                {showMore ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
+              </OptionBoxButton>
+
+              {showMore && (
+                <OptionDetailBoard option_detail={info['option_detail']} />
+              )}
               <br />
+              <GreyRegularText
+                style={{
+                  textAlign: 'left',
+                  marginTop: '10px',
+                  marginBottom: '10px',
+                }}
+              >
+                보험 가입자 연령 분포
+              </GreyRegularText>
               <PieChart age_rate={info['age_rate']} />
               <br />
+              <GreyRegularText
+                style={{ textAlign: 'left', marginBottom: '10px' }}
+              >
+                상대적 보장우위
+              </GreyRegularText>
+
               <RadarChart option_group={info['option_group']} />
+              <br />
             </Container>
             <div>
               <RightBox

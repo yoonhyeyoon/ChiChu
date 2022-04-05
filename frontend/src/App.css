@@ -49,6 +49,23 @@
 }
 
 @font-face {
+  font-family: FredokaOneRegular;
+  src: url('/public/fonts/FredokaOne-Regular.ttf');
+}
+
+@font-face {
+  font-family: PoppinsExtraBold;
+  src: url('/public/fonts/Poppins-ExtraBold.ttf');
+}
+
+@font-face {
+  font-family: UbuntuBold;
+  src: url('/public/fonts/Ubuntu-Bold.ttf');
+}
+
+/*  */
+
+@font-face {
   font-family: NotoSansKRBold;
   src: url('/public/fonts/NotoSansKR-Bold.otf');
 }

@@ -24,8 +24,8 @@ function SortButton() {
       onChange={handleChange}
     >
       <ToggleButton value="chichu">치츄지수순</ToggleButton>
-      <ToggleButton value="cheap">보험료 낮은 순</ToggleButton>
-      <ToggleButton value="coverage">보장 많은 순</ToggleButton>
+      <ToggleButton value="cheap">보험료 낮은순</ToggleButton>
+      <ToggleButton value="coverage">보장 많은순</ToggleButton>
     </ToggleButtonGroup>
   );
 }

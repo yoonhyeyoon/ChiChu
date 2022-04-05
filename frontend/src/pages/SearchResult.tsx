@@ -67,6 +67,7 @@ function SearchResult(): JSX.Element {
           <Box
             sx={{
               paddingTop: 15,
+              paddingBottom: 15,
               display: 'flex',
               flexDirection: 'column',
               // alignItems: 'center',

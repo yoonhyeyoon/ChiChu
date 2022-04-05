@@ -25,11 +25,18 @@ const Header = ({
         isScrollShadow={isScrollShadow}
         isScrollTransition={isScrollTransition}
       >
-        <LogoWrapper to="/">CHI CHU</LogoWrapper>
+        <LogoWrapper
+          to="/"
+          isScrollBackground={isScrollBackground}
+          isScrollShadow={isScrollShadow}
+          isScrollTransition={isScrollTransition}
+        >
+          Chi Chu
+        </LogoWrapper>
         <HeaderRight>
           <Nav>
             <NavWrapper to="/search">보험검색</NavWrapper>
-            <NavWrapper to="/">보험TIP</NavWrapper>
+            <NavWrapper to="/tip">보험TIP</NavWrapper>
             <NavWrapper to="/">AboutUS</NavWrapper>
           </Nav>
         </HeaderRight>

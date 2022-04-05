@@ -39,7 +39,7 @@ export const PlanListSelector = selector<
   },
   set: ({ set }, newValue) => {
     set(PlanFilteredList, newValue);
-    console.log('newValue', newValue);
+    // console.log('newValue', newValue);
     // 납입기간 초기화
     // set(UserPeriod, 10);
   },

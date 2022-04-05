@@ -39,7 +39,7 @@ export default function ProgressBar(props: ProgressBarType) {
         const diff = 5;
         return Math.min(oldProgress + diff, props.plan_score);
       });
-    }, 200);
+    }, 150);
 
     return () => {
       clearInterval(timer);
@@ -67,14 +67,16 @@ export default function ProgressBar(props: ProgressBarType) {
         </NormalBoldText>
         <QuestionTooltip />
         <GreyRegularText style={{ marginTop: '0px' }}>
-          치츄지수는 이 세 가지 지수를 종합한 수치입니다.
+          '치츄지수'는 아래의 세 가지 지수를 종합한 수치입니다.
+          <br />
+          물음표 아이콘을 클릭하시면 각 지수에 대해 더 상세히 알려드려요!
         </GreyRegularText>
         <Typography
           variant="h6"
           align="right"
           sx={{
             fontFamily: 'NotoSansKRBold',
-            fontSize: '22px',
+            fontSize: '40px',
             color: '#1a90ff',
           }}
         >
@@ -85,21 +87,21 @@ export default function ProgressBar(props: ProgressBarType) {
           <Typography
             variant="caption"
             color="#1a90ff"
-            sx={{ fontFamily: 'NotoSansKRLight', fontSize: '14px' }}
+            sx={{ fontFamily: 'NotoSansKRLight', fontSize: '16px' }}
           >
             0
           </Typography>
           <Typography
             variant="caption"
             color="#1a90ff"
-            sx={{ fontFamily: 'NotoSansKRLight', fontSize: '14px' }}
+            sx={{ fontFamily: 'NotoSansKRLight', fontSize: '16px' }}
           >
             평균 {props.plan_average}
           </Typography>
           <Typography
             variant="caption"
             color="#1a90ff"
-            sx={{ fontFamily: 'NotoSansKRLight', fontSize: '14px' }}
+            sx={{ fontFamily: 'NotoSansKRLight', fontSize: '16px' }}
           >
             100
           </Typography>
