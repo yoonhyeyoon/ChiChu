@@ -11,8 +11,8 @@ function CardFront({ symptom, image }: PropType) {
   return (
     <>
       <CardContent>
-        <img src={image} />
         <Symptom>{symptom}</Symptom>
+        <img src={image} style={{ maxWidth: '150px', alignItems: 'center' }} />
       </CardContent>
     </>
   );

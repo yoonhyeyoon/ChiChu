@@ -3,10 +3,10 @@ import { styled } from '@mui/system';
 export const SceneCard = styled('div')`
 width: 200px;
 height: 260px;
-background-color:white;
-border: 1px solid #DAECFF;
+background-color:#3399ff;
+border: 1px solid #E0E3E7;
 cursor: pointer;
-box-shadow: 3px 3px 7px 1px #DAECFF;
+box-shadow: 3px 3px 7px 1px #E0E3E7;
 }
 `;
 
@@ -26,23 +26,29 @@ height: 260px;
 `;
 
 export const Description = styled('p')`
-  font-size: 14px;
-  font-family: NotoSansKRLight;
+  font-size: 16px;
+  font-family: NotoSansKRRegular;
+  white-space: pre-wrap;
+  color: white;
+  margin-top: 0px;
 `;
 export const OptionName = styled('h3')`
-  font-size: 17px;
-  font-family: NotoSansKRBold;
+  font-size: 18px;
+  font-family: NotoSansKRRegular;
+  color: white;
+  margin-bottom: 0px;
 `;
 export const FindText = styled('h3')`
   font-size: 13px;
-  font-family: NotoSansKRLight;
+  font-family: NotoSansKRRegular;
   color: #3399ff;
   cursor: pointer;
 `;
 export const Symptom = styled('h2')`
   font-size: 18px;
   font-family: NotoSansKRBold;
-  word-wrap: break-word;
-  margin-top: 0px;
-  color: #3399ff;
+  white-space: pre-wrap;
+  margin-bottom: 10px;
+  margin-top: 19px;
+  color: white;
 `;

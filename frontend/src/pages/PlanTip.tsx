@@ -2,6 +2,7 @@ import PostCarousel from '../components/PlanTip/PostCarousel';
 import { Box, Container } from '@mui/material';
 import OptionCards from '../components/PlanTip/OptionCardSet';
 import Header from '../components/Common/Header';
+import { NormalBoldText } from '../components/PlanDetail/styles';
 
 const PlanTip = (): JSX.Element => {
   return (
@@ -13,15 +14,34 @@ const PlanTip = (): JSX.Element => {
             paddingTop: 8,
             display: 'flex',
             flexDirection: 'column',
-            // alignItems: 'center',
+            alignItems: 'center',
           }}
         >
-          <h1>포스트</h1>
-          <PostCarousel />
-
+          <Box style={{ width: '80vw' }}>
+            <NormalBoldText
+              style={{
+                alignSelf: 'start',
+                marginTop: '30px',
+                marginBottom: '20px',
+              }}
+            >
+              포스트
+            </NormalBoldText>
+            <PostCarousel />
+          </Box>
           <br />
-
-          <h1>이럴 때는 이런 보장!</h1>
+          <br />
+          <Box style={{ width: '80vw' }}>
+            <NormalBoldText
+              style={{
+                alignSelf: 'start',
+                marginTop: '30px',
+                marginBottom: '10px',
+              }}
+            >
+              이럴 때는 이런 보장!
+            </NormalBoldText>
+          </Box>
           <OptionCards />
         </Box>
       </Container>

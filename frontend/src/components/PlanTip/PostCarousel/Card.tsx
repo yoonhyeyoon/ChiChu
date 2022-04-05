@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import { CardActionArea } from '@mui/material';
@@ -18,35 +18,55 @@ type PropType = {
 
 export default function CarouselCard(props: PropType) {
   const navigate = useNavigate();
+
   return (
-    <Card sx={{ minWidth: 275 }}>
-      <CardActionArea>
-        <a
-          href=""
-          style={{ textDecoration: 'none' }}
-          onClick={() => {
-            navigate(`./${props.articlenum}`, {
-              state: { articlenum: props.articlenum },
-            });
-          }}
-        >
-          <CardContent>
-            <CardMedia
-              style={{ height: '250px', paddingTop: '2%' }}
-              component="img"
-              image={props.img}
-              alt="Pancakes"
-            />
-            <Typography sx={{ fontSize: 14 }} color="primary" gutterBottom>
-              보험안내서
-            </Typography>
-            <Typography variant="h5" component="div">
-              {props.text1}
-              <br />
-              {props.text2}
-            </Typography>
-          </CardContent>
-        </a>
+    <Card
+      sx={{
+        backgroundImage: `url("${props.img}")`,
+      }}
+    >
+      <CardActionArea
+        sx={{
+          height: 250,
+          width: '100%',
+          backgroundColor: 'rgba( 255, 255, 255, 0.6 )',
+        }}
+        onClick={() => {
+          console.log(props.articlenum);
+          navigate(`./${props.articlenum}`, {
+            state: { articlenum: props.articlenum },
+          });
+        }}
+      >
+        <CardContent>
+          <Typography
+            sx={{ fontFamily: 'NotoSansKRBold', fontSize: 15 }}
+            color="#1a90ff"
+            gutterBottom
+          >
+            보험안내서
+          </Typography>
+          <Typography
+            sx={{
+              fontFamily: 'NotoSansKRBold',
+              fontSize: 35,
+              marginBottom: '0px',
+            }}
+            component="div"
+          >
+            {props.text1}
+          </Typography>
+          <Typography
+            sx={{
+              fontFamily: 'NotoSansKRBold',
+              fontSize: 35,
+              marginTop: '0px',
+            }}
+            component="div"
+          >
+            {props.text2}
+          </Typography>
+        </CardContent>
       </CardActionArea>
     </Card>
   );

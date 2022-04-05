@@ -25,10 +25,13 @@ function CardBack({ name, name2, description }: PropType) {
     <>
       <CardContent>
         {name2 ? (
-          <OptionName>{`<${name}.${name2}>`}</OptionName>
+          <OptionName>{`<${name}·${name2}>`}</OptionName>
         ) : (
           <OptionName>{`<${name}>`}</OptionName>
         )}
+        <Description style={{ marginBottom: '5px' }}>
+          <b>-</b>
+        </Description>
         <Description>{description}</Description>
         {/* <Button>
           <Link
