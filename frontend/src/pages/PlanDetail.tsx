@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Container from '@mui/material/Container';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
@@ -31,6 +31,13 @@ import ProgressBar from '../components/PlanDetail/ProgressBar';
 import IndexBox from '../components/PlanDetail/IndexBox';
 import { StylesProvider } from '@material-ui/core/styles';
 import { textAlign } from '@mui/system';
+import RelatedPlanList from '../components/SearchResult/RelatedPlanList';
+import { PlanFilteredList } from '../recoil/PlanFilteredList';
+import { ProductType } from '../types/types';
+import {
+  ModalTitle,
+  ModalTitleColor,
+} from '../components/SearchResult/SecondarySearchModal/styles';
 
 // const info = DetailSample;
 
@@ -67,6 +74,11 @@ type InfoType = {
 };
 
 function PlanDetail() {
+  const popularList = useRecoilValue(PlanFilteredList)
+    ?.popular as ProductType[];
+  const reasonableList = useRecoilValue(PlanFilteredList)
+    ?.reasonable as ProductType[];
+
   const location = useLocation();
   const state = location.state as CustomState;
   const userAge = useRecoilValue(UserAge);
@@ -111,90 +123,125 @@ function PlanDetail() {
     return (
       <>
         <Header />
-        <div>
-          <Board>
-            <Container maxWidth="md">
-              <Box
-                sx={{
-                  paddingTop: 15,
-                  textAlign: 'left',
-                  maxWidth: '70vw',
-                }}
-              >
-                <CompanyProfile
-                  company_name={info.base[0]['COMPANY_NAME']}
-                  product_name={info.base[0]['PRODUCT_NAME']}
-                />
-              </Box>
-              <ProgressBar
-                plan_score={info.base[0]['TOTAL_INDEX']}
-                plan_average={69.24}
+
+        <Board>
+          <Container maxWidth="md">
+            <Box
+              sx={{
+                paddingTop: 15,
+                textAlign: 'left',
+                maxWidth: '70vw',
+              }}
+            >
+              <CompanyProfile
+                company_name={info.base[0]['COMPANY_NAME']}
+                product_name={info.base[0]['PRODUCT_NAME']}
               />
-              <IndexBox
-                CompanyIndex={info.base[0]['COMPANY_INDEX']}
-                ProductIndex={info.base[0]['PRODUCT_INDEX']}
-                UserIndex={info.base[0]['USER_INDEX']}
-              />
-              <br />
+            </Box>
+            <ProgressBar
+              plan_score={info.base[0]['TOTAL_INDEX']}
+              plan_average={69.24}
+            />
+            <IndexBox
+              CompanyIndex={info.base[0]['COMPANY_INDEX']}
+              ProductIndex={info.base[0]['PRODUCT_INDEX']}
+              UserIndex={info.base[0]['USER_INDEX']}
+            />
+            <br />
 
-              <OptionBoard option={info['option']} />
+            <OptionBoard option={info['option']} />
 
-              <OptionBoxButton
-                onClick={() => setShowMore(cur => !cur)}
-                style={{
-                  padding: '0',
-                  marginLeft: '24vw',
-                  textAlign: 'center',
-                  color: '#1a90ff',
-                }}
-              >
-                {showMore ? (
-                  <NormalBoldText style={{ fontSize: '16px' }}>
-                    {'접기'}
-                  </NormalBoldText>
-                ) : (
-                  <NormalBoldText style={{ fontSize: '16px' }}>
-                    {'보장 자세히 보기'}
-                  </NormalBoldText>
-                )}
-                {showMore ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
-              </OptionBoxButton>
-
-              {showMore && (
-                <OptionDetailBoard option_detail={info['option_detail']} />
+            <OptionBoxButton
+              onClick={() => setShowMore(cur => !cur)}
+              style={{
+                padding: '0',
+                marginLeft: '24vw',
+                textAlign: 'center',
+                color: '#1a90ff',
+              }}
+            >
+              {showMore ? (
+                <NormalBoldText style={{ fontSize: '16px' }}>
+                  {'접기'}
+                </NormalBoldText>
+              ) : (
+                <NormalBoldText style={{ fontSize: '16px' }}>
+                  {'보장 자세히 보기'}
+                </NormalBoldText>
               )}
-              <br />
-              <GreyRegularText
-                style={{
-                  textAlign: 'left',
-                  marginTop: '10px',
-                  marginBottom: '10px',
-                }}
-              >
-                보험 가입자 연령 분포
-              </GreyRegularText>
-              <PieChart age_rate={info['age_rate']} />
-              <br />
-              <GreyRegularText
-                style={{ textAlign: 'left', marginBottom: '10px' }}
-              >
-                상대적 보장우위
-              </GreyRegularText>
+              {showMore ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
+            </OptionBoxButton>
 
-              <RadarChart option_group={info['option_group']} />
+            {showMore && (
+              <OptionDetailBoard option_detail={info['option_detail']} />
+            )}
+            <br />
+            <GreyRegularText
+              style={{
+                textAlign: 'left',
+                marginTop: '10px',
+                marginBottom: '10px',
+              }}
+            >
+              보험 가입자 연령 분포
+            </GreyRegularText>
+            <PieChart age_rate={info['age_rate']} />
+            <br />
+            <GreyRegularText
+              style={{ textAlign: 'left', marginBottom: '10px' }}
+            >
+              상대적 보장우위
+            </GreyRegularText>
+
+            <RadarChart option_group={info['option_group']} />
+            <br />
+          </Container>
+          <div>
+            <RightBox
+              gender={userGender ? userGender : 0}
+              age={userAge ? userAge : 0}
+              rate={info.base[0]['RATE']}
+              py={info.base[0]['PY']}
+              link={info.base[0]['PRODUCT_LINK']}
+            ></RightBox>
+          </div>
+        </Board>
+
+        <Box
+          sx={{
+            marginTop: '30%',
+            paddingBottom: 15,
+            // display: 'flex',
+            // flexDirection: 'column',
+            // alignItems: 'center',
+            backgroundColor: '#f8f8f8',
+          }}
+        >
+          <Container>
+            <Box sx={{ paddingTop: '5%', paddingBottom: '2%' }}>
+              <Box sx={{ paddingBottom: '1%', fontFamily: 'NotoSansKRBold' }}>
+                <ModalTitle>이런 보험은 어때요?</ModalTitle>
+              </Box>
               <br />
-            </Container>
-            <div>
-              <RightBox
-                gender={userGender ? userGender : 0}
-                age={userAge ? userAge : 0}
-                rate={info.base[0]['RATE']}
-                py={info.base[0]['PY']}
-                link={info.base[0]['PRODUCT_LINK']}
-              ></RightBox>
-            </div>
-          </Board>
-        </div>
+              <ModalTitle>
+                <ModalTitleColor>
+                  {userAge}세 {userGender == 1 ? '남성' : '여성'}
+                </ModalTitleColor>
+                에게 인기가 많아요!
+              </ModalTitle>
+            </Box>
+            {popularList ? (
+              <RelatedPlanList list={popularList && popularList} />
+            ) : null}
+
+            <Box sx={{ paddingTop: '5%', paddingBottom: '2%' }}>
+              <ModalTitle>합리적인 가격을 제공해요!</ModalTitle>
+            </Box>
+            {reasonableList ? (
+              <RelatedPlanList list={reasonableList && reasonableList} />
+            ) : null}
+          </Container>
+        </Box>
       </>
     );
   }

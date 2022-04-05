@@ -22,8 +22,12 @@ import { UserPeriod } from '../recoil/UserPeriod';
 import { UserGender } from '../recoil/UserGender';
 import { UserAge } from '../recoil/UserAge';
 import useCheckBoxLinked from '../hooks/useCheckList';
-import { ModalTitle } from '../components/SearchResult/SecondarySearchModal/styles';
+import {
+  ModalTitle,
+  ModalTitleColor,
+} from '../components/SearchResult/SecondarySearchModal/styles';
 import { ProductType } from '../types/types';
+import { PlanNameLabel } from '../components/SearchResult/PlanCard/styles';
 
 // 명성 코드
 interface CustomState {
@@ -65,7 +69,7 @@ function SearchResult(): JSX.Element {
         <Container>
           <Box
             sx={{
-              paddingTop: 15,
+              paddingTop: 17,
               paddingBottom: 15,
               display: 'flex',
               flexDirection: 'column',
@@ -96,22 +100,48 @@ function SearchResult(): JSX.Element {
 
                 <Box textAlign="center">
                   <Button onClick={() => setShowMore(cur => !cur)}>
-                    {showMore ? '접기' : '더 보기'}
+                    {showMore ? '접기' : '결과 더보기'}
                   </Button>
                 </Box>
                 <Box display={showMore ? 'run-in' : 'none'}>
                   <PlanBarList list={planList.slice(4)} />
                 </Box>
-
-                <h2>아직 잘 모르시겠다면 추천해드릴게요!</h2>
-                <h3>이런 보험을 많이 찾아요!</h3>
-                <RelatedPlanList list={popularList} />
-                <h3>가성비가 좋아요!</h3>
-                <RelatedPlanList list={reasonableList} />
               </>
             )}
           </Box>
         </Container>
+        <Box
+          sx={{
+            // marginTop: '30%',
+            paddingBottom: 15,
+            // display: 'flex',
+            // flexDirection: 'column',
+            // alignItems: 'center',
+            backgroundColor: '#f8f8f8',
+          }}
+        >
+          <Container>
+            <Box sx={{ paddingTop: '5%', paddingBottom: '2%' }}>
+              {/* <ModalTitle>아직 잘 모르시겠다면</ModalTitle> */}
+              <Box sx={{ paddingBottom: '1%' }}>
+                <ModalTitle>이런 보험은 어때요?</ModalTitle>
+              </Box>
+              <ModalTitle>
+                <ModalTitleColor>
+                  {age}세 {gender == 1 ? '남성' : '여성'}
+                </ModalTitleColor>
+                에게 인기가 많아요!
+              </ModalTitle>
+            </Box>
+            {popularList && <RelatedPlanList list={popularList} />}
+            <Box sx={{ paddingTop: '5%', paddingBottom: '2%' }}>
+              {/* <ModalTitle>아직 잘 모르시겠다면</ModalTitle> */}
+              <ModalTitle>합리적인 가격을 제공해요!</ModalTitle>
+            </Box>
+            {reasonableList && <RelatedPlanList list={reasonableList} />}
+          </Container>
+        </Box>
+
         {/* 슬라이딩 애니메이션 창 */}
         <Transition
           checked={!isEmptyList()}
