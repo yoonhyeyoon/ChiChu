@@ -133,12 +133,12 @@ function SearchResult(): JSX.Element {
                 에게 인기가 많아요!
               </ModalTitle>
             </Box>
-            <RelatedPlanList list={popularList} />
+            {popularList && <RelatedPlanList list={popularList} />}
             <Box sx={{ paddingTop: '5%', paddingBottom: '2%' }}>
               {/* <ModalTitle>아직 잘 모르시겠다면</ModalTitle> */}
               <ModalTitle>합리적인 가격을 제공해요!</ModalTitle>
             </Box>
-            <RelatedPlanList list={reasonableList} />
+            {reasonableList && <RelatedPlanList list={reasonableList} />}
           </Container>
         </Box>
 
