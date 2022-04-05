@@ -22,10 +22,8 @@ import { UserPeriod } from '../recoil/UserPeriod';
 import { UserGender } from '../recoil/UserGender';
 import { UserAge } from '../recoil/UserAge';
 import useCheckBoxLinked from '../hooks/useCheckList';
-import useScrollDialog from '../hooks/useScrollDialog';
 import { ModalTitle } from '../components/SearchResult/SecondarySearchModal/styles';
 import { ProductType } from '../types/types';
-import PlanComparison from './PlanComparison';
 
 // 명성 코드
 interface CustomState {
@@ -53,7 +51,6 @@ function SearchResult(): JSX.Element {
   const userPeriod = useRecoilValue(UserPeriod);
   console.log(userPeriod);
   const { isEmptyList } = useCheckBoxLinked();
-  const { ScrollDialog, handleClickOpen } = useScrollDialog();
 
   // 명성 코드
   const location = useLocation();
@@ -89,8 +86,6 @@ function SearchResult(): JSX.Element {
             {/* <PlanTags optionState={optionState} /> */}
             <PlanTags />
 
-            <Button onClick={handleClickOpen}>상품 비교 창 열기!</Button>
-
             {/* <PlanRateRange /> */}
             <SortButton />
 
@@ -123,9 +118,6 @@ function SearchResult(): JSX.Element {
           component={<PlanPicker />}
           containerRef={containerRef}
         />
-        <ScrollDialog>
-          <PlanComparison />
-        </ScrollDialog>
       </Suspense>
     </>
   );

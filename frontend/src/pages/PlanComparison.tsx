@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom';
+// import { useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import {
   Table,
@@ -38,18 +38,16 @@ const optionGroups = [
   },
 ];
 
-function PlanComparison() {
-  const location = useLocation();
-  const input = location.state as inputType;
+function PlanComparison(input: inputType) {
+  // const location = useLocation();
+  // const input = location.state as inputType;
   const info = useRecoilValue(planComparisonInfoState({ ...input }));
 
   return (
     <>
       <Typography textAlign="center" variant="h5" fontFamily="NotoSansKRBold">
-        치아보험 비교하기
-        <h5>
-          ({input.gender === 1 ? '남성' : '여성'} {input.age}세 기준)
-        </h5>
+        치아보험 비교하기 <br /> ({input.gender === 1 ? '남성' : '여성'}{' '}
+        {input.age}세 기준)
       </Typography>
 
       {info && (

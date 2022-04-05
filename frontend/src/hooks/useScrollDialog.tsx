@@ -1,10 +1,9 @@
-import * as React from 'react';
+import React from 'react';
 import {
   Button,
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogProps,
   useMediaQuery,
 } from '@mui/material';
@@ -54,15 +53,7 @@ function useScrollDialog() {
           aria-describedby="scroll-dialog-description"
         >
           {/* <DialogTitle id="scroll-dialog-title">Subscribe</DialogTitle> */}
-          <DialogContent dividers>
-            <DialogContentText
-              id="scroll-dialog-description"
-              ref={descriptionElementRef}
-              tabIndex={-1}
-            >
-              {props.children}
-            </DialogContentText>
-          </DialogContent>
+          <DialogContent dividers>{props.children}</DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>닫기</Button>
           </DialogActions>
