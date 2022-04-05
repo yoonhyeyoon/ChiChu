@@ -1,4 +1,5 @@
-import { Button, Grid } from '@mui/material';
+import { IconButton, Grid, Paper } from '@mui/material';
+import { HighlightOff } from '@mui/icons-material';
 
 import CompanyProfile from '../../PlanDetail/CompanyProfile';
 import useCheckBoxLinked from '../../../hooks/useCheckList';
@@ -11,12 +12,14 @@ function PlanPickerFilled({ list }: { list: PlanPickerType[] }) {
     <>
       {list.map(item => (
         <Grid item sm={12} md={4} key={item.product_code}>
-          <CompanyProfile
-            company_name={item.company_name}
-            product_name={item.product_name}
-          />
+          <Paper elevation={3}>
+            <CompanyProfile
+              company_name={item.company_name}
+              product_name={item.product_name}
+            />
+          </Paper>
           {/* 누르면 비교 목록에서 삭제 */}
-          <Button
+          <IconButton
             onClick={() => {
               if (item.setChecked) {
                 item.setChecked(false);
@@ -24,8 +27,8 @@ function PlanPickerFilled({ list }: { list: PlanPickerType[] }) {
               }
             }}
           >
-            X
-          </Button>
+            <HighlightOff />
+          </IconButton>
         </Grid>
       ))}
     </>

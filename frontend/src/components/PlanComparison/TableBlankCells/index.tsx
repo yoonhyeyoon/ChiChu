@@ -12,11 +12,11 @@ function TableBlankCells({
 }) {
   return (
     <>
-      {range(num).map(() =>
+      {range(num).map(index =>
         isNotUnderlined ? (
-          <TableCellNoUnderline></TableCellNoUnderline>
+          <TableCellNoUnderline key={index}></TableCellNoUnderline>
         ) : (
-          <TableCell></TableCell>
+          <TableCell key={index}></TableCell>
         ),
       )}
     </>
