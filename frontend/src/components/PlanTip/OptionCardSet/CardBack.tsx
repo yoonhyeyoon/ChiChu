@@ -18,21 +18,19 @@ type PropType = {
 // };
 
 function CardBack({ name, name2, description }: PropType) {
-  const [userAge, setUserAge] = useRecoilState(UserAge);
-  const [userGender, setUserGender] = useRecoilState(UserGender);
+  // const [userAge, setUserAge] = useRecoilState(UserAge);
+  // const [userGender, setUserGender] = useRecoilState(UserGender);
 
   return (
     <>
       <CardContent>
         {name2 ? (
-          <OptionName>
-            {name}.{name2}
-          </OptionName>
+          <OptionName>{`<${name}.${name2}>`}</OptionName>
         ) : (
-          <OptionName>{name}</OptionName>
+          <OptionName>{`<${name}>`}</OptionName>
         )}
         <Description>{description}</Description>
-        <Button>
+        {/* <Button>
           <Link
             to="/search/result"
             state={
@@ -53,7 +51,7 @@ function CardBack({ name, name2, description }: PropType) {
           >
             보장해주는 보험 검색하기
           </Link>
-        </Button>
+        </Button> */}
       </CardContent>
     </>
   );

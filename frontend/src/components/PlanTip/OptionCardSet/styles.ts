@@ -4,7 +4,9 @@ export const SceneCard = styled('div')`
 width: 200px;
 height: 260px;
 background-color:white;
-border: 1px solid black;
+border: 1px solid #DAECFF;
+cursor: pointer;
+box-shadow: 3px 3px 7px 1px #DAECFF;
 }
 `;
 
@@ -41,4 +43,6 @@ export const Symptom = styled('h2')`
   font-size: 18px;
   font-family: NotoSansKRBold;
   word-wrap: break-word;
+  margin-top: 0px;
+  color: #3399ff;
 `;
