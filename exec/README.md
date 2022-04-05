@@ -30,17 +30,16 @@ port : 3306
 
 ```
 [back build] 
-/S06P22D206
-$ cd back
+/S06P22D206/back
 $ pip install -r requirements.txt
-$ cd chichu
+/S06P22D206/back/chichu
 $ python manage.py makemigrations
 $ python manage.py migrate
 $ python manage.py runserver
 
 
 [front build]
-/S06P22D206
+/S06P22D206/frontend
 $ npm i 
 $ npm start
 ```
@@ -141,7 +140,7 @@ server {
 
 
 
-### DB 덤프파일
+### DB 덤프파일 설치
 
 ```none
 sudo mysqldump  -h 127.0.0.1 --user=chichu -p --all-databases > all_databases.sql
