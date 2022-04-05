@@ -3,6 +3,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Pie } from 'react-chartjs-2';
 import { Container } from './styles';
+import { GreyRegularText } from '../styles';
 
 type PropType = {
   age_rate: {
@@ -12,13 +13,29 @@ type PropType = {
 };
 
 ChartJS.register(ArcElement, Tooltip);
+const options = {
+  plugins: {
+    datalabels: {
+      display: true,
+      formatter: (val: any, ctx: any) => {
+        return ctx.chart.data.labels[ctx.dataIndex];
+      },
+      font: {
+        size: 17,
+        family: 'NotoSansKRRegular',
+        color: 'blue',
+      },
+    },
+  },
+};
+
 export function PieChart(props: PropType) {
   const values = Object.values(props);
   const label_arr = [];
   const data_arr = [];
 
   for (const item of values[0]) {
-    label_arr.push(item['AGE_CAT']);
+    label_arr.push(`${item['AGE_CAT']}대`);
     data_arr.push(item['RATE']);
   }
 
@@ -50,8 +67,13 @@ export function PieChart(props: PropType) {
   };
 
   return (
-    <Container>
-      <Pie data={data} plugins={[ChartDataLabels]} />
-    </Container>
+    <>
+      <Pie
+        data={data}
+        plugins={[ChartDataLabels]}
+        options={options}
+        style={{ marginLeft: '180px', maxWidth: '500px' }}
+      />
+    </>
   );
 }

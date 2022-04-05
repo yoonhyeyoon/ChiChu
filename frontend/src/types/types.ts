@@ -19,7 +19,7 @@ export type ComparisonTableType = {
   company: PlanPickerType[];
   치츄지수: { product_code: string; total_index: number }[];
   치아보철치료: ComparisonTableRowType[];
-  치아보전치료: ComparisonTableRowType[];
+  치아보존치료: ComparisonTableRowType[];
   치수치료: ComparisonTableRowType[];
 };
 

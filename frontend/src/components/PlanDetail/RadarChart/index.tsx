@@ -10,6 +10,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Radar } from 'react-chartjs-2';
+import { GreyRegularText } from '../styles';
 
 ChartJS.register(
   RadialLinearScale,
@@ -56,7 +57,7 @@ export function RadarChart(props: PropType) {
     labels: label_arr,
     datasets: [
       {
-        label: '상대적 보장우수성',
+        label: '평균 보장금액 대비 해당 보험의 보장금액',
         data: data_arr,
         backgroundColor: 'rgba(255, 99, 132, 0.2)',
         borderColor: 'rgba(255, 99, 132, 1)',
@@ -67,7 +68,7 @@ export function RadarChart(props: PropType) {
 
   return (
     <Container>
-      <Radar data={data} />
+      <Radar data={data} style={{ marginLeft: '85px', maxHeight: '550px' }} />
     </Container>
   );
 }
