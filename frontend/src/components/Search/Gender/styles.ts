@@ -70,6 +70,7 @@ export const StyledListbox = styled('ul')(
 
 export const StyledOption = styled(OptionUnstyled)(
   ({ theme }) => `
+  font-family: NotoSansKRRegular;
   list-style: none;
   padding: 8px;
   border-radius: 0.45em;

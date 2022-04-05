@@ -5,19 +5,26 @@ import {
   CardActionArea,
   CardContent,
   CardHeader,
+  Typography,
 } from '@mui/material';
 
 // import ProgressBarWithNumber from '../../Common/ProgressBarWithNumber';
 import useCheckBoxLinked from '../../../hooks/useCheckList';
 import { ProductType, PlanPickerType } from '../../../types/types';
+import { PlanCardBottomText, PlanCardLabel } from './styles';
+import ProgressBarWithNumber from '../../Common/ProgressBarWithNumber';
+import { blue } from '../../../styles/Colors';
 
 function PlanCard({ content }: { content: ProductType }) {
   const planInfo: PlanPickerType = { ...content };
+  // console.log(content);
   const { CheckBoxLinked, updateCheckedPlanList, isEmptyList } =
     useCheckBoxLinked();
 
   return (
-    <Card>
+    <Card
+      sx={{ borderRadius: '10px', boxShadow: 'rgb(0 0 0 / 10%) 2px 2px 20px' }}
+    >
       <CardActionArea>
         <Link
           to={`./${content.product_code}`}
@@ -33,29 +40,59 @@ function PlanCard({ content }: { content: ProductType }) {
           style={{ textDecoration: 'none' }}
         >
           <CardHeader
+            sx={{ color: 'black' }}
             avatar={
+              // <Avatar
+              //   src={content.product_name}
+              //   alt={content.company_name}
+              //   variant="rounded"
+              // />
               <Avatar
-                src={content.product_name}
+                src={`/images/CompanyLogo/${content.company_name}.png`}
                 alt={content.company_name}
                 variant="rounded"
+                sx={{ width: 56, height: 56 }}
               />
             }
-            title={content.company_name}
-            subheader={content.product_name}
+            title={
+              <Typography
+                sx={{
+                  fontFamily: 'NotoSansKRMedium',
+                  fontSize: '16px',
+                  color: 'black',
+                }}
+              >
+                {content.company_name}
+              </Typography>
+            }
+            // subheader={content.product_name}
+            subheader={
+              <Typography
+                sx={{
+                  fontFamily: 'NotoSansKRLight',
+                  fontSize: '15px',
+                  color: 'black',
+                }}
+              >
+                {content.product_name}
+              </Typography>
+            }
             action={<CheckBoxLinked prop={planInfo} />}
           />
           <CardContent>
-            <span>설계 유형</span>
-            <h3>
-              {content.subtype_code == 1
+            <PlanCardLabel>설계 유형</PlanCardLabel>
+            <PlanCardBottomText>
+              {content.subtype_code == 0
                 ? '실속형'
-                : content.subtype_code == 2
+                : content.subtype_code == 1
                 ? '표준형'
                 : '고급형'}
-            </h3>
-            <span>보험료</span>
-            <h3>{content.rate}</h3>
-            {/* <ProgressBarWithNumber plan_score={content.rate} /> */}
+            </PlanCardBottomText>
+            <PlanCardLabel>보험료</PlanCardLabel>
+            <PlanCardBottomText>
+              {'월 ' + content.rate.toLocaleString() + '원'}
+            </PlanCardBottomText>
+            <ProgressBarWithNumber plan_score={content.total_index} />
           </CardContent>
         </Link>
       </CardActionArea>

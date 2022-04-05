@@ -10,6 +10,7 @@ import {
   ContentDiv,
   CustomBannerButtonRoot,
   Title,
+  TitleSmall,
 } from './styles';
 import { useNavigate } from 'react-router-dom';
 
@@ -27,7 +28,7 @@ function Banner() {
           <ChiChu src="/images/randing/chichu.png" alt="" />
         </ChiChuAnimation>
         <ContentDiv>
-          <Title>CHI CHU</Title>
+          <Title>Chi Chu</Title>
           <Content>치츄가 찾아줄게요!</Content>
           <Content>빅데이터 치아보험 추천 서비스</Content>
           <CustomButton onClick={() => navigate('search')}>

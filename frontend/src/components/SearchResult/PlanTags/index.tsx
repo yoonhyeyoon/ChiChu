@@ -17,6 +17,9 @@ import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import { PlanRateRangeSlider } from '../PlanRateRange/styles';
 import Tooltip from '@mui/material/Tooltip';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import IconButton from '@mui/material/IconButton';
+import { Link } from 'react-router-dom';
 
 // type PropType = {
 //   state?: {
@@ -111,7 +114,7 @@ const Button = ({
       // newDict['reasonable'] = planFilteredList.reasonable.filter(product =>
       //   product.option_name.some(checkTagged),
       // );
-      console.log(planFilteredList, newDict);
+      // console.log(planFilteredList, newDict);
       setPlanFilteredList(newDict);
     }
   }, [toggleList, planRate]);
@@ -179,12 +182,26 @@ function PlanTags() {
           step={1000}
           disableSwap
           valueLabelDisplay="on"
+          marks
         />
       </Box>
       {/* <Divider /> */}
       <Divider>
         <TagLabel>
           보장받고 싶은 <BoldLabel>담보</BoldLabel>를 선택해보세요
+          <IconButton>
+            <Link to="/tip">
+              <HelpOutlineIcon
+                color="disabled"
+                sx={{
+                  fontSize: 20,
+                  cursor: 'pointer',
+                  marginBottom: '2px',
+                  color: 'grey',
+                }}
+              />
+            </Link>
+          </IconButton>
         </TagLabel>
       </Divider>
       <Box
@@ -207,7 +224,6 @@ function PlanTags() {
           ))}
         </Stack>
       </Box>
-      <Divider />
     </TagRateContainer>
   );
 }

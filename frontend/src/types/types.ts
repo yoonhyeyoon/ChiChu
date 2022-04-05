@@ -46,6 +46,7 @@ export type ProductType = {
   option_code: string[];
   option_name: string[];
   moving?: boolean;
+  total_index: number;
 };
 
 export type PlanListType = {

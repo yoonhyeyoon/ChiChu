@@ -11,6 +11,7 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import { DefaultIntro } from '../DefaultInfo/styles';
 import { InputLabel } from '../Gender/styles';
+import { IconButton } from '@mui/material';
 
 const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -90,10 +91,17 @@ function BirthDate() {
             </React.Fragment>
           }
         >
-          <HelpOutlineIcon
-            color="primary"
-            sx={{ fontSize: 20, cursor: 'pointer' }}
-          />
+          <IconButton sx={{ padding: 0.3 }}>
+            <HelpOutlineIcon
+              color="disabled"
+              sx={{
+                fontSize: 20,
+                cursor: 'pointer',
+                marginBottom: '5px',
+                color: 'grey',
+              }}
+            />
+          </IconButton>
         </HtmlTooltip>
       </InputLabel>
       <Stack spacing={2}>

@@ -95,8 +95,12 @@ export const Title = styled.b`
   color: ${blue[100]};
   // text-shadow: -1px 0 ${blue[400]}, 0 1px ${blue[400]}, 1px 0 ${blue[400]},
   //   0 -1px ${blue[400]};
-  font-family: WendyOneRegular;
+  font-family: FredokaOneRegular;
   animation: ${focus} 0.4s cubic-bezier(0.55, 0.85, 0.68, 0.53) both;
+`;
+
+export const TitleSmall = styled(Title)`
+  font-size: 4rem;
 `;
 
 export const Content = styled.p`
