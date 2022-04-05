@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { useRecoilState } from 'recoil';
 import { Checkbox } from '@mui/material';
+import { Bookmark, BookmarkBorder } from '@mui/icons-material';
 
 import { checkedPlanListState } from '../recoil/planComparisonState';
 import { isEmpty } from '../utils/arrayFunctions';
@@ -77,6 +78,9 @@ function useCheckBoxLinked() {
           updateCheckedPlanList(e, { ...prop });
         }}
         disabled={isFullList() || isDuplicated(prop.product_code)}
+        disableRipple
+        icon={<BookmarkBorder />}
+        checkedIcon={<Bookmark />}
       />
     );
   }

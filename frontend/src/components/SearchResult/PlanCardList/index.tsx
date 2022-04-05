@@ -7,7 +7,7 @@ function PlanCardList({ list }: { list: ProductType[] }) {
   return (
     <Grid container spacing={2}>
       {list.map(content => (
-        <Grid item xs={4} key={content.product_code}>
+        <Grid item xs={12} sm={4} key={content.product_code}>
           <Card content={content} />
         </Grid>
       ))}

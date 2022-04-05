@@ -16,13 +16,12 @@ import SecondarySearchModal from '../components/SearchResult/SecondarySearchModa
 import SortButton from '../components/SearchResult/SortButton';
 import Transition from '../components/Common/Transition';
 
-import { checkedPlanListState } from '../recoil/planComparisonState';
 import { PlanFilteredList } from '../recoil/PlanFilteredList';
 import { planListState } from '../recoil/searchResultState';
 import { UserPeriod } from '../recoil/UserPeriod';
 import { UserGender } from '../recoil/UserGender';
 import { UserAge } from '../recoil/UserAge';
-import { isEmpty } from '../utils/arrayFunctions';
+import useCheckBoxLinked from '../hooks/useCheckList';
 import { ModalTitle } from '../components/SearchResult/SecondarySearchModal/styles';
 import { ProductType } from '../types/types';
 
@@ -47,11 +46,11 @@ function SearchResult(): JSX.Element {
     ?.popular as ProductType[];
   const reasonableList = useRecoilValue(PlanFilteredList)
     ?.reasonable as ProductType[];
-  const checkedPlanList = useRecoilValue(checkedPlanListState);
 
   const [showMore, setShowMore] = useState(false);
   const userPeriod = useRecoilValue(UserPeriod);
   console.log(userPeriod);
+  const { isEmptyList } = useCheckBoxLinked();
 
   // 명성 코드
   const location = useLocation();
@@ -115,8 +114,8 @@ function SearchResult(): JSX.Element {
         </Container>
         {/* 슬라이딩 애니메이션 창 */}
         <Transition
-          checked={!isEmpty(checkedPlanList)}
-          component={<PlanPicker list={checkedPlanList} />}
+          checked={!isEmptyList()}
+          component={<PlanPicker />}
           containerRef={containerRef}
         />
       </Suspense>
