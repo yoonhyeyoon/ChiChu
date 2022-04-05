@@ -21,6 +21,7 @@ export const OptionBoxButton = styled(Button)`
 export const NormalBoldText = styled('p')`
   font-family: NotoSansKRBold;
   font-size: 30px;
+  margin-top: 0px;
 `;
 export const NormalRegularText = styled('p')`
   font-family: NotoSansKRRegular;
@@ -58,6 +59,6 @@ export const GreyRegularSpan = styled('span')`
 `;
 
 export const HorizontalLine = styled('div')`
-  border-bottom: 2px solid #cdd2d7;
+  border-bottom: 1px solid #cdd2d7;
   width: '100%';
 `;

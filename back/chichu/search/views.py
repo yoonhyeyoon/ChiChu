@@ -887,7 +887,7 @@ def compare(request, age, gender, codes):
             '치츄지수' : list0,
             '가격' : list4,
             '치아보철치료' : list1,
-            '치아보전치료' : list2,
+            '치아보존치료' : list2,
             '치수치료': list3
         }
         return Response(data)
