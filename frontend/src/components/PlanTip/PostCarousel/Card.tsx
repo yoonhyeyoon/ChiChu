@@ -13,7 +13,7 @@ type PropType = {
   text1: string;
   text2: string;
   img: string;
-  articlenum: number;
+  articlenum?: number;
 };
 
 export default function CarouselCard(props: PropType) {

@@ -114,10 +114,18 @@ function PlanDetail() {
         <div>
           <Board>
             <Container maxWidth="md">
-              <CompanyProfile
-                company_name={info.base[0]['COMPANY_NAME']}
-                product_name={info.base[0]['PRODUCT_NAME']}
-              />
+              <Box
+                sx={{
+                  paddingTop: 15,
+                  textAlign: 'left',
+                  maxWidth: '70vw',
+                }}
+              >
+                <CompanyProfile
+                  company_name={info.base[0]['COMPANY_NAME']}
+                  product_name={info.base[0]['PRODUCT_NAME']}
+                />
+              </Box>
               <ProgressBar
                 plan_score={info.base[0]['TOTAL_INDEX']}
                 plan_average={69.24}

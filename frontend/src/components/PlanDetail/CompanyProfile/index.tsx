@@ -18,30 +18,22 @@ export type CompanyProfileType = {
 function CompanyProfile(props: CompanyProfileType) {
   console.log(props.company_name);
   return (
-    <Box
-      sx={{
-        paddingTop: 15,
-        textAlign: 'left',
-        maxWidth: '70vw',
-      }}
-    >
-      <Container>
-        <Profile>
-          <AvatarDiv>
-            <Avatar
-              src={`/images/CompanyLogo/${props.company_name}.png`}
-              alt={props.company_name}
-              variant="rounded"
-              sx={{ width: 56, height: 56 }}
-            />
-          </AvatarDiv>
-          <ProfileName>
-            <CompanyName>{props.company_name}</CompanyName>
-            <ProductName>{props.product_name}</ProductName>
-          </ProfileName>
-        </Profile>
-      </Container>
-    </Box>
+    <Container>
+      <Profile>
+        <AvatarDiv>
+          <Avatar
+            src={`/images/CompanyLogo/${props.company_name}.png`}
+            alt={props.company_name}
+            variant="rounded"
+            sx={{ width: 56, height: 56 }}
+          />
+        </AvatarDiv>
+        <ProfileName>
+          <CompanyName>{props.company_name}</CompanyName>
+          <ProductName>{props.product_name}</ProductName>
+        </ProfileName>
+      </Profile>
+    </Container>
   );
 }
 

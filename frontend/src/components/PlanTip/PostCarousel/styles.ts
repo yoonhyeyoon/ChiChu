@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import { Box } from '@mui/material';
+
 import Slider from 'react-slick';
 
 export const SlideTitle = styled.h2`
@@ -42,5 +44,16 @@ export const CardText = styled.p`
   padding: 20px;
   font-size: 20px;
   font-weight: bolder;
+  text-align: center;
+`;
+
+export const StyledPostBox = styled(Box)`
+  margin-left: 30px;
+  margin-right: 30px;
+  text-align: center;
+`;
+
+export const StyledImg = styled('img')`
+  max-width: 49vw;
   text-align: center;
 `;
