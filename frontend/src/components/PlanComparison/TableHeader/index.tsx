@@ -17,7 +17,7 @@ function TableHeader({ companies }: TableHeaderType) {
     <TableRow>
       <TableCell></TableCell>
       {companies.map(company => (
-        <TableCell align="center" key={company.product_code}>
+        <TableCell sx={{ justifyContent: 'center' }} key={company.product_code}>
           {/* 회사들 프로필 부분 */}
           <CompanyProfile
             company_name={company.company_name}

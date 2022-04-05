@@ -1,5 +1,4 @@
-import React from 'react';
-import { Box, Button, Avatar } from '@mui/material';
+import { Avatar } from '@mui/material';
 
 import {
   Container,

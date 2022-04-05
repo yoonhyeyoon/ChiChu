@@ -673,6 +673,7 @@ def compare(request, age, gender, codes):
     list1 = []
     list2 = []
     list3 = []
+    list4 = []
 
     #DB에 접속
     conn = pymysql.connect( host= host, user = user, password = pw, db = db, charset="utf8")
@@ -837,7 +838,14 @@ def compare(request, age, gender, codes):
         ORDER BY D.OPTION_CODE) E 
         GROUP BY E.OPTION_CODE
         """
-
+        list4_sql = f"""
+        SELECT PRODUCT_CODE AS product_code, RATE as rate   
+        FROM PRODUCT_RATE A
+        WHERE PRODUCT_CODE IN ('{p1}', '{p2}', '{p3}')
+        AND AGE = {age}
+        AND GENDER = {gender}
+        ORDER BY PRODUCT_CODE
+        """
         curs.execute(company_sql)
         for row in curs:
             company_list.append(row)
@@ -847,10 +855,14 @@ def compare(request, age, gender, codes):
         for row in curs:
             list0.append(row)
 
+        curs.execute(list4_sql)
+        for row in curs:
+            list4.append(row)
+
         curs.execute(list1_sql)
         for row in curs:
-            row['OPTION_NAME'] = row['OPTION_NAME'].split(',')
-            row['COVERAGE'] = row['COVERAGE'].split(',')
+            row['product_code'] = row['product_code'].split(',')
+            row['coverage'] = row['coverage'].split(',')
             list1.append(row)
 
         curs.execute(list2_sql)
@@ -873,6 +885,7 @@ def compare(request, age, gender, codes):
         data = {
             'company': company_list,
             '치츄지수' : list0,
+            '가격' : list4,
             '치아보철치료' : list1,
             '치아보전치료' : list2,
             '치수치료': list3
@@ -910,7 +923,14 @@ def compare(request, age, gender, codes):
         AND A.PRODUCT_CODE IN ('{p1}', '{p2}')
         """
 
-        
+        list4_sql = f"""
+        SELECT PRODUCT_CODE AS product_code, RATE as rate   
+        FROM PRODUCT_RATE A
+        WHERE PRODUCT_CODE IN ('{p1}', '{p2}')
+        AND AGE = {age}
+        AND GENDER = {gender}
+        ORDER BY PRODUCT_CODE
+        """
         # 2. 치아보철치료비
         list1_sql = f"""
         SELECT E.OPTION_CODE as option_code, E.OPTION_NAME as option_name, GROUP_CONCAT(E.PRODUCT_CODE) as product_code, GROUP_CONCAT(E.COVERAGE) as coverage 
@@ -968,7 +988,10 @@ def compare(request, age, gender, codes):
         curs.execute(list0_sql)
         for row in curs:
             list0.append(row)
-
+            
+        curs.execute(list4_sql)
+        for row in curs:
+            list4.append(row)
         curs.execute(list1_sql)
         for row in curs:
             row['product_code'] = row['product_code'].split(',')
@@ -995,6 +1018,7 @@ def compare(request, age, gender, codes):
         data = {
             'company': company_list,
             '치츄지수' : list0,
+            '가격' : list4,
             '치아보철치료' : list1,
             '치아보존치료' : list2,
             '치수치료': list3
