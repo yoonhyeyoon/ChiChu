@@ -6,16 +6,10 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import {
-  NormalBoldText,
-  NormalLightText,
-  NormalRegularText,
-  NormalLightSpan,
-  NormalRegularSpan,
-  NormalBoldSpan,
-} from '../../styles';
+import { TableHeadText, TableBodyText } from './styles';
 
 function createData(
+  company_logo: string,
   company_name: string,
   company_index: number,
   non_payment_rate: number,
@@ -28,6 +22,7 @@ function createData(
   net_assets: number,
 ) {
   return {
+    company_logo,
     company_name,
     company_index,
     non_payment_rate,
@@ -43,6 +38,7 @@ function createData(
 
 const rows = [
   createData(
+    '/images/CompanyLogo/교보라이프플래닛.png',
     '교보라이프플래닛',
     86.54,
     0.38,
@@ -55,6 +51,7 @@ const rows = [
     94,
   ),
   createData(
+    '/images/CompanyLogo/교보생명.png',
     '교보생명',
     73.02,
     0.38,
@@ -67,6 +64,7 @@ const rows = [
     94,
   ),
   createData(
+    '/images/CompanyLogo/라이나생명.png',
     '라이나생명',
     73.97,
     0.46,
@@ -79,6 +77,7 @@ const rows = [
     1966,
   ),
   createData(
+    '/images/CompanyLogo/미래에셋생명.png',
     '미래에셋생명',
     67.37,
     0.89,
@@ -91,6 +90,7 @@ const rows = [
     1917,
   ),
   createData(
+    '/images/CompanyLogo/삼성생명.png',
     '삼성생명',
     78.2,
     1.06,
@@ -103,6 +103,7 @@ const rows = [
     33866,
   ),
   createData(
+    '/images/CompanyLogo/삼성화재.png',
     '삼성화재',
     65.27,
     1.67,
@@ -115,6 +116,7 @@ const rows = [
     15319,
   ),
   createData(
+    '/images/CompanyLogo/에이스손해보험.png',
     '에이스손해보험',
     66.87,
     1.26,
@@ -127,6 +129,7 @@ const rows = [
     194,
   ),
   createData(
+    '/images/CompanyLogo/ABL인터넷보험.png',
     'ABL 인터넷보험',
     59.98,
     0.61,
@@ -139,6 +142,7 @@ const rows = [
     8799,
   ),
   createData(
+    '/images/CompanyLogo/DB손해보험.png',
     'DB손해보험',
     56.4,
     1.46,
@@ -151,6 +155,7 @@ const rows = [
     6139,
   ),
   createData(
+    '/images/CompanyLogo/KB손해보험.png',
     'KB손해보험',
     52.37,
     1.7,
@@ -169,37 +174,56 @@ export default function BasicTable() {
     <TableContainer
       component={Paper}
       sx={{
-        width: '1000px',
+        width: '800px',
         height: '300px',
       }}
     >
       <Table aria-label="simple table">
-        <TableHead>
+        <TableHead sx={{ backgroundColor: '#daecff' }}>
           <TableRow>
-            <TableCell>보험사명</TableCell>
-            <TableCell align="right">회사지수</TableCell>
-            <TableCell align="right">부지급률(%)</TableCell>
-            <TableCell
-              align="right"
-              sx={{ whiteSpace: 'normal', wordWrap: 'break-word' }}
-            >
-              민원청구(건, 10만건당)
-              <br />
-              환산건수 당분기
+            <TableCell></TableCell>
+            <TableCell>
+              <TableHeadText>보험사명</TableHeadText>
             </TableCell>
-            <TableCell align="right">평균지급기간(일)</TableCell>
-            <TableCell align="right">평균지급지연(일)</TableCell>
-            <TableCell align="right">지급지연율(%) 금액</TableCell>
-            <TableCell align="right">지급여력비율(%)</TableCell>
-            <TableCell align="right">부채비율(%)</TableCell>
-            <TableCell align="right">순자산(십억원)</TableCell>
+            <TableCell>
+              <TableHeadText>회사지수</TableHeadText>
+            </TableCell>
+            <TableCell>
+              <TableHeadText>부지급률(%)</TableHeadText>
+            </TableCell>
+            <TableCell>
+              <TableHeadText>
+                {'민원청구'}
+                <br />
+                {'(건, 10만건당)'}
+              </TableHeadText>
+            </TableCell>
+            <TableCell align="right">
+              <TableHeadText>평균지급기간(일)</TableHeadText>
+            </TableCell>
+            <TableCell align="right">
+              <TableHeadText>평균지급지연(일)</TableHeadText>
+            </TableCell>
+            <TableCell align="right">
+              <TableHeadText>지급지연율(%) 금액</TableHeadText>
+            </TableCell>
+            <TableCell align="right">
+              <TableHeadText>지급여력비율(%)</TableHeadText>
+            </TableCell>
+            <TableCell align="right">
+              <TableHeadText>부채비율(%)</TableHeadText>
+            </TableCell>
+            <TableCell align="right">
+              <TableHeadText>순자산(십억원)</TableHeadText>
+            </TableCell>
           </TableRow>
         </TableHead>
+
         <TableBody
           sx={{
             minWidth: 800,
             width: '1000px',
-            overflowX: 'auto',
+            overflowX: 'scroll',
             overflowY: 'auto',
             border: '0',
             cellspacing: '0',
@@ -212,17 +236,42 @@ export default function BasicTable() {
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {row.company_name}
+                <img
+                  src={row.company_logo}
+                  alt={row.company_name}
+                  style={{ width: '60px' }}
+                />
               </TableCell>
-              <TableCell align="right">{row.company_index}</TableCell>
-              <TableCell align="right">{row.non_payment_rate}</TableCell>
-              <TableCell align="right">{row.complaints}</TableCell>
-              <TableCell align="right">{row.payment_period}</TableCell>
-              <TableCell align="right">{row.delay_period}</TableCell>
-              <TableCell align="right">{row.delay_rate}</TableCell>
-              <TableCell align="right">{row.capital_ratio}</TableCell>
-              <TableCell align="right">{row.debt_ratio}</TableCell>
-              <TableCell align="right">{row.net_assets}</TableCell>
+              <TableCell align="right">
+                <TableBodyText>{row.company_name}</TableBodyText>
+              </TableCell>
+              <TableCell align="right">
+                <TableBodyText>{row.company_index}</TableBodyText>
+              </TableCell>
+              <TableCell align="right">
+                <TableBodyText>{row.non_payment_rate}</TableBodyText>
+              </TableCell>
+              <TableCell align="right">
+                <TableBodyText>{row.complaints}</TableBodyText>
+              </TableCell>
+              <TableCell align="right">
+                <TableBodyText>{row.payment_period}</TableBodyText>
+              </TableCell>
+              <TableCell align="right">
+                <TableBodyText>{row.delay_period}</TableBodyText>
+              </TableCell>
+              <TableCell align="right">
+                <TableBodyText>{row.delay_rate}</TableBodyText>
+              </TableCell>
+              <TableCell align="right">
+                <TableBodyText>{row.capital_ratio}</TableBodyText>
+              </TableCell>
+              <TableCell align="right">
+                <TableBodyText>{row.debt_ratio}</TableBodyText>
+              </TableCell>
+              <TableCell align="right">
+                <TableBodyText>{row.net_assets}</TableBodyText>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

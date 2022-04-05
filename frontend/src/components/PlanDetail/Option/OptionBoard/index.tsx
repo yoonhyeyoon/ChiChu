@@ -9,6 +9,7 @@ import { ETC } from './OptionGuides/ETC';
 import { Box } from '@mui/material';
 import { NormalRegularText, HorizontalLine } from '../../styles';
 import { borderBottom } from '@mui/system';
+import ShortModal from '../../Modal/ShortModal';
 
 type PropType = {
   option: {
@@ -125,7 +126,7 @@ export function OptionBoard(props: PropType) {
         </table>
         <DT>
           <JisuText>신경치료</JisuText>
-          <LongModal
+          <ShortModal
             element={<SingyeongText />}
             icon={<HelpOutlineIcon sx={{ cursor: 'pointer' }} />}
           />

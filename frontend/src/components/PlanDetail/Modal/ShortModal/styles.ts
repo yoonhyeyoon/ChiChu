@@ -8,6 +8,7 @@ export const styledModal = {
   bgcolor: 'background.paper',
   // border: '2px solid #000',
   borderRadius: '30px',
+  scroll: 'no',
   boxShadow: 24,
   p: 4,
 };
