@@ -53,7 +53,7 @@ function TableRowGroup(props: TableRowGroupType) {
               key={col}
               sx={{ fontSize: '1rem', fontFamily: 'NotoSansKRMedium' }}
             >
-              {value}만원
+              {value !== '0' ? value + ' 만원' : '-'}
             </TableCell>
           ))}
         </TableRow>
