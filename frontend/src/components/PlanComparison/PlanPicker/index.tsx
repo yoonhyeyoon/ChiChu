@@ -73,12 +73,12 @@ function PlanPicker() {
             sx={{
               marginBottom: 1,
               // padding: '5px 0',
-              // color: '#808080',
+              color: '#3399FF',
               justifyContent: 'flex-end',
             }}
           >
             {/* <BoldLabel>취소하기</BoldLabel> */}
-            <CancelPresentationIcon sx={{ color: '#808080' }} />
+            <CancelPresentationIcon sx={{ color: blue[900], opacity: 0.5 }} />
           </Button>
         </div>
         <Grid container spacing={2} sx={{ paddingBottom: 3 }}>
