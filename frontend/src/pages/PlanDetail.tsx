@@ -190,9 +190,8 @@ function PlanDetail() {
             <GreyRegularText
               style={{ textAlign: 'left', marginBottom: '10px' }}
             >
-              상대적 보장우위
+              주력 보장치료
             </GreyRegularText>
-
             <RadarChart option_group={info['option_group']} />
             <br />
           </Container>

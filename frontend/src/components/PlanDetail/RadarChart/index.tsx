@@ -10,7 +10,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Radar } from 'react-chartjs-2';
-import { GreyRegularText } from '../styles';
+import { GreyRegularText, NormalBoldSpan, NormalBoldText } from '../styles';
 
 ChartJS.register(
   RadialLinearScale,
@@ -53,21 +53,32 @@ export function RadarChart(props: PropType) {
     }
   }
 
+  const maxNum = Math.max(...data_arr);
+  const maxIndex = data_arr.indexOf(maxNum);
+  const maxBohum = label_arr[maxIndex];
+  console.log(maxBohum);
+
   const data = {
     labels: label_arr,
     datasets: [
       {
         label: '평균 보장금액 대비 해당 보험의 보장금액',
         data: data_arr,
-        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-        borderColor: 'rgba(255, 99, 132, 1)',
+        backgroundColor: 'rgba(163, 211, 255, 0.2)',
+        borderColor: 'rgba(105, 182, 255, 1)',
         borderWidth: 1,
       },
     ],
   };
 
   return (
-    <Container>
+    <Container style={{ marginBottom: '13vh' }}>
+      <NormalBoldText>
+        이 보험은
+        <br />
+        <NormalBoldSpan style={{ color: '#1a90ff' }}>{maxBohum}</NormalBoldSpan>
+        에 주력하고 있어요!
+      </NormalBoldText>
       <Radar data={data} style={{ marginLeft: '85px', maxHeight: '550px' }} />
     </Container>
   );

@@ -94,7 +94,11 @@ export default function ProgressBar(props: ProgressBarType) {
           <Typography
             variant="caption"
             color="#1a90ff"
-            sx={{ fontFamily: 'NotoSansKRLight', fontSize: '16px' }}
+            sx={{
+              fontFamily: 'NotoSansKRLight',
+              fontSize: '16px',
+              marginLeft: '23vw',
+            }}
           >
             평균 {props.plan_average}
           </Typography>
