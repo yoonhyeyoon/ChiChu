@@ -14,7 +14,7 @@ import { PlanPickerType } from '../../../types/types';
 import { blue, grey } from '../../../styles/Colors';
 import ButtonUnstyled, { ButtonUnstyledProps } from '@mui/base/ButtonUnstyled';
 import { CustomButtonRoot } from '../../Common/CHICHUButton/styles';
-import LogoutIcon from '@mui/icons-material/Logout';
+import CancelPresentationIcon from '@mui/icons-material/CancelPresentation';
 import { BoldLabel } from '../../SearchResult/PlanTags/styles';
 
 const maxNum = 3;
@@ -72,13 +72,13 @@ function PlanPicker() {
             // color="secondary"
             sx={{
               marginBottom: 1,
-              padding: '5px 0',
+              // padding: '5px 0',
               // color: '#808080',
               justifyContent: 'flex-end',
             }}
           >
-            <BoldLabel>취소하기</BoldLabel>
-            {/* <LogoutIcon sx={{ color: '#808080' }} /> */}
+            {/* <BoldLabel>취소하기</BoldLabel> */}
+            <CancelPresentationIcon sx={{ color: '#808080' }} />
           </Button>
         </div>
         <Grid container spacing={2} sx={{ paddingBottom: 3 }}>

@@ -48,7 +48,7 @@ function PlanComparison(input: inputType) {
   return (
     <>
       <Typography textAlign="center">
-        <NormalBoldText>🔎 보험비교 결과 🔎</NormalBoldText>
+        <NormalBoldText>보험비교 결과 ✔</NormalBoldText>
         <ModalTitle>
           {input.gender === 1 ? '남성' : '여성'} {input.age}세 기준의
           주요보장금액은 다음과 같아요

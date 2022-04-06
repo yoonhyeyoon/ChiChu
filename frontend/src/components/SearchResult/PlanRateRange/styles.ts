@@ -42,7 +42,7 @@ export const PrettoSlider = styled(Slider)({
 });
 
 export const PlanRateRangeSlider = styled(Slider)({
-  color: '#52af77',
+  color: blue[200],
   height: 8,
   '& .MuiSlider-track': {
     border: 'none',
