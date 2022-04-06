@@ -9,7 +9,6 @@ import {
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-// import ProgressBarWithNumber from '../../Common/ProgressBarWithNumber';
 import useCheckBoxLinked from '../../../hooks/useCheckList';
 import { ProductType, PlanPickerType } from '../../../types/types';
 import { PlanCardBottomText, PlanCardLabel } from './styles';
@@ -18,7 +17,6 @@ import { blue } from '../../../styles/Colors';
 
 function PlanCard({ content }: { content: ProductType }) {
   const planInfo: PlanPickerType = { ...content };
-  // console.log(content);
   const { CheckBoxLinked, updateCheckedPlanList, isEmptyList } =
     useCheckBoxLinked();
   const navigate = useNavigate();
@@ -66,111 +64,46 @@ function PlanCard({ content }: { content: ProductType }) {
           }}
           style={{ textDecoration: 'none' }}
         >
-          {/* <div
-          onClick={e => {
-            if (content.moving) {
-              e.preventDefault();
+          <CardHeader
+            sx={{ color: 'black' }}
+            avatar={
+              <Avatar
+                src={`/images/CompanyLogo/${content.company_name}.png`}
+                alt={content.company_name}
+                variant="rounded"
+                sx={{ width: 56, height: 56 }}
+              />
             }
-            // 하나라도 추가되어있으면 비교
-            if (!isEmptyList()) {
-              updateCheckedPlanList(e, planInfo);
-            } else {
-              if (window.location.pathname === '/search/result') {
-                navigate(`./${content.product_code}`, {
-                  state: { product_code: content.product_code, py: content.py },
-                });
-              } else {
-                navigate(`/search/result/${content.product_code}`, {
-                  state: { product_code: content.product_code, py: content.py },
-                });
-                location.reload();
-              }
+            title={
+              <Typography
+                sx={{
+                  fontFamily: 'NotoSansKRMedium',
+                  fontSize: '16px',
+                  color: 'black',
+                }}
+              >
+                {content.company_name}
+              </Typography>
             }
-          }}
-        > */}
-          {window.location.pathname === '/search/result' ? (
-            <CardHeader
-              sx={{ color: 'black' }}
-              avatar={
-                // <Avatar
-                //   src={content.product_name}
-                //   alt={content.company_name}
-                //   variant="rounded"
-                // />
-                <Avatar
-                  src={`/images/CompanyLogo/${content.company_name}.png`}
-                  alt={content.company_name}
-                  variant="rounded"
-                  sx={{ width: 56, height: 56 }}
-                />
-              }
-              title={
-                <Typography
-                  sx={{
-                    fontFamily: 'NotoSansKRMedium',
-                    fontSize: '16px',
-                    color: 'black',
-                  }}
-                >
-                  {content.company_name}
-                </Typography>
-              }
-              // subheader={content.product_name}
-              subheader={
-                <Typography
-                  sx={{
-                    fontFamily: 'NotoSansKRLight',
-                    fontSize: '15px',
-                    color: 'black',
-                  }}
-                >
-                  {content.product_name}
-                </Typography>
-              }
-              action={<CheckBoxLinked prop={planInfo} />}
-            />
-          ) : (
-            <CardHeader
-              sx={{ color: 'black', height: '4rem' }}
-              avatar={
-                // <Avatar
-                //   src={content.product_name}
-                //   alt={content.company_name}
-                //   variant="rounded"
-                // />
-                <Avatar
-                  src={`/images/CompanyLogo/${content.company_name}.png`}
-                  alt={content.company_name}
-                  variant="rounded"
-                  sx={{ width: 56, height: 56 }}
-                />
-              }
-              title={
-                <Typography
-                  sx={{
-                    fontFamily: 'NotoSansKRMedium',
-                    fontSize: '16px',
-                    color: 'black',
-                  }}
-                >
-                  {content.company_name}
-                </Typography>
-              }
-              // subheader={content.product_name}
-              subheader={
-                <Typography
-                  sx={{
-                    fontFamily: 'NotoSansKRLight',
-                    fontSize: '15px',
-                    color: 'black',
-                  }}
-                >
-                  {content.product_name}
-                </Typography>
-              }
-            />
-          )}
-
+            subheader={
+              <Typography
+                sx={{
+                  fontFamily: 'NotoSansKRLight',
+                  fontSize: '15px',
+                  color: 'black',
+                }}
+              >
+                {content.product_name}
+              </Typography>
+            }
+            action={
+              // 검색 결과 화면이면 체크 박스 표시,
+              // 아니면 체크 박스 없앰
+              window.location.pathname === '/search/result' ? (
+                <CheckBoxLinked prop={planInfo} />
+              ) : null
+            }
+          />
           <CardContent>
             <PlanCardLabel>설계 유형</PlanCardLabel>
             <PlanCardBottomText>
@@ -187,7 +120,6 @@ function PlanCard({ content }: { content: ProductType }) {
             <ProgressBarWithNumber plan_score={content.total_index} />
           </CardContent>
         </Link>
-        {/* </div> */}
       </CardActionArea>
     </Card>
   );
