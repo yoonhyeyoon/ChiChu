@@ -16,6 +16,8 @@ import TableHeader from '../components/PlanComparison/TableHeader';
 import TableRowBarPlot from '../components/PlanComparison/TableRowBarPlot';
 import TableRowGroup from '../components/PlanComparison/TableRowGroup';
 import { planComparisonInfoState } from '../recoil/planComparisonState';
+import { ModalTitle } from '../components/SearchResult/SecondarySearchModal/styles';
+import { NormalBoldText } from '../components/PlanDetail/styles';
 
 type inputType = {
   age: number;
@@ -45,9 +47,12 @@ function PlanComparison(input: inputType) {
 
   return (
     <>
-      <Typography textAlign="center" variant="h5" fontFamily="NotoSansKRBold">
-        치아보험 비교하기 <br /> ({input.gender === 1 ? '남성' : '여성'}{' '}
-        {input.age}세 기준)
+      <Typography textAlign="center">
+        <NormalBoldText>🔎 보험비교 결과 🔎</NormalBoldText>
+        <ModalTitle>
+          {input.gender === 1 ? '남성' : '여성'} {input.age}세 기준의
+          주요보장금액은 다음과 같아요
+        </ModalTitle>
       </Typography>
 
       {info && (

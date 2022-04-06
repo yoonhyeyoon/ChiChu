@@ -15,7 +15,7 @@ function TableRowBarPlot({ list }: { list: chichuType[] }) {
     <>
       <TableRow>
         <TableCellNoUnderline>
-          <Typography noWrap fontSize="1.25rem" fontFamily="NotoSansKRBold">
+          <Typography noWrap fontSize="1.15rem" fontFamily="NotoSansKRBold">
             치츄지수
             <span> </span>
             <QuestionTooltip />
