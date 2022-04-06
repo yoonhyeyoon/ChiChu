@@ -72,7 +72,7 @@ export const Nav = styled(initialFont)`
   & > a::after {
     width: 0;
     height: 3px;
-    background: ${blue[100]};
+    background: ${blue[200]};
     left: 50%;
   }
   & > a:hover::after {

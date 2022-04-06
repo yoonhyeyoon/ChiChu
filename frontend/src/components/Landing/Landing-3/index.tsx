@@ -8,7 +8,7 @@ import {
   LandingBoxContent,
   LandingBoxContentColor,
   LandingBoxLabel,
-} from './styled';
+} from './styles';
 import { LandingSubContent } from '../Landing-1/styles';
 import { Slide } from 'react-awesome-reveal';
 import { Fade } from 'react-awesome-reveal';

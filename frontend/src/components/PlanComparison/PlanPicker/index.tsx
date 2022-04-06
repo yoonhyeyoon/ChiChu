@@ -11,7 +11,11 @@ import { checkedPlanListState } from '../../../recoil/planComparisonState';
 import { UserAge } from '../../../recoil/UserAge';
 import { UserGender } from '../../../recoil/UserGender';
 import { PlanPickerType } from '../../../types/types';
-import { blue } from '../../../styles/Colors';
+import { blue, grey } from '../../../styles/Colors';
+import ButtonUnstyled, { ButtonUnstyledProps } from '@mui/base/ButtonUnstyled';
+import { CustomButtonRoot } from '../../Common/CHICHUButton/styles';
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import { BoldLabel } from '../../SearchResult/PlanTags/styles';
 
 const maxNum = 3;
 
@@ -22,6 +26,10 @@ const getCodes = (list: PlanPickerType[]) => {
   });
   return codes;
 };
+
+function CustomButton(props: ButtonUnstyledProps) {
+  return <ButtonUnstyled {...props} component={CustomButtonRoot} />;
+}
 
 function PlanPicker() {
   const userAge = useRecoilValue(UserAge);
@@ -43,33 +51,49 @@ function PlanPicker() {
     <>
       <Box
         sx={{
-          padding: 2,
-          background: `linear-gradient(${blue[200]}, transparent)`,
+          // paddingTop: 1,
+          padding: '0.3rem 2rem 1.5rem 2rem',
+          // background: `linear-gradient(${blue[200]}, transparent)`,
+          // background: '#f8f8f8',
+          background: '#E0ECF8',
+          // background: blue[100],
+          // opacity: 0.5,
+          boxShadow: 'rgb(0 0 0 / 10%) 2px 2px 20px',
           borderRadius: '15px',
+          width: '55rem',
         }}
       >
-        <Button
-          onClick={() => {
-            deselectAndResetPlanList(checkedPlanList);
-          }}
-          variant="contained"
-          color="secondary"
-          sx={{ marginBottom: 2 }}
-        >
-          목록 초기화
-        </Button>
-        <Grid container spacing={2}>
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Button
+            onClick={() => {
+              deselectAndResetPlanList(checkedPlanList);
+            }}
+            // variant="contained"
+            // color="secondary"
+            sx={{
+              marginBottom: 1,
+              padding: '5px 0',
+              color: '#808080',
+              justifyContent: 'flex-end',
+            }}
+          >
+            {/* <BoldLabel>닫기</BoldLabel> */}
+            <RestartAltIcon sx={{ color: '#808080' }} />
+          </Button>
+        </div>
+        <Grid container spacing={2} sx={{ paddingBottom: 3 }}>
           {/* 채워진 경우의 셀들 */}
           <PlanPickerFilled list={checkedPlanList} />
           {/* 채워지지 않은 경우의 셀들 */}
           <PlanPickerUnfilled maxNum={maxNum} curNum={checkedPlanList.length} />
         </Grid>
-        <Button
+
+        <CustomButton
           onClick={handleClickOpen}
-          variant="contained"
+          // variant="contained"
           disabled={checkedPlanList.length === 1}
         >
-          원스톱 보험비교
+          보험비교 결과보기
           {/* <Link
           to="/compare"
           state={{
@@ -84,7 +108,7 @@ function PlanPicker() {
         >
           원스톱 보험비교
         </Link> */}
-        </Button>
+        </CustomButton>
       </Box>
       <ScrollDialog>
         <PlanComparison

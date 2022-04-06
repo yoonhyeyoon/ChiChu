@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { blue } from '../../../styles/Colors';
 import { LandingSubContent } from '../Landing-1/styles';
-import { LandingTitle } from '../Landing-3/styled';
+import { LandingTitle } from '../Landing-3/styles';
 
 export const LandingContainerBlue = styled.div`
   width: 100%;
