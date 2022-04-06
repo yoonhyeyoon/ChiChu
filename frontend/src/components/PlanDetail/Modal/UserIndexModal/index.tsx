@@ -11,7 +11,7 @@ export default function UserIndexModal() {
     <>
       <ShortModal
         element={<UserIndexText />}
-        icon={<HelpOutlineIcon sx={{ cursor: 'pointer' }} />}
+        icon={<HelpOutlineIcon fontSize="small" sx={{ cursor: 'pointer' }} />}
       ></ShortModal>
     </>
   );

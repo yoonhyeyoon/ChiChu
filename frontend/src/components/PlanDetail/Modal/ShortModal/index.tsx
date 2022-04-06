@@ -19,7 +19,12 @@ function ShortModal({
 
   return (
     <>
-      <IconButton onClick={handleOpen}>{icon}</IconButton>
+      <IconButton
+        onClick={handleOpen}
+        sx={{ padding: '4px', marginBottom: '10px' }}
+      >
+        {icon}
+      </IconButton>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"

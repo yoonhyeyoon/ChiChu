@@ -81,7 +81,12 @@ export function OptionBoard(props: PropType) {
           <JisuText>치아보철치료</JisuText>
           <LongModal
             element={<BochulText />}
-            icon={<HelpOutlineIcon sx={{ cursor: 'pointer' }} />}
+            icon={
+              <HelpOutlineIcon
+                fontSize="small"
+                sx={{ cursor: 'pointer', marginTop: '5px' }}
+              />
+            }
           />
         </DT>
         <table style={{ width: '100%' }}>
@@ -105,7 +110,12 @@ export function OptionBoard(props: PropType) {
           <JisuText>치아보존치료</JisuText>
           <LongModal
             element={<BozonText />}
-            icon={<HelpOutlineIcon sx={{ cursor: 'pointer' }} />}
+            icon={
+              <HelpOutlineIcon
+                fontSize="small"
+                sx={{ cursor: 'pointer', marginTop: '5px' }}
+              />
+            }
           />
         </DT>
         <table style={{ width: '100%', borderBottom: '1px grey' }}>
@@ -128,7 +138,12 @@ export function OptionBoard(props: PropType) {
           <JisuText>신경치료</JisuText>
           <ShortModal
             element={<SingyeongText />}
-            icon={<HelpOutlineIcon sx={{ cursor: 'pointer' }} />}
+            icon={
+              <HelpOutlineIcon
+                fontSize="small"
+                sx={{ cursor: 'pointer', marginTop: '5px' }}
+              />
+            }
           />
         </DT>
         <table style={{ width: '100%', borderBottom: '1px grey' }}>
@@ -144,7 +159,12 @@ export function OptionBoard(props: PropType) {
           <JisuText>기타</JisuText>
           <LongModal
             element={<ETC />}
-            icon={<HelpOutlineIcon sx={{ cursor: 'pointer' }} />}
+            icon={
+              <HelpOutlineIcon
+                fontSize="small"
+                sx={{ cursor: 'pointer', marginTop: '5px' }}
+              />
+            }
           />
         </DT>
 

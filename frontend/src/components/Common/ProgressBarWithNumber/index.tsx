@@ -44,7 +44,11 @@ function ProgressBarWithNumber(props: ProgressBarWithNumberType) {
         <Typography
           variant="caption"
           color="#1a90ff"
-          sx={{ fontFamily: 'NotoSansKRLight', fontSize: '14px' }}
+          sx={{
+            fontFamily: 'NotoSansKRLight',
+            fontSize: '14px',
+            marginLeft: '11vw',
+          }}
         >
           평균 {props.plan_average}
         </Typography>
@@ -61,7 +65,7 @@ function ProgressBarWithNumber(props: ProgressBarWithNumberType) {
 }
 
 ProgressBarWithNumber.defaultProps = {
-  plan_average: 50,
+  plan_average: 69.24,
 };
 
 export default ProgressBarWithNumber;

@@ -39,46 +39,89 @@ function PlanCard({ content }: { content: ProductType }) {
           }}
           style={{ textDecoration: 'none' }}
         >
-          <CardHeader
-            sx={{ color: 'black' }}
-            avatar={
-              // <Avatar
-              //   src={content.product_name}
-              //   alt={content.company_name}
-              //   variant="rounded"
-              // />
-              <Avatar
-                src={`/images/CompanyLogo/${content.company_name}.png`}
-                alt={content.company_name}
-                variant="rounded"
-                sx={{ width: 56, height: 56 }}
-              />
-            }
-            title={
-              <Typography
-                sx={{
-                  fontFamily: 'NotoSansKRMedium',
-                  fontSize: '16px',
-                  color: 'black',
-                }}
-              >
-                {content.company_name}
-              </Typography>
-            }
-            // subheader={content.product_name}
-            subheader={
-              <Typography
-                sx={{
-                  fontFamily: 'NotoSansKRLight',
-                  fontSize: '15px',
-                  color: 'black',
-                }}
-              >
-                {content.product_name}
-              </Typography>
-            }
-            action={<CheckBoxLinked prop={planInfo} />}
-          />
+          {window.location.pathname === '/search/result' ? (
+            <CardHeader
+              sx={{ color: 'black' }}
+              avatar={
+                // <Avatar
+                //   src={content.product_name}
+                //   alt={content.company_name}
+                //   variant="rounded"
+                // />
+                <Avatar
+                  src={`/images/CompanyLogo/${content.company_name}.png`}
+                  alt={content.company_name}
+                  variant="rounded"
+                  sx={{ width: 56, height: 56 }}
+                />
+              }
+              title={
+                <Typography
+                  sx={{
+                    fontFamily: 'NotoSansKRMedium',
+                    fontSize: '16px',
+                    color: 'black',
+                  }}
+                >
+                  {content.company_name}
+                </Typography>
+              }
+              // subheader={content.product_name}
+              subheader={
+                <Typography
+                  sx={{
+                    fontFamily: 'NotoSansKRLight',
+                    fontSize: '15px',
+                    color: 'black',
+                  }}
+                >
+                  {content.product_name}
+                </Typography>
+              }
+              action={<CheckBoxLinked prop={planInfo} />}
+            />
+          ) : (
+            <CardHeader
+              sx={{ color: 'black' }}
+              avatar={
+                // <Avatar
+                //   src={content.product_name}
+                //   alt={content.company_name}
+                //   variant="rounded"
+                // />
+                <Avatar
+                  src={`/images/CompanyLogo/${content.company_name}.png`}
+                  alt={content.company_name}
+                  variant="rounded"
+                  sx={{ width: 56, height: 56 }}
+                />
+              }
+              title={
+                <Typography
+                  sx={{
+                    fontFamily: 'NotoSansKRMedium',
+                    fontSize: '16px',
+                    color: 'black',
+                  }}
+                >
+                  {content.company_name}
+                </Typography>
+              }
+              // subheader={content.product_name}
+              subheader={
+                <Typography
+                  sx={{
+                    fontFamily: 'NotoSansKRLight',
+                    fontSize: '15px',
+                    color: 'black',
+                  }}
+                >
+                  {content.product_name}
+                </Typography>
+              }
+            />
+          )}
+
           <CardContent>
             <PlanCardLabel>설계 유형</PlanCardLabel>
             <PlanCardBottomText>

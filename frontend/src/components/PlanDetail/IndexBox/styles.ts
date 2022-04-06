@@ -8,7 +8,7 @@ export const VerticalLine = styled('div')`
 export const Title = styled('span')`
   font-family: NotoSansKRBold;
   margin-left: 10px;
-  font-size: 18px;
+  font-size: 20px;
 `;
 export const NumberText = styled('h1')`
   font-family: NotoSansKRRegular;

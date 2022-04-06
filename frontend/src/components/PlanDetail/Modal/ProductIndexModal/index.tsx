@@ -11,7 +11,7 @@ export default function ProductIndexModal() {
     <>
       <ShortModal
         element={<ProductIndexText />}
-        icon={<HelpOutlineIcon sx={{ cursor: 'pointer' }} />}
+        icon={<HelpOutlineIcon fontSize="small" sx={{ cursor: 'pointer' }} />}
       ></ShortModal>
     </>
   );

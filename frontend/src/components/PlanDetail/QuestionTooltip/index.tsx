@@ -52,7 +52,11 @@ export default function QuestionTooltip() {
           </React.Fragment>
         }
       >
-        <HelpOutlineIcon color="primary" sx={{ cursor: 'pointer' }} />
+        <HelpOutlineIcon
+          fontSize="small"
+          color="primary"
+          sx={{ cursor: 'pointer', marginLeft: '2px', marginBottom: '8px' }}
+        />
       </HtmlTooltip>
     </>
   );

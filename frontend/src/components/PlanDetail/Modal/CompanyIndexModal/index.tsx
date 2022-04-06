@@ -8,7 +8,7 @@ export default function CompanyIndexModal() {
     <>
       <LongModal
         element={<CompanyIndexText />}
-        icon={<HelpOutlineIcon sx={{ cursor: 'pointer' }} />}
+        icon={<HelpOutlineIcon fontSize="small" sx={{ cursor: 'pointer' }} />}
       ></LongModal>
     </>
   );
