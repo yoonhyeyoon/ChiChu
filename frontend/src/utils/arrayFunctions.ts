@@ -5,5 +5,6 @@ export const isEmpty = <T>(arr: Array<T>) =>
 //   return Array.isArray(arr) && arr.length === 0;
 // }
 
+/** Python의 range처럼, 개수만큼의 배열을 반환 (끝자리 제외) */
 export const range = (length: number): number[] =>
   Array.from(Array(length).keys());
