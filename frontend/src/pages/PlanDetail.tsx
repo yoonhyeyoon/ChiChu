@@ -4,7 +4,7 @@ import Container from '@mui/material/Container';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { UserGender } from '../recoil/UserGender';
 import { UserAge } from '../recoil/UserAge';
-import { Box, Button } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import CompanyIndexModal from '../components/PlanDetail/Modal/CompanyIndexModal/index';
 import ProductIndexModal from '../components/PlanDetail/Modal/ProductIndexModal/index';
 import UserIndexModal from '../components/PlanDetail/Modal/UserIndexModal/index';
@@ -39,7 +39,7 @@ import {
   ModalTitleColor,
 } from '../components/SearchResult/SecondarySearchModal/styles';
 
-// const info = DetailSample;
+import CircularProgress from '@mui/material/CircularProgress';
 
 interface CustomState {
   [x: string]: any;
@@ -115,15 +115,22 @@ function PlanDetail() {
   //안들어왔을 때는 로딩 떠있도록.
   if (!info) {
     return (
-      <div>
-        <span>Loading...</span>
-      </div>
+      <>
+        <CircularProgress
+          disableShrink={true}
+          size={120}
+          thickness={2}
+          sx={{
+            marginTop: '40vh',
+            marginLeft: '50vw',
+          }}
+        />
+      </>
     );
   } else {
     return (
       <>
         <Header />
-
         <Board>
           <Container maxWidth="md">
             <Box

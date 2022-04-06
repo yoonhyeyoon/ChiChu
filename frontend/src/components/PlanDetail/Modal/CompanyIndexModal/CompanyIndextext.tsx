@@ -22,18 +22,32 @@ export default function CompanyIndexText() {
       <BasicTable />
       <br />
       <NormalRegularText style={{ fontSize: '18px', marginTop: '0px' }}>
-        {'보험 상품을 선택할 때'}
         <NormalBoldSpan style={{ color: '#1a90ff', fontSize: '18px' }}>
-          {' 어떤 보험사에서 제공하는 상품인지 '}
+          {
+            '실제로 보험금을 잘 지급해 주는지, 재정적으로 보험금 지급에 무리가 없는지'
+          }
         </NormalBoldSpan>
-        {'확인하는 것도 중요합니다.'}
+        {' 등도 보험을 선택할 때 눈여겨봐야 하는데요, '}
         <br />
         <NormalBoldSpan style={{ color: '#1a90ff', fontSize: '18px' }}>
-          {' 보험금의 지급이 잘 이루어 지는지, 회사의 부채는 어느 정도인지 '}
+          {'치츄에서는 '}
         </NormalBoldSpan>
-        {'등을 고려하여 보험사를 선택하는 것이 좋습니다.'}
+        {'위의 표에서처럼 '}
+        <NormalBoldSpan style={{ color: '#1a90ff', fontSize: '18px' }}>
+          {'8개의 통계적 요인 '}
+        </NormalBoldSpan>
+        {'에 따라 '}
+        <NormalBoldSpan style={{ color: '#1a90ff', fontSize: '18px' }}>
+          {'보험회사에 대한 신뢰도'}
+        </NormalBoldSpan>
+        {'를 지수로 산출했어요.'}
       </NormalRegularText>
       <br />
+      <NormalBoldText
+        style={{ fontSize: '14px', color: 'grey', marginBottom: '8px' }}
+      >
+        측정기준시기
+      </NormalBoldText>
       <NormalLightSpan style={{ fontSize: '14px', color: 'grey' }}>
         지급여력비율: 2020.12 (4분기) 기준 /{' '}
       </NormalLightSpan>
