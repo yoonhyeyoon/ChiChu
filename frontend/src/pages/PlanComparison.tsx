@@ -14,6 +14,7 @@ import { BozonText } from '../components/PlanDetail/Option/OptionBoard/OptionGui
 import { SingyeongText } from '../components/PlanDetail/Option/OptionBoard/OptionGuides/SingyeongText';
 import { ModalTitle } from '../components/SearchResult/SecondarySearchModal/styles';
 import TableHeader from '../components/PlanComparison/TableHeader';
+import TablePriceRow from '../components/PlanComparison/TablePriceRow';
 import TableRowBarPlot from '../components/PlanComparison/TableRowBarPlot';
 import TableRowGroup from '../components/PlanComparison/TableRowGroup';
 import { sortComparisonResult } from '../utils/sortComparisonResult';
@@ -65,6 +66,9 @@ function PlanComparison(input: inputType) {
               <TableHeader companies={sortedInfo.company} />
             </TableHead>
             <TableBody>
+              {/* 가격 */}
+              <TablePriceRow list={sortedInfo['가격']} />
+
               {/* 치츄 지수 그래프 */}
               <TableRowBarPlot list={sortedInfo['치츄지수']} />
 
