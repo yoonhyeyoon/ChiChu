@@ -17,6 +17,7 @@ export type ComparisonTableRowType = {
 
 export type ComparisonTableType = {
   company: PlanPickerType[];
+  가격: { product_code: string; rate: number }[];
   치츄지수: { product_code: string; total_index: number }[];
   치아보철치료: ComparisonTableRowType[];
   치아보존치료: ComparisonTableRowType[];
