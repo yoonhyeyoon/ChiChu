@@ -23,11 +23,19 @@ function PlanCard({ content }: { content: ProductType }) {
 
   return (
     <Card
-      sx={{ borderRadius: '10px', boxShadow: 'rgb(0 0 0 / 10%) 2px 2px 20px' }}
+      sx={{
+        borderRadius: '10px',
+        boxShadow: 'rgb(0 0 0 / 10%) 2px 2px 20px',
+        height: '22.1rem',
+      }}
     >
       <CardActionArea>
         <Link
-          to={`./${content.product_code}`}
+          to={
+            window.location.pathname === '/search/result'
+              ? `./${content.product_code}`
+              : `/search/result/${content.product_code}`
+          }
           state={{ product_code: content.product_code, py: content.py }}
           onClick={e => {
             if (content.moving) {
@@ -82,7 +90,7 @@ function PlanCard({ content }: { content: ProductType }) {
             />
           ) : (
             <CardHeader
-              sx={{ color: 'black' }}
+              sx={{ color: 'black', height: '4rem' }}
               avatar={
                 // <Avatar
                 //   src={content.product_name}
