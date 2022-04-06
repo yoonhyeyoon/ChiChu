@@ -31,7 +31,7 @@ export function BochulText() {
         <NormalBoldSpan style={{ color: '#3e5060', fontSize: '18px' }}>
           {'인공 치아를 심는 치료'}
         </NormalBoldSpan>
-        {' 예요.'}
+        {'예요.'}
         <br />
         <br />
         <NormalBoldSpan style={{ color: '#1a90ff', fontSize: '18px' }}>

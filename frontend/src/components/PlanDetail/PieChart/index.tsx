@@ -18,6 +18,12 @@ const options = {
   plugins: {
     legend: {
       display: true,
+      labels: {
+        font: {
+          size: 15,
+          family: 'NotoSansKRBold',
+        },
+      },
     },
     datalabels: {
       color: [

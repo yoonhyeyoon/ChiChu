@@ -150,27 +150,41 @@ function PlanDetail() {
             <br />
 
             <OptionBoard option={info['option']} />
-
-            <OptionBoxButton
-              onClick={() => setShowMore(cur => !cur)}
-              style={{
-                padding: '0',
-                marginLeft: '24vw',
-                textAlign: 'center',
-                color: '#1a90ff',
-              }}
-            >
-              {showMore ? (
-                <NormalBoldText style={{ fontSize: '16px' }}>
-                  {'접기'}
-                </NormalBoldText>
-              ) : (
-                <NormalBoldText style={{ fontSize: '16px' }}>
-                  {'보장 자세히 보기'}
-                </NormalBoldText>
-              )}
-              {showMore ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
-            </OptionBoxButton>
+            <Box sx={{ marginBottom: '10px' }}>
+              <OptionBoxButton
+                onClick={() => setShowMore(cur => !cur)}
+                style={{
+                  padding: '13px',
+                  marginLeft: '24vw',
+                  textAlign: 'center',
+                  color: '#1a90ff',
+                }}
+              >
+                {showMore ? (
+                  <NormalBoldText
+                    style={{
+                      fontSize: '16px',
+                      paddingLeft: '20px',
+                      alignItems: 'center',
+                      marginBottom: '0px',
+                    }}
+                  >
+                    {'접기'}
+                  </NormalBoldText>
+                ) : (
+                  <NormalBoldText
+                    style={{ fontSize: '16px', marginBottom: '0px' }}
+                  >
+                    {'보장 자세히 보기'}
+                  </NormalBoldText>
+                )}
+                {showMore ? (
+                  <ArrowDropUpIcon sx={{ marginTop: '0px' }} />
+                ) : (
+                  <ArrowDropDownIcon />
+                )}
+              </OptionBoxButton>
+            </Box>
 
             {showMore && (
               <OptionDetailBoard option_detail={info['option_detail']} />
