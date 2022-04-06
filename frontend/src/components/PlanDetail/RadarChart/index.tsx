@@ -29,6 +29,30 @@ type PropType = {
   }[];
 };
 
+const options = {
+  plugins: {
+    legend: {
+      labels: {
+        font: {
+          size: 15,
+          family: 'NotoSansKRRegular',
+        },
+      },
+    },
+  },
+  scales: {
+    r: {
+      pointLabels: {
+        color: '#1a90ff',
+        font: {
+          size: 15,
+          family: 'NotoSansKRBold',
+        },
+      },
+    },
+  },
+};
+
 export function RadarChart(props: PropType) {
   const values = Object.values(props);
   const label_arr = [];
@@ -79,7 +103,11 @@ export function RadarChart(props: PropType) {
         <NormalBoldSpan style={{ color: '#1a90ff' }}>{maxBohum}</NormalBoldSpan>
         에 주력하고 있어요!
       </NormalBoldText>
-      <Radar data={data} style={{ marginLeft: '85px', maxHeight: '550px' }} />
+      <Radar
+        data={data}
+        options={options}
+        style={{ marginLeft: '85px', maxHeight: '550px' }}
+      />
     </Container>
   );
 }

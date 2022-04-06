@@ -4,6 +4,7 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Pie } from 'react-chartjs-2';
 import { Container } from './styles';
 import { GreyRegularText, NormalBoldSpan, NormalBoldText } from '../styles';
+import { BorderColor } from '@mui/icons-material';
 
 type PropType = {
   age_rate: {
@@ -15,15 +16,25 @@ type PropType = {
 ChartJS.register(ArcElement, Tooltip);
 const options = {
   plugins: {
+    legend: {
+      display: true,
+    },
     datalabels: {
+      color: [
+        'rgba(255, 99, 132, 1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 206, 86, 1)',
+        'rgba(109, 244, 71, 1)',
+        'rgba(153, 102, 255, 1)',
+        'rgba(255, 159, 64, 1)',
+      ],
       display: true,
       formatter: (val: any, ctx: any) => {
         return ctx.chart.data.labels[ctx.dataIndex];
       },
       font: {
-        size: 17,
-        family: 'NotoSansKRRegular',
-        color: 'blue',
+        size: 20,
+        family: 'NotoSansKRBold',
       },
     },
   },
@@ -54,7 +65,7 @@ export function PieChart(props: PropType) {
           'rgba(255, 99, 132, 0.2)',
           'rgba(54, 162, 235, 0.2)',
           'rgba(255, 206, 86, 0.2)',
-          'rgba(75, 192, 192, 0.2)',
+          'rgba(154, 215, 137, 0.2)',
           'rgba(153, 102, 255, 0.2)',
           'rgba(255, 159, 64, 0.2)',
         ],
@@ -62,7 +73,7 @@ export function PieChart(props: PropType) {
           'rgba(255, 99, 132, 1)',
           'rgba(54, 162, 235, 1)',
           'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
+          'rgba(47,192, 5, 1)',
           'rgba(153, 102, 255, 1)',
           'rgba(255, 159, 64, 1)',
         ],
@@ -73,7 +84,7 @@ export function PieChart(props: PropType) {
 
   return (
     <>
-      <NormalBoldText style={{ marginBottom: '3px' }}>
+      <NormalBoldText style={{ marginBottom: '5px' }}>
         이 보험은&nbsp;
         <NormalBoldSpan style={{ color: '#1a90ff' }}>{maxAge}</NormalBoldSpan>가
         <br />
