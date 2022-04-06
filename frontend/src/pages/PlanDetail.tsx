@@ -150,21 +150,18 @@ function PlanDetail() {
             <br />
 
             <OptionBoard option={info['option']} />
-            <Box sx={{ marginBottom: '10px' }}>
-              <OptionBoxButton
+            <Box sx={{ marginBottom: '10px', textAlign: 'center' }}>
+              <Button
                 onClick={() => setShowMore(cur => !cur)}
                 style={{
-                  padding: '13px',
-                  marginLeft: '24vw',
-                  textAlign: 'center',
-                  color: '#1a90ff',
+                  padding: '10px',
                 }}
               >
                 {showMore ? (
                   <NormalBoldText
                     style={{
                       fontSize: '16px',
-                      paddingLeft: '20px',
+                      // paddingLeft: '40px',
                       alignItems: 'center',
                       marginBottom: '0px',
                     }}
@@ -179,11 +176,16 @@ function PlanDetail() {
                   </NormalBoldText>
                 )}
                 {showMore ? (
-                  <ArrowDropUpIcon sx={{ marginTop: '0px' }} />
+                  <ArrowDropUpIcon
+                    sx={{
+                      marginTop: '0px',
+                      // paddingRight: '30px'
+                    }}
+                  />
                 ) : (
                   <ArrowDropDownIcon />
                 )}
-              </OptionBoxButton>
+              </Button>
             </Box>
 
             {showMore && (

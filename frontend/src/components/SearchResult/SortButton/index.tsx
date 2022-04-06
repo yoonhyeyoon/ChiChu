@@ -3,6 +3,7 @@ import { useRecoilState } from 'recoil';
 import { ToggleButton, ToggleButtonGroup } from '@mui/material';
 
 import { sortByState } from '../../../recoil/searchResultState';
+import { NormalRegularText } from '../../PlanDetail/styles';
 
 function SortButton() {
   const [sortBy, setSortBy] = useRecoilState(sortByState);
@@ -23,9 +24,21 @@ function SortButton() {
       exclusive
       onChange={handleChange}
     >
-      <ToggleButton value="chichu">치츄지수순</ToggleButton>
-      <ToggleButton value="cheap">보험료 낮은순</ToggleButton>
-      <ToggleButton value="coverage">보장 많은순</ToggleButton>
+      <ToggleButton value="chichu">
+        <NormalRegularText style={{ margin: '0px' }}>
+          치츄지수순
+        </NormalRegularText>
+      </ToggleButton>
+      <ToggleButton value="cheap">
+        <NormalRegularText style={{ margin: '0px' }}>
+          보험료 낮은순
+        </NormalRegularText>
+      </ToggleButton>
+      <ToggleButton value="coverage">
+        <NormalRegularText style={{ margin: '0px' }}>
+          보장 많은순
+        </NormalRegularText>{' '}
+      </ToggleButton>
     </ToggleButtonGroup>
   );
 }

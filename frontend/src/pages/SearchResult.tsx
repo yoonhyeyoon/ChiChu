@@ -15,7 +15,10 @@ import CHICHUModal from '../components/Common/CHICHUModal';
 import SecondarySearchModal from '../components/SearchResult/SecondarySearchModal';
 import SortButton from '../components/SearchResult/SortButton';
 import Transition from '../components/Common/Transition';
-
+import {
+  NormalRegularText,
+  NormalBoldText,
+} from '../components/PlanDetail/styles';
 import { PlanFilteredList } from '../recoil/PlanFilteredList';
 import { planListState } from '../recoil/searchResultState';
 import { UserPeriod } from '../recoil/UserPeriod';
@@ -28,14 +31,6 @@ import {
 } from '../components/SearchResult/SecondarySearchModal/styles';
 import { ProductType } from '../types/types';
 import { PlanNameLabel } from '../components/SearchResult/PlanCard/styles';
-
-// 명성 코드
-interface CustomState {
-  state?: {
-    optionName?: string | null | undefined;
-    Name_2?: string | null | undefined;
-  };
-}
 
 function SearchResult(): JSX.Element {
   const containerRef = useRef(null);
@@ -55,11 +50,6 @@ function SearchResult(): JSX.Element {
   const userPeriod = useRecoilValue(UserPeriod);
   console.log(userPeriod);
   const { isEmptyList } = useCheckBoxLinked();
-
-  // 명성 코드
-  const location = useLocation();
-  const optionState = location.state as CustomState;
-  console.log(optionState);
 
   return (
     <>
@@ -86,8 +76,6 @@ function SearchResult(): JSX.Element {
               {planFilteredList?.chichu.length}개의 상품을 찾았어요!
             </ModalTitle> */}
             <SecondarySearchModal />
-            {/* 명성 코드 */}
-            {/* <PlanTags optionState={optionState} /> */}
             <PlanTags />
 
             {/* <PlanRateRange /> */}
@@ -98,9 +86,24 @@ function SearchResult(): JSX.Element {
               <>
                 <PlanCardList list={planList.slice(0, 3)} />
 
-                <Box textAlign="center">
+                <Box textAlign="center" sx={{ margin: '20px' }}>
                   <Button onClick={() => setShowMore(cur => !cur)}>
-                    {showMore ? '접기' : '결과 더보기'}
+                    {showMore ? (
+                      <NormalBoldText
+                        style={{
+                          fontSize: '17px',
+                          marginBottom: '0px',
+                        }}
+                      >
+                        {'접기'}
+                      </NormalBoldText>
+                    ) : (
+                      <NormalBoldText
+                        style={{ fontSize: '17px', marginBottom: '0px' }}
+                      >
+                        {'결과 더보기'}
+                      </NormalBoldText>
+                    )}
                   </Button>
                 </Box>
                 <Box display={showMore ? 'run-in' : 'none'}>

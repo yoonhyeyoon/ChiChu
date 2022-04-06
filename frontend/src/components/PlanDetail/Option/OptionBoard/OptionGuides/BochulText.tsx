@@ -70,10 +70,7 @@ export function BochulText() {
           color: '#3e5060',
         }}
       >
-        <NormalBoldSpan style={{ color: '#3e5060', fontSize: '18px' }}>
-          {'임플란트'}
-        </NormalBoldSpan>
-        {'는 없어진 치아를 대신할 수 있도록'}
+        {'없어진 치아를 대신할 수 있도록'}
         <NormalBoldSpan style={{ color: '#3e5060', fontSize: '18px' }}>
           {' 철심을 박아 의치를 붙여 '}
         </NormalBoldSpan>
