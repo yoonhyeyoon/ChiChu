@@ -6,6 +6,7 @@ import {
   DialogContent,
   DialogProps,
   useMediaQuery,
+  DialogTitle,
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
@@ -47,7 +48,7 @@ function useScrollDialog() {
           {...props}
           open={open}
           onClose={handleClose}
-          maxWidth="md"
+          maxWidth="lg"
           fullScreen={fullScreen}
           aria-labelledby="scroll-dialog-title"
           aria-describedby="scroll-dialog-description"

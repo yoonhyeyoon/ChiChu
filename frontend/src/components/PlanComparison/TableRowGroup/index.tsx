@@ -18,11 +18,15 @@ function TableRowGroup(props: TableRowGroupType) {
       {/* 그룹 담보명 */}
       <TableRow>
         <TableCell>
-          <Typography noWrap fontSize="1.25rem" fontFamily="NotoSansKRBold">
+          <Typography noWrap fontSize="1.15rem" fontFamily="NotoSansKRBold">
             {props.optionGroupName}
             <LongModal
               element={props.helpContent}
-              icon={<HelpOutlineIcon sx={{ cursor: 'pointer' }} />}
+              icon={
+                <HelpOutlineIcon
+                  sx={{ cursor: 'pointer', paddingTop: '4px' }}
+                />
+              }
             />
           </Typography>
         </TableCell>
@@ -34,14 +38,22 @@ function TableRowGroup(props: TableRowGroupType) {
         <TableRow key={option.option_name}>
           {/* 해당 담보명 */}
           <TableCell
-            sx={{ backgroundColor: `${grey[100]}`, paddingLeft: '30px' }}
+            sx={{
+              backgroundColor: '#daecff',
+              paddingLeft: '30px',
+              fontFamily: 'NotoSansKRLight',
+            }}
           >
             {option.option_name}
           </TableCell>
           {/* 해당 담보에 대한 각 보험 상품들 보장 목록 */}
           {option.coverage.map((value, col) => (
-            <TableCell align="center" key={col}>
-              {value} 만원
+            <TableCell
+              align="center"
+              key={col}
+              sx={{ fontSize: '1rem', fontFamily: 'NotoSansKRMedium' }}
+            >
+              {value}만원
             </TableCell>
           ))}
         </TableRow>
