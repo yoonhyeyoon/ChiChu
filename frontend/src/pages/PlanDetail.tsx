@@ -241,9 +241,9 @@ function PlanDetail() {
         >
           <Container>
             <Box sx={{ paddingTop: '5%', paddingBottom: '2%' }}>
-              <Box sx={{ paddingBottom: '1%', fontFamily: 'NotoSansKRBold' }}>
+              {/* <Box sx={{ paddingBottom: '1%', fontFamily: 'NotoSansKRBold' }}>
                 <ModalTitle>이런 보험은 어때요?</ModalTitle>
-              </Box>
+              </Box> */}
               <br />
               <ModalTitle>
                 <ModalTitleColor>

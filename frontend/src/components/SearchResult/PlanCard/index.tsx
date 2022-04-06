@@ -7,6 +7,7 @@ import {
   CardHeader,
   Typography,
 } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 // import ProgressBarWithNumber from '../../Common/ProgressBarWithNumber';
 import useCheckBoxLinked from '../../../hooks/useCheckList';
@@ -20,14 +21,40 @@ function PlanCard({ content }: { content: ProductType }) {
   // console.log(content);
   const { CheckBoxLinked, updateCheckedPlanList, isEmptyList } =
     useCheckBoxLinked();
+  const navigate = useNavigate();
 
   return (
     <Card
-      sx={{ borderRadius: '10px', boxShadow: 'rgb(0 0 0 / 10%) 2px 2px 20px' }}
+      sx={{
+        borderRadius: '10px',
+        boxShadow: 'rgb(0 0 0 / 10%) 2px 2px 20px',
+      }}
+      // onClick={e => {
+      //   if (content.moving) {
+      //     e.preventDefault();
+      //   }
+      //   if (!isEmptyList()) {
+      //     updateCheckedPlanList(e, planInfo);
+      //   }
+      //   if (window.location.pathname === '/search/result') {
+      //     navigate(`./${content.product_code}`, {
+      //       state: { product_code: content.product_code, py: content.py },
+      //     });
+      //   } else {
+      //     navigate(`/search/result/${content.product_code}`, {
+      //       state: { product_code: content.product_code, py: content.py },
+      //     });
+      //     location.reload();
+      //   }
+      // }}
     >
-      <CardActionArea>
-        <Link
-          to={`./${content.product_code}`}
+      <CardActionArea sx={{ height: '22.2rem' }}>
+        {/* <Link
+          to={
+            window.location.pathname === '/search/result'
+              ? `./${content.product_code}`
+              : `/search/result/${content.product_code}`
+          }
           state={{ product_code: content.product_code, py: content.py }}
           onClick={e => {
             if (content.moving) {
@@ -38,6 +65,27 @@ function PlanCard({ content }: { content: ProductType }) {
             }
           }}
           style={{ textDecoration: 'none' }}
+        > */}
+        <div
+          onClick={e => {
+            if (content.moving) {
+              e.preventDefault();
+            }
+            // 하나라도 추가되어있으면 비교
+            if (!isEmptyList()) {
+              updateCheckedPlanList(e, planInfo);
+            }
+            if (window.location.pathname === '/search/result') {
+              navigate(`./${content.product_code}`, {
+                state: { product_code: content.product_code, py: content.py },
+              });
+            } else {
+              navigate(`/search/result/${content.product_code}`, {
+                state: { product_code: content.product_code, py: content.py },
+              });
+              location.reload();
+            }
+          }}
         >
           {window.location.pathname === '/search/result' ? (
             <CardHeader
@@ -82,7 +130,7 @@ function PlanCard({ content }: { content: ProductType }) {
             />
           ) : (
             <CardHeader
-              sx={{ color: 'black' }}
+              sx={{ color: 'black', height: '4rem' }}
               avatar={
                 // <Avatar
                 //   src={content.product_name}
@@ -137,7 +185,8 @@ function PlanCard({ content }: { content: ProductType }) {
             </PlanCardBottomText>
             <ProgressBarWithNumber plan_score={content.total_index} />
           </CardContent>
-        </Link>
+          {/* </Link> */}
+        </div>
       </CardActionArea>
     </Card>
   );

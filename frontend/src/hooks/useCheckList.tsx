@@ -48,7 +48,10 @@ function useCheckBoxLinked() {
   /** 현재 체크한 상품들의 목록을 업데이트하는 함수 */
   const updateCheckedPlanList = useCallback(
     (
-      e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement, MouseEvent>,
+      e: React.MouseEvent<
+        HTMLAnchorElement | HTMLButtonElement | HTMLDivElement,
+        MouseEvent
+      >,
       planInfo: PlanPickerType,
     ) => {
       e.preventDefault();
