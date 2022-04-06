@@ -123,9 +123,9 @@ function SearchResult(): JSX.Element {
           <Container>
             <Box sx={{ paddingTop: '5%', paddingBottom: '2%' }}>
               {/* <ModalTitle>아직 잘 모르시겠다면</ModalTitle> */}
-              <Box sx={{ paddingBottom: '1%' }}>
+              {/* <Box sx={{ paddingBottom: '1%' }}>
                 <ModalTitle>이런 보험은 어때요?</ModalTitle>
-              </Box>
+              </Box> */}
               <ModalTitle>
                 <ModalTitleColor>
                   {age}세 {gender == 1 ? '남성' : '여성'}
