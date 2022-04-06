@@ -30,11 +30,11 @@ export default function CompanyIndexText() {
         {' 등도 보험을 선택할 때 눈여겨봐야 하는데요, '}
         <br />
         <NormalBoldSpan style={{ color: '#1a90ff', fontSize: '18px' }}>
-          {'치츄에서는 '}
+          {'치츄'}
         </NormalBoldSpan>
-        {'위의 표에서처럼 '}
+        {'에서는 위의 표에서처럼 '}
         <NormalBoldSpan style={{ color: '#1a90ff', fontSize: '18px' }}>
-          {'8개의 통계적 요인 '}
+          {'8개의 통계적 요인'}
         </NormalBoldSpan>
         {'에 따라 '}
         <NormalBoldSpan style={{ color: '#1a90ff', fontSize: '18px' }}>
