@@ -81,6 +81,8 @@ function PlanDetail() {
 
   const location = useLocation();
   const state = location.state as CustomState;
+  // console.log(state);
+  // console.log(document.referrer, window.location.href);
   const userAge = useRecoilValue(UserAge);
   const userGender = useRecoilValue(UserGender);
 
@@ -111,6 +113,14 @@ function PlanDetail() {
     console.log(userAge, userGender, state.py, state.product_code);
     getProductInfo();
   }, []);
+
+  useEffect(() => {
+    // console.log(document.referrer, window.location.href);
+    if (document.referrer != window.location.href) {
+      window.location.reload();
+      // console.log(state.product_code, 'reload');
+    }
+  }, [state]);
 
   //안들어왔을 때는 로딩 떠있도록.
   if (!info) {

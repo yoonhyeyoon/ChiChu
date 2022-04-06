@@ -49,7 +49,7 @@ function PlanCard({ content }: { content: ProductType }) {
       // }}
     >
       <CardActionArea sx={{ height: '22.2rem' }}>
-        {/* <Link
+        <Link
           to={
             window.location.pathname === '/search/result'
               ? `./${content.product_code}`
@@ -65,8 +65,8 @@ function PlanCard({ content }: { content: ProductType }) {
             }
           }}
           style={{ textDecoration: 'none' }}
-        > */}
-        <div
+        >
+          {/* <div
           onClick={e => {
             if (content.moving) {
               e.preventDefault();
@@ -74,19 +74,20 @@ function PlanCard({ content }: { content: ProductType }) {
             // 하나라도 추가되어있으면 비교
             if (!isEmptyList()) {
               updateCheckedPlanList(e, planInfo);
-            }
-            if (window.location.pathname === '/search/result') {
-              navigate(`./${content.product_code}`, {
-                state: { product_code: content.product_code, py: content.py },
-              });
             } else {
-              navigate(`/search/result/${content.product_code}`, {
-                state: { product_code: content.product_code, py: content.py },
-              });
-              location.reload();
+              if (window.location.pathname === '/search/result') {
+                navigate(`./${content.product_code}`, {
+                  state: { product_code: content.product_code, py: content.py },
+                });
+              } else {
+                navigate(`/search/result/${content.product_code}`, {
+                  state: { product_code: content.product_code, py: content.py },
+                });
+                location.reload();
+              }
             }
           }}
-        >
+        > */}
           {window.location.pathname === '/search/result' ? (
             <CardHeader
               sx={{ color: 'black' }}
@@ -185,8 +186,8 @@ function PlanCard({ content }: { content: ProductType }) {
             </PlanCardBottomText>
             <ProgressBarWithNumber plan_score={content.total_index} />
           </CardContent>
-          {/* </Link> */}
-        </div>
+        </Link>
+        {/* </div> */}
       </CardActionArea>
     </Card>
   );
