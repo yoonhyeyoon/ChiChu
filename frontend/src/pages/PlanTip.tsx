@@ -2,7 +2,10 @@ import PostCarousel from '../components/PlanTip/PostCarousel';
 import { Box, Container } from '@mui/material';
 import OptionCards from '../components/PlanTip/OptionCardSet';
 import Header from '../components/Common/Header';
-import { NormalBoldText } from '../components/PlanDetail/styles';
+import {
+  NormalBoldText,
+  NormalRegularText,
+} from '../components/PlanDetail/styles';
 
 const PlanTip = (): JSX.Element => {
   return (
@@ -47,8 +50,11 @@ const PlanTip = (): JSX.Element => {
               marginBottom: '10px',
             }}
           >
-            이럴 때는 이런 보장!
+            담보가이드
           </NormalBoldText>
+          <NormalRegularText>
+            카드를 뒤집어보세요! 다양한 상황에서 담보를 보장받을 수 있어요
+          </NormalRegularText>
         </Box>
         <OptionCards />
       </Container>

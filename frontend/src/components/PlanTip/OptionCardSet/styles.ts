@@ -14,7 +14,7 @@ export const Container = styled('div')`
 margin-top: 50px;
 display: grid;
 grid-template-columns: 250px 250px 250px;
-gap: 30px;
+gap: 60px;
 text-align:center;
 margin-bottom: 60px;
 }
