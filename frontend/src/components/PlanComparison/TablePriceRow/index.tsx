@@ -12,7 +12,7 @@ function TablePriceRow({ list }: { list: PriceListType[] }) {
     <>
       <TableRow>
         <TableCellNoUnderline>
-          <Typography noWrap fontSize="1.25rem" fontFamily="NotoSansKRBold">
+          <Typography noWrap fontSize="1.15rem" fontFamily="NotoSansKRBold">
             보험료
             <span> </span>
           </Typography>

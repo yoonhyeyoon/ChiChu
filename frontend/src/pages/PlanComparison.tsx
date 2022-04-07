@@ -12,11 +12,13 @@ import {
 import { BochulText } from '../components/PlanDetail/Option/OptionBoard/OptionGuides/BochulText';
 import { BozonText } from '../components/PlanDetail/Option/OptionBoard/OptionGuides/BozonText';
 import { SingyeongText } from '../components/PlanDetail/Option/OptionBoard/OptionGuides/SingyeongText';
+import { ModalTitle } from '../components/SearchResult/SecondarySearchModal/styles';
 import TableHeader from '../components/PlanComparison/TableHeader';
+import TablePriceRow from '../components/PlanComparison/TablePriceRow';
 import TableRowBarPlot from '../components/PlanComparison/TableRowBarPlot';
 import TableRowGroup from '../components/PlanComparison/TableRowGroup';
+import { sortComparisonResult } from '../utils/sortComparisonResult';
 import { planComparisonInfoState } from '../recoil/planComparisonState';
-import { ModalTitle } from '../components/SearchResult/SecondarySearchModal/styles';
 import { NormalBoldText } from '../components/PlanDetail/styles';
 
 type inputType = {
@@ -44,7 +46,8 @@ function PlanComparison(input: inputType) {
   // const location = useLocation();
   // const input = location.state as inputType;
   const info = useRecoilValue(planComparisonInfoState({ ...input }));
-  console.log(info);
+  // console.log(info);
+  const sortedInfo = sortComparisonResult(input.codes, info);
 
   return (
     <>
@@ -61,17 +64,20 @@ function PlanComparison(input: inputType) {
           <Table stickyHeader sx={{ minWidth: 650 }} aria-label="simple table">
             {/* 회사 & 상품 프로필 */}
             <TableHead>
-              <TableHeader companies={info.company} />
+              <TableHeader companies={sortedInfo.company} />
             </TableHead>
             <TableBody>
+              {/* 가격 */}
+              <TablePriceRow list={sortedInfo['가격']} />
+
               {/* 치츄 지수 그래프 */}
-              <TableRowBarPlot list={info['치츄지수']} />
+              <TableRowBarPlot list={sortedInfo['치츄지수']} />
 
               {/* 각 담보 그룹들을 출력 */}
               {optionGroups.map(optionGroup => (
                 <TableRowGroup
                   optionGroupName={optionGroup.name}
-                  options={info[optionGroup.name]}
+                  options={sortedInfo[optionGroup.name]}
                   helpContent={optionGroup.helpContent}
                   key={optionGroup.name}
                 />
