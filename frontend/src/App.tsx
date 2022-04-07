@@ -9,6 +9,7 @@ import SearchResult from './pages/SearchResult';
 import PlanDetail from './pages/PlanDetail';
 import PlanTip from './pages/PlanTip';
 import PlanTipPost from './pages/PlanTipPost';
+import AboutUs from './pages/AboutUs';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
             <Route path="/search/result/:id" element={<PlanDetail />} />
             <Route path="/tip" element={<PlanTip />} />
             <Route path="/tip/:id" element={<PlanTipPost />} />
+            <Route path="/about" element={<AboutUs />} />
           </Routes>
         </BrowserRouter>
       </RecoilRoot>

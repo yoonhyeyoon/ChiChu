@@ -37,7 +37,7 @@ const Header = ({
           <Nav>
             <NavWrapper to="/search">보험검색</NavWrapper>
             <NavWrapper to="/tip">보험TIP</NavWrapper>
-            <NavWrapper to="/">AboutUS</NavWrapper>
+            <NavWrapper to="/about">AboutUS</NavWrapper>
           </Nav>
         </HeaderRight>
       </HeaderContainer>

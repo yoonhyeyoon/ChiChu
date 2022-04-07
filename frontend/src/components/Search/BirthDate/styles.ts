@@ -12,7 +12,7 @@ export const StyledInput = styled('input')(
   background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
   border: 1px solid ${theme.palette.mode === 'dark' ? grey[800] : grey[300]};
   border-radius: 0.75em;
-  margin: 0.5em;
+  margin: 0.25em;
   padding: 10px;
   text-align: left;
   line-height: 1.5;
