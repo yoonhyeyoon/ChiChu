@@ -44,6 +44,7 @@ function PlanComparison(input: inputType) {
   // const location = useLocation();
   // const input = location.state as inputType;
   const info = useRecoilValue(planComparisonInfoState({ ...input }));
+  console.log(info);
 
   return (
     <>
