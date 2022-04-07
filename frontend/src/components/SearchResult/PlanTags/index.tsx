@@ -12,11 +12,12 @@ import {
 import Stack from '@mui/material/Stack';
 import { useRecoilState } from 'recoil';
 import { PlanListSelector } from '../../../recoil/PlanListSelector';
-
+import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import { PlanRateRangeSlider } from '../PlanRateRange/styles';
-import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
+import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import IconButton from '@mui/material/IconButton';
 import { Link } from 'react-router-dom';
@@ -35,6 +36,21 @@ type PlanTagButtonType = {
   setToggleList: React.Dispatch<React.SetStateAction<toggleList>>;
   planRate: number[];
 };
+
+const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: 'rgba(51, 153, 255, 1)',
+    color: 'white',
+    maxWidth: 100,
+    fontSize: theme.typography.pxToRem(13),
+    fontFamily: 'NotoSansKRRegular',
+    border: '1px solid #dadde9',
+    borderRadius: '10px',
+    // padding: '1rem',
+  },
+}));
 
 const Button = ({
   plan_tag,
@@ -191,15 +207,22 @@ function PlanTags() {
           보장받고 싶은 <BoldLabel>담보</BoldLabel>를 선택해보세요
           <IconButton>
             <Link to="/tip">
-              <HelpOutlineIcon
-                color="disabled"
-                sx={{
-                  fontSize: 20,
-                  cursor: 'pointer',
-                  marginBottom: '2px',
-                  color: 'grey',
-                }}
-              />
+              <HtmlTooltip
+                placement="right"
+                title={
+                  <React.Fragment>{<span>담보가이드</span>}</React.Fragment>
+                }
+              >
+                <HelpOutlineIcon
+                  color="disabled"
+                  sx={{
+                    fontSize: 20,
+                    cursor: 'pointer',
+                    marginBottom: '2px',
+                    color: 'grey',
+                  }}
+                />
+              </HtmlTooltip>
             </Link>
           </IconButton>
         </TagLabel>

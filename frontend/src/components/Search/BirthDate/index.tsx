@@ -17,13 +17,14 @@ const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
   <Tooltip {...props} classes={{ popper: className }} />
 ))(({ theme }) => ({
   [`& .${tooltipClasses.tooltip}`]: {
-    backgroundColor: '#DAECFF',
-    color: 'rgba(0, 0, 0, 0.87)',
+    backgroundColor: 'rgba(51, 153, 255, 1)',
+    color: 'white',
     maxWidth: 300,
+    fontSize: theme.typography.pxToRem(16),
     fontFamily: 'NotoSansKRRegular',
-    fontSize: theme.typography.pxToRem(15),
     border: '1px solid #dadde9',
     borderRadius: '10px',
+    padding: '1rem',
   },
 }));
 
@@ -77,17 +78,19 @@ function BirthDate() {
           placement="right"
           title={
             <React.Fragment>
-              <Typography color="inherit">
+              <Typography color="inherit" fontSize={16}>
                 <b>보험나이란?</b>
               </Typography>
-              {'걱정마세요, 치츄가 계산해줄게요! '}
-              <b>{'주민등록상 생일'}</b>
-              {'을 기준으로 '}
-              <b>{'6개월'}</b>
-              {' 되는 날 부터 한 살 더 올라가요. '}
-              {'보험나이에 따라 사망, 사고등의 위험률이 변경되어 '}
-              <b>{'보험료도 변경'}</b>
-              {'될 수 있어요.'}
+              {
+                <span
+                  style={{ fontFamily: 'NotoSansKRRegular', fontSize: '14px' }}
+                >
+                  걱정마세요, 치츄가 계산해줄게요! <br />
+                  <b>주민등록상 생일</b>을 기준으로 <b>6개월</b>되는 날 부터 한
+                  살 더 올라가요. 보험나이에 따라 사망, 사고등의 위험률이
+                  변경되어 <b>보험료도 변경</b>될 수 있어요!
+                </span>
+              }
             </React.Fragment>
           }
         >
