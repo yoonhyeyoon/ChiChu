@@ -8,7 +8,7 @@ function AboutUs() {
     <>
       <Header />
       <Container>
-        <Box sx={{ paddingTop: '10%' }}>
+        <Box sx={{ paddingTop: '10%', height: '100vh', paddingBottom: '10%' }}>
           <UCC />
         </Box>
       </Container>
