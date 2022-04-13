@@ -2,26 +2,26 @@ import { Suspense, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { Box, Button, Container } from '@mui/material';
 
-import { useLocation } from 'react-router-dom';
+// import { useLocation } from 'react-router-dom';
 
 import Header from '../components/Common/Header';
 import PlanBarList from '../components/SearchResult/PlanBarList/index';
 import PlanCardList from '../components/SearchResult/PlanCardList/index';
 import PlanPicker from '../components/PlanComparison/PlanPicker';
-import PlanRateRange from '../components/SearchResult/PlanRateRange';
+// import PlanRateRange from '../components/SearchResult/PlanRateRange';
 import PlanTags from '../components/SearchResult/PlanTags';
 import RelatedPlanList from '../components/SearchResult/RelatedPlanList';
-import CHICHUModal from '../components/Common/CHICHUModal';
+// import CHICHUModal from '../components/Common/CHICHUModal';
 import SecondarySearchModal from '../components/SearchResult/SecondarySearchModal';
 import SortButton from '../components/SearchResult/SortButton';
 import Transition from '../components/Common/Transition';
 import {
-  NormalRegularText,
+  // NormalRegularText,
   NormalBoldText,
 } from '../components/PlanDetail/styles';
 import { PlanFilteredList } from '../recoil/PlanFilteredList';
 import { planListState } from '../recoil/searchResultState';
-import { UserPeriod } from '../recoil/UserPeriod';
+// import { UserPeriod } from '../recoil/UserPeriod';
 import { UserGender } from '../recoil/UserGender';
 import { UserAge } from '../recoil/UserAge';
 import useCheckBoxLinked from '../hooks/useCheckList';
@@ -30,7 +30,7 @@ import {
   ModalTitleColor,
 } from '../components/SearchResult/SecondarySearchModal/styles';
 import { ProductType } from '../types/types';
-import { PlanNameLabel } from '../components/SearchResult/PlanCard/styles';
+// import { PlanNameLabel } from '../components/SearchResult/PlanCard/styles';
 import Loading from '../components/Common/Loading';
 
 function SearchResult(): JSX.Element {
@@ -38,7 +38,7 @@ function SearchResult(): JSX.Element {
 
   const gender = useRecoilValue(UserGender);
   const age = useRecoilValue(UserAge);
-  const planFilteredList = useRecoilValue(PlanFilteredList);
+  // const planFilteredList = useRecoilValue(PlanFilteredList);
 
   // as 를 쓰면 타입을 강제로 선언할 수 있음.
   const planList = useRecoilValue(planListState);
@@ -48,12 +48,12 @@ function SearchResult(): JSX.Element {
     ?.reasonable as ProductType[];
 
   const [showMore, setShowMore] = useState(false);
-  const userPeriod = useRecoilValue(UserPeriod);
+  // const userPeriod = useRecoilValue(UserPeriod);
   // console.log(userPeriod);
   const { isEmptyList } = useCheckBoxLinked();
 
   return (
-    <>
+    <Box sx={{ marginBottom: isEmptyList() ? 0 : 30 }}>
       {/* Suspense는 같은 컴포넌트에서 써도 효과 있음 */}
       <Header />
       <Suspense fallback={<Loading />}>
@@ -153,7 +153,7 @@ function SearchResult(): JSX.Element {
           containerRef={containerRef}
         />
       </Suspense>
-    </>
+    </Box>
   );
 }
 
