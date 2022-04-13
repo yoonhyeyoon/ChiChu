@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
@@ -33,6 +33,7 @@ function SecondarySearchModal() {
   const handleClose = () => setOpen(false);
   console.log(gender, age);
   // console.log(planList?.chichu.length);
+
   return (
     <div>
       <ModalTitle>
