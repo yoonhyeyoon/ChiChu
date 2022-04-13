@@ -10,25 +10,22 @@ import PlanDetail from './pages/PlanDetail';
 import PlanTip from './pages/PlanTip';
 import PlanTipPost from './pages/PlanTipPost';
 import AboutUs from './pages/AboutUs';
-import Loading from './components/Common/Loading';
 
 function App() {
   return (
-    <React.Suspense fallback={<Loading />}>
-      <RecoilRoot>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Landing />} />
-            <Route path="/search" element={<Search />} />
-            <Route path="/search/result" element={<SearchResult />} />
-            <Route path="/search/result/:id" element={<PlanDetail />} />
-            <Route path="/tip" element={<PlanTip />} />
-            <Route path="/tip/:id" element={<PlanTipPost />} />
-            <Route path="/about" element={<AboutUs />} />
-          </Routes>
-        </BrowserRouter>
-      </RecoilRoot>
-    </React.Suspense>
+    <RecoilRoot>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/search" element={<Search />} />
+          <Route path="/search/result" element={<SearchResult />} />
+          <Route path="/search/result/:id" element={<PlanDetail />} />
+          <Route path="/tip" element={<PlanTip />} />
+          <Route path="/tip/:id" element={<PlanTipPost />} />
+          <Route path="/about" element={<AboutUs />} />
+        </Routes>
+      </BrowserRouter>
+    </RecoilRoot>
   );
 }
 
