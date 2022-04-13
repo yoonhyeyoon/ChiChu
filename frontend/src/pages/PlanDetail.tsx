@@ -103,15 +103,15 @@ function PlanDetail() {
       )
       .then(res => {
         setInfo(res.data);
-        console.log(res.data);
+        // console.log(res.data);
       })
       .catch(err => {
-        console.log(err);
+        // console.log(err);
       });
   };
 
   useEffect(() => {
-    console.log(userAge, userGender, state.py, state.product_code);
+    // console.log(userAge, userGender, state.py, state.product_code);
     getProductInfo();
   }, []);
 
