@@ -23,6 +23,8 @@ def change_age(age):
         return 40
     elif 40 < age <= 45:
         return 45
+    elif 45 < age <= 50:
+        return 50
     elif 50 < age <= 55:
         return 55
     elif 55 < age <= 60:
