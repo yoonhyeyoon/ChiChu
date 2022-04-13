@@ -40,6 +40,7 @@ import {
 } from '../components/SearchResult/SecondarySearchModal/styles';
 
 import CircularProgress from '@mui/material/CircularProgress';
+import Loading from '../components/Common/Loading';
 
 interface CustomState {
   [x: string]: any;
@@ -125,17 +126,18 @@ function PlanDetail() {
   //안들어왔을 때는 로딩 떠있도록.
   if (!info) {
     return (
-      <>
-        <CircularProgress
-          disableShrink={true}
-          size={120}
-          thickness={2}
-          sx={{
-            marginTop: '40vh',
-            marginLeft: '50vw',
-          }}
-        />
-      </>
+      // <>
+      //   <CircularProgress
+      //     disableShrink={true}
+      //     size={120}
+      //     thickness={2}
+      //     sx={{
+      //       marginTop: '40vh',
+      //       marginLeft: '50vw',
+      //     }}
+      //   />
+      // </>
+      <Loading />
     );
   } else {
     return (

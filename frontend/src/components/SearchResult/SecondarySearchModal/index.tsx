@@ -14,7 +14,7 @@ import Container from '@mui/material/Container';
 import Gender from '../../Search/Gender/Index';
 import BirthDate from '../../Search/BirthDate';
 import Period from '../../Search/Period';
-import { useRecoilValue } from 'recoil';
+import { RecoilLoadable, useRecoilValue } from 'recoil';
 import { UserGender } from '../../../recoil/UserGender';
 import { UserAge } from '../../../recoil/UserAge';
 import { PlanFilteredList } from '../../../recoil/PlanFilteredList';
@@ -30,8 +30,11 @@ function SecondarySearchModal() {
   const planList = useRecoilValue(PlanFilteredList);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-  console.log(gender, age);
+  const handleClose = () => {
+    setOpen(false);
+    window.location.reload();
+  };
+  // console.log(gender, age);
   // console.log(planList?.chichu.length);
   return (
     <div>

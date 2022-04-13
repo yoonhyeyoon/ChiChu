@@ -5,14 +5,11 @@
  */
 
 import { Suspense } from 'react';
+import Loading from '../components/Common/Loading';
 // import SearchResult from './SearchResult';
 
 function SearchResultWrapper() {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      {/* <SearchResult /> */}
-    </Suspense>
-  );
+  return <Suspense fallback={<Loading />}>{/* <SearchResult /> */}</Suspense>;
 }
 
 export default SearchResultWrapper;

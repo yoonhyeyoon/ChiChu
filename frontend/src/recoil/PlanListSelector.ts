@@ -17,7 +17,7 @@ export const PlanListSelector = selector<
 >({
   key: 'PlanListSelector',
   get: async ({ get }) => {
-    console.log('들어왔어요');
+    // console.log('들어왔어요');
     const gender = get(UserGender);
     const age = get(UserAge);
     const period = get(UserPeriod);
@@ -26,12 +26,12 @@ export const PlanListSelector = selector<
       !age
       // window.location.pathname != 'http://localhost:3000/search/result'
     ) {
-      console.log(gender, age, period);
+      // console.log(gender, age, period);
       return undefined;
     }
     try {
       const response = await getData(gender, age, period);
-      console.log(response.data);
+      // console.log(response.data);
       return response.data;
     } catch (err) {
       console.log(err);

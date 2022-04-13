@@ -10,10 +10,11 @@ import PlanDetail from './pages/PlanDetail';
 import PlanTip from './pages/PlanTip';
 import PlanTipPost from './pages/PlanTipPost';
 import AboutUs from './pages/AboutUs';
+import Loading from './components/Common/Loading';
 
 function App() {
   return (
-    <React.Suspense fallback={<div>LOADING!!!</div>}>
+    <React.Suspense fallback={<Loading />}>
       <RecoilRoot>
         <BrowserRouter>
           <Routes>

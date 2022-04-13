@@ -16,7 +16,7 @@ function Button() {
   const navigate = useNavigate();
   const userAge = useRecoilValue(UserAge);
   const userGender = useRecoilValue(UserGender);
-  console.log(userAge, userGender);
+  // console.log(userAge, userGender);
 
   const planListSelector = useResetRecoilState(PlanListSelector);
 

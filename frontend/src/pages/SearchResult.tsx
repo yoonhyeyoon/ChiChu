@@ -31,6 +31,7 @@ import {
 } from '../components/SearchResult/SecondarySearchModal/styles';
 import { ProductType } from '../types/types';
 import { PlanNameLabel } from '../components/SearchResult/PlanCard/styles';
+import Loading from '../components/Common/Loading';
 
 function SearchResult(): JSX.Element {
   const containerRef = useRef(null);
@@ -48,14 +49,14 @@ function SearchResult(): JSX.Element {
 
   const [showMore, setShowMore] = useState(false);
   const userPeriod = useRecoilValue(UserPeriod);
-  console.log(userPeriod);
+  // console.log(userPeriod);
   const { isEmptyList } = useCheckBoxLinked();
 
   return (
     <>
       {/* Suspense는 같은 컴포넌트에서 써도 효과 있음 */}
       <Header />
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Loading />}>
         <Container>
           <Box
             sx={{
