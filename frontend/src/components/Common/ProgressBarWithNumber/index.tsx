@@ -47,7 +47,7 @@ function ProgressBarWithNumber(props: ProgressBarWithNumberType) {
           sx={{
             fontFamily: 'NotoSansKRLight',
             fontSize: '14px',
-            marginLeft: '11vw',
+            marginLeft: '9vw',
           }}
         >
           평균 {props.plan_average}
