@@ -65,7 +65,7 @@ function ProgressBarWithNumber(props: ProgressBarWithNumberType) {
 }
 
 ProgressBarWithNumber.defaultProps = {
-  plan_average: 69.24,
+  plan_average: 52.64,
 };
 
 export default ProgressBarWithNumber;

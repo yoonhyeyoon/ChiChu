@@ -159,7 +159,7 @@ function PlanDetail() {
             </Box>
             <ProgressBar
               plan_score={info.base[0]['TOTAL_INDEX']}
-              plan_average={69.24}
+              plan_average={52.64}
             />
             <IndexBox
               CompanyIndex={info.base[0]['COMPANY_INDEX']}
